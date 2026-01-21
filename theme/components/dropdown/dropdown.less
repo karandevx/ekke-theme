@@ -1,0 +1,41 @@
+@import "../../styles/main.less";
+
+.selected {
+  .flex-center();
+  cursor: pointer;
+  margin-inline-start: 10px;
+  position: relative;
+  color: @TextBody;
+  font-weight: 400;
+  line-height: 140%;
+
+  @media @mobile {
+    font-size: 12px;
+  }
+
+  .menu {
+    position: absolute;
+    top: 40px;
+    white-space: nowrap;
+    z-index: @layer;
+    padding: 12px;
+    border-radius: 2px;
+    border: 1px solid @DividerStokes;
+    background: @DialogBackground;
+
+    @media @mobile {
+      inset-inline-end: 0;
+    }
+
+    li {
+      display: flex;
+      align-items: center;
+      margin-bottom: 6px;
+      gap: 8px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}

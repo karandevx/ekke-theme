@@ -1,0 +1,152 @@
+.brandsRowGridSection {
+  width: 100%;
+  background-color: #dddace;
+
+  .sectionTitle {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 40px;
+    min-height: 174px;
+
+    .heading {
+      flex: 1;
+      color: var(--EKKE-02---Accent, #5c2e20);
+      font-family: RoadRadio;
+      font-size: 24px;
+      font-style: normal;
+      font-weight: 700;
+      line-height: 100%; /* 24px */
+      padding: 8px 4px;
+    }
+    .description {
+      flex: 1;
+      color: var(--EKKE-01---Dark, #171717);
+      font-family: Archivo;
+      font-size: 32px;
+      font-style: normal;
+      font-weight: 200;
+      line-height: 120%; /* 38.4px */
+      max-width: 674px;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 5;
+      -webkit-box-orient: vertical;
+    }
+  }
+  .bannerContiner {
+    display: flex;
+    justify-content: start;
+    align-items: start;
+    width: 100%;
+    padding: 10px;
+    gap: 10px;
+    .rightImagesContainer {
+      display: flex;
+      align-items: flex-end;
+      gap: 10px;
+    }
+    .leftBannerContainer {
+      flex: 1;
+      display: flex;
+      justify-content: flex-start;
+    }
+  }
+  .bannerDescription {
+    color: var(--EKKE-02---Accent, #5c2e20);
+    max-width: 1130px;
+    margin: 80px auto;
+    font-family: Archivo;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 200;
+    line-height: 120%; /* 38.4px */
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 4; /* Limits text to 4 lines */
+    -webkit-box-orient: vertical;
+    line-clamp: 4;
+  }
+  .productGrid {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: auto;
+  }
+}
+
+@media (max-width: 768px) {
+  .brandsRowGridSection {
+    .bannerContiner {
+      padding: 0 10px !important;
+    }
+    .sectionTitle {
+      flex-direction: column;
+      align-items: flex-start !important;
+      justify-content: flex-start !important;
+      padding: 20px 10px !important;
+      gap: 329px !important;
+
+      .heading {
+        font-family: RoadRadio;
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 700;
+        color: var(--EKKE-02---Accent, #5c2e20);
+        width: 104px;
+        padding: 2.5px;
+      }
+      .description {
+        /* Text/Highlight */
+        font-family: Archivo;
+        font-size: var(--Text-Sizes-Highlight, 20px);
+        font-style: normal;
+        font-weight: 200;
+        line-height: 120%; /* 24px */
+        color: var(--EKKE-02---Accent, #5c2e20);
+      }
+    }
+    .bannerDescription {
+      padding: 64px 32px;
+      color: var(--EKKE-02---Accent, #5c2e20);
+
+      /* Text/Highlight */
+      font-family: Archivo;
+      font-size: var(--Text-Sizes-Highlight, 20px);
+      font-style: normal;
+      font-weight: 200;
+      line-height: 120%; /* 24px */
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 5;
+      -webkit-box-orient: vertical;
+    }
+    .bannerContiner {
+      display: flex;
+      flex-direction: column-reverse;
+      justify-content: start;
+      align-items: start;
+      width: 100%;
+      padding-inline: 10px;
+      .rightImagesContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+      }
+      .leftBannerContainer {
+        flex: 1;
+        display: flex;
+        justify-content: flex-start;
+      }
+    }
+  }
+}
+
+@media (min-width: 1550px) {
+  .bannerContiner {
+    justify-content: center !important;
+    .leftBannerContainer {
+      flex: none !important;
+    }
+  }
+}

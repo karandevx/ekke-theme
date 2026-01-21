@@ -1,0 +1,1993 @@
+@import "../../../styles/main.less";
+
+:global {
+  .card_number_div,
+  .card_exp_month_div,
+  .card_exp_year_div,
+  .security_code_div,
+  .name_on_card_div {
+    height: 48px;
+    border: 1px solid var(--dividerStokes);
+    border-radius: 4px;
+    color: @TextBody;
+    overflow: hidden;
+    padding-left: 16px;
+    padding-right: 16px;
+    outline: none;
+    margin-top: 16px;
+  }
+
+  .security_code_div {
+    width: 103px;
+  }
+
+  .card_exp_month_div,
+  .card_exp_year_div {
+    width: 25%;
+  }
+  .security_code_div {
+    width: 50%;
+  }
+
+  @media screen and (max-width: 768px) {
+    .card_number_div,
+    .card_exp_month_div,
+    .card_exp_year_div,
+    .security_code_div,
+    .name_on_card_div {
+      height: 48px;
+    }
+  }
+}
+
+.juspayCardNumberBox {
+  position: relative;
+}
+
+.juspayCardNetwork {
+  cursor: pointer;
+  height: 28px;
+  position: absolute;
+  inset-inline-end: 8px;
+  top: 25px;
+  transform: translateY(-50%);
+
+  @media @desktop {
+    top: 25px;
+    transform: translateY(-50%);
+    height: 32px;
+  }
+}
+
+.cardDateCvvJuspayWrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+}
+
+.checkbox {
+  accent-color: var(--buttonPrimary);
+  height: 13px;
+  width: 13px;
+  cursor: pointer;
+}
+
+.checkboxWrapper {
+  display: flex;
+  justify-content: start;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.rbiGuidelines {
+  @media @mobile {
+    margin-bottom: 24px;
+  }
+
+  input:checked:before {
+    background-color: var(--buttonPrimary);
+  }
+
+  display: flex;
+  align-items: center;
+  margin-top: 16px;
+  .rbiGuidelinesText {
+    display: flex;
+    font-family: inherit;
+    font-weight: 400;
+    font-size: 12px;
+    color: #1f1f1f;
+    margin: 0 8px;
+    align-self: center;
+    line-height: 140%;
+  }
+}
+
+.marginBottom {
+  @media @mobile {
+    margin-bottom: 24px;
+  }
+}
+
+.container {
+  background: @PageBackground;
+  &.unsetBorder {
+    border: unset;
+    padding-top: 0;
+  }
+  // @media @tablet-range {
+  //   padding: 16px !important;
+  // }
+  @media @desktop {
+    display: flex;
+    padding: 0 10px;
+    // border: 1px solid var(--dividerStokes);
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .creditNote {
+    display: none;
+    @media @tablet {
+      margin-top: 20px;
+    }
+    @media @mobile-up {
+      display: block;
+    }
+  }
+
+  .paymentOptions {
+    display: flex;
+    &.displayNone {
+      display: none;
+    }
+    &.disable {
+      cursor: not-allowed;
+      pointer-events: none;
+      opacity: 0.5;
+    }
+  }
+  .navigationLink {
+    width: 33.33%;
+    display: flex;
+    flex-direction: column;
+    border-width: 1px 0 1px 1px;
+    border-style: solid;
+    border-color: var(--dividerStokes);
+    border-radius: 4px 0px 0px 4px;
+    @media @tablet-range {
+      width: 42.3%;
+    }
+    @media @tablet {
+      width: 100%;
+      border: none;
+    }
+
+    .linkWrapper:last-child {
+      .linkWrapper-row1 {
+        border-bottom: 1px solid var(--dividerStokes);
+        @media @tablet {
+          border-bottom: unset;
+        }
+      }
+      // @media @tablet {
+      //   border-bottom: 1px solid var(--dividerStokes);
+      // }
+      border-bottom: none;
+      flex: 1;
+      .indicator {
+        border-radius: 0px 0px 0px 4px !important;
+      }
+    }
+    .linkWrapper:first-child {
+      .indicator {
+        border-radius: 4px 0px 0px 0px;
+      }
+    }
+    .linkWrapper {
+      border-bottom: 1px solid var(--dividerStokes);
+      border-inline-end: 1px solid var(--dividerStokes);
+      background-color: #f8f8f8;
+      .link {
+        .icon {
+          svg > path {
+            @media @desktop {
+              fill: @TextLabel;
+            }
+            fill: @TextBody;
+          }
+        }
+      }
+      .activeIconColor {
+        svg > g > path {
+          fill: @TextHeading;
+        }
+      }
+      @media @tablet {
+        background-color: @PageBackground;
+        border-inline-end: none;
+        padding: 0 16px;
+      }
+      cursor: pointer;
+      .linkWrapper-row1 {
+        display: flex;
+
+        .subMopIcons {
+          display: flex;
+          flex: 1;
+          align-items: center;
+          padding-inline-end: 12px;
+          @media @tablet {
+            flex: unset !important;
+            padding-inline-start: 12px;
+          }
+          @media @desktop {
+            justify-content: flex-end;
+            flex: 1;
+          }
+
+          .subMopIcon {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 1px solid var(--dividerStokes);
+            margin-inline-start: -5.25px;
+            background-color: #fff;
+            object-fit: contain;
+            &.upiIcon {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              & > svg {
+                width: 100%;
+                height: 100%;
+              }
+            }
+          }
+        }
+      }
+
+      .indicator {
+        width: 4px;
+        background-color: var(--primaryColor);
+        border: 1px solid var(--primaryColor);
+        @media @tablet {
+          display: none;
+        }
+      }
+      .link {
+        display: flex;
+        padding: 24px 16px;
+        overflow: hidden;
+        word-break: break-word;
+        align-items: center;
+        @media @tablet {
+          padding: 24px 0px;
+        }
+        .modeName {
+          align-self: center;
+          margin-inline-start: 16px;
+          color: var(--Text-Body, #4d4d4e);
+          font-size: 14px;
+          font-weight: 500;
+          line-height: 140%;
+          height: 18px;
+          @media @tablet {
+            color: @TextHeading;
+            margin-inline-start: 8px;
+          }
+        }
+        .selectedModeName {
+          font-weight: 600;
+          color: @ButtonPrimary;
+        }
+        .codCharge {
+          font-weight: 400;
+          font-size: 12px;
+          color: #5c2e20;
+          line-height: 140%;
+          border-radius: 4px;
+          @media @tablet {
+            padding-top: 4px;
+          }
+          text-align: center;
+        }
+      }
+      .payment-icons {
+        display: flex;
+        align-items: center;
+
+        @media @desktop {
+          justify-content: flex-end;
+          flex: 1;
+          padding: 0 12px;
+        }
+      }
+      .arrowContainer {
+        @media @desktop {
+          display: none;
+        }
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        flex: 1;
+        &.codIconContainer {
+          svg {
+            transform: rotate(270deg);
+            [dir="rtl"] & {
+              transform: rotate(90deg);
+            }
+          }
+        }
+        .upsideDown {
+          transform: rotate(180deg);
+        }
+      }
+    }
+  }
+  .selectedNavigationTab {
+    .link {
+      .icon {
+        svg > path {
+          fill: @ButtonPrimary !important;
+        }
+      }
+    }
+    border-inline-end: none;
+    background-color: @PageBackground;
+  }
+  .headerHightlight {
+    .link {
+      .icon {
+        svg > path {
+          fill: @ButtonPrimary !important;
+        }
+      }
+    }
+    .activeIconColor {
+      svg > g > path {
+        fill: @ButtonPrimary !important;
+      }
+    }
+    .rightArrow {
+      svg > g > path {
+        fill: @TextHeading !important;
+      }
+    }
+  }
+  .selectedNavigationTab:last-child {
+    .linkWrapper-row1 {
+      border-bottom: none !important;
+    }
+  }
+  .linkWrapper.selectedNavigationTab {
+    border-inline-end: none;
+    background-color: @PageBackground;
+  }
+  .navigationTab {
+    width: 66.66%;
+    padding: 24px;
+    @media @tablet-range {
+      padding: 16px;
+      width: unset;
+      flex: 1 0 0;
+    }
+    border-color: var(--dividerStokes);
+    border-style: solid;
+    border-width: 1px 1px 1px 0;
+    border-radius: 0px 4px 4px 0px;
+    @media @tablet {
+      padding: 6px;
+    }
+  }
+  .selectedBorder {
+    .modeItemName {
+      font-weight: 600 !important;
+    }
+    @media @desktop {
+      border: 1px solid var(--primaryColor);
+    }
+  }
+  .nonSelectedBorder {
+    @media @desktop {
+      border: 1px solid var(--dividerStokes);
+    }
+  }
+  .cardHeader,
+  .walletHeader,
+  .nbHeader,
+  .cardlessHeader,
+  .payLaterHeader,
+  .codHeader,
+  .addCardHeader,
+  .otherHeader {
+    font-weight: 600;
+    @media @tablet {
+      font-weight: 500;
+      display: none;
+    }
+    font-size: 14px;
+    color: var(--textHeading);
+    margin-bottom: 15px;
+    line-height: 140%;
+    @media @tablet {
+      margin-bottom: 6px;
+      line-height: 1;
+    }
+  }
+
+  .cardTab {
+    .savedCardWrapper {
+      .savedCardHeaderWrapper {
+        button {
+          font-weight: 600;
+          text-transform: uppercase;
+          color: @ButtonPrimary;
+          font-size: 14px;
+          span {
+            font-size: 16px;
+          }
+        }
+        @media @tablet {
+          margin-bottom: 16px;
+        }
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+      }
+      .number {
+        font-size: 12px;
+        font-weight: 400;
+        color: @TextBody;
+        line-height: 16.8px;
+        margin-top: 4px;
+        color: var(--primaryColor);
+      }
+      .cvvNotNeeded {
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 19.6px;
+        color: var(--primaryColor);
+        margin-inline-end: 8px;
+      }
+      .why {
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 19.6px;
+        color: var(--primaryColor);
+      }
+      .savedCardCvvWrapper {
+        position: relative;
+
+        .cvv {
+          cursor: pointer;
+          margin-top: 16px;
+          padding: 16px;
+          border: 1px solid var(--dividerStokes);
+          border-radius: 4px;
+        }
+
+        .cvvIcon {
+          position: absolute;
+          inset-inline-end: 16px;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+      }
+      .cvvInfo {
+        padding: 24px 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        .type {
+          .title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--textHeading);
+          }
+
+          .desc {
+            margin-top: 8px;
+            margin-inline-end: 0;
+            margin-bottom: 16px;
+            margin-inline-start: 0;
+            color: var(--textBody);
+            font-size: 12px;
+          }
+        }
+      }
+      .cardList {
+        display: flex;
+        flex-direction: column;
+        .cardItem {
+          display: flex;
+          flex-direction: column;
+          padding: 16px;
+          border-radius: 8px;
+          margin-bottom: 15px;
+          @media @tablet {
+            padding: 0px;
+          }
+          .cardDetailsWrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            justify-content: space-between;
+            .cardDetailsRow1 {
+              display: flex;
+              .cardLeft {
+                margin-inline-end: 10px;
+              }
+              .cardMiddle {
+                display: flex;
+                flex-direction: column;
+                .numberLogo {
+                  display: flex;
+                  .number {
+                    font-size: 14px;
+                    font-weight: 400;
+                    margin-inline-end: 8px;
+                    align-self: center;
+                    line-height: 140%;
+                    span {
+                      vertical-align: middle;
+                    }
+                  }
+                  .logo {
+                    img {
+                      height: 24px;
+                      vertical-align: bottom;
+                    }
+                  }
+                }
+                .securedCard {
+                  display: flex;
+                  flex-direction: row;
+                  margin-top: 4px;
+                  .securedCardText {
+                    font-weight: 500;
+                    font-size: 12px;
+                    line-height: 16px;
+                    text-transform: capitalize;
+                    color: #27ae60;
+                    margin-inline-start: 4px;
+                    line-height: 140%;
+                  }
+                }
+              }
+            }
+
+            .cardDetailsRow2 {
+              display: flex;
+              padding-inline-start: 32px;
+              height: 48px;
+
+              input {
+                padding: 0px 20px;
+                width: 120px;
+                border: 1px solid var(--dividerStokes);
+                border-radius: 4px;
+              }
+            }
+            .cardDetailsRow2NotSelected {
+              display: none;
+            }
+          }
+          .rbiGuidelines {
+            input:checked:before {
+              background-color: var(--buttonPrimary);
+            }
+
+            display: flex;
+            align-items: center;
+            margin-top: 16px;
+            .rbiGuidelinesText {
+              display: flex;
+              font-family: inherit;
+              font-weight: 400;
+              font-size: 12px;
+              color: #1f1f1f;
+              margin: 0 8px;
+              align-self: center;
+              line-height: 140%;
+            }
+          }
+          .payBtn {
+            padding: 14px;
+            border-radius: @ButtonRadius;
+            background-color: var(--buttonPrimary);
+            color: var(--buttonSecondary);
+            border: none;
+            width: 100%;
+            margin-top: 24px;
+            font-weight: 600;
+            font-size: 14px;
+            text-transform: uppercase;
+            line-height: 140%;
+            cursor: pointer;
+            @media @tablet {
+              padding: 6px;
+              font-size: 12px;
+            }
+            &:hover {
+              background-color: @ButtonPrimaryL1;
+              color: @White;
+            }
+          }
+          .payBtn[disabled] {
+            font-weight: 600;
+            font-size: 14px;
+            padding: 14px;
+            border-radius: @ButtonRadius;
+            color: var(--buttonPrimary);
+            opacity: 0.2;
+            border: 1px solid var(--buttonPrimary);
+            text-transform: uppercase;
+            line-height: 140%;
+            cursor: unset;
+            @media @tablet {
+              padding: 6px;
+              font-size: 12px;
+            }
+          }
+        }
+      }
+      .addNewCard {
+        font-weight: 600;
+        font-size: 14px;
+        padding: 12px;
+        border-radius: 5px;
+        color: var(--primaryColor);
+        border: 1px solid var(--primaryColor);
+        text-transform: uppercase;
+        width: 100%;
+        line-height: 140%;
+        cursor: pointer;
+        @media @tablet {
+          padding: 6px;
+          font-size: 12px;
+        }
+      }
+    }
+    .newCardWrapper {
+      .addCardHeader {
+        display: flex;
+        margin-bottom: 0px;
+        button {
+          cursor: pointer;
+          border: none;
+          background: none;
+          padding: 0px;
+          margin: 0px;
+        }
+        .newCardHeaderText {
+          align-self: center;
+          margin-inline-start: 10px;
+        }
+      }
+      .newCard {
+        display: flex;
+        flex-direction: column;
+        &.addPaddingBottom {
+          @media @mobile {
+            padding-bottom: 24px;
+          }
+        }
+        .cardInputWrapper {
+          @media @tablet {
+            &.cardNumberBox {
+              margin-top: 0;
+            }
+          }
+          display: flex;
+          flex-direction: column;
+          margin-top: 16px;
+          position: relative;
+        }
+        .cardNetwork,
+        .cvv {
+          cursor: pointer;
+          position: absolute;
+          inset-inline-end: 8px;
+          top: 50%;
+          transform: translateY(-50%);
+          &.iconPositionOnError {
+            top: 35%;
+          }
+          @media @desktop {
+            top: 38%;
+            transform: unset;
+            &.iconPositionOnError {
+              top: 25%;
+            }
+          }
+        }
+        .cardNetwork {
+          width: 33px;
+        }
+        .cardInputWrapper.expiryContainer,
+        .cardInputWrapper.cvvContainer {
+          width: 47%;
+          @media @tablet {
+            width: 100%;
+          }
+        }
+        .cardDateCvvWrapper {
+          .upArrowMark {
+            position: absolute;
+            inset-inline-start: 50%;
+            top: -6px;
+            path {
+              fill: @DividerStokes;
+            }
+          }
+          .cvvInfoContainer {
+            @media @desktop {
+              position: relative;
+              left: 5px;
+            }
+          }
+          &.marginBottom {
+            @media @tablet {
+              margin-bottom: 24px;
+            }
+          }
+          display: flex;
+          justify-content: space-between;
+          gap: 16px;
+          .cardInputWrapper {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            input {
+              width: 100%;
+            }
+          }
+        }
+        .cardNumber,
+        .cardName,
+        .cardExpiry,
+        .cardCvv {
+          padding: 16px;
+          border: 1px solid var(--dividerStokes);
+          border-radius: 4px;
+          color: @TextBody;
+          pointer-events: inherit;
+        }
+        .error {
+          border: 1px solid @ErrorText;
+        }
+        .inputName {
+          position: absolute;
+          top: -8px;
+          inset-inline-start: 16px;
+          font-size: 12px;
+          font-weight: 400;
+          background-color: @PageBackground;
+          line-height: 16.8px;
+          color: var(--primaryColor);
+          padding: 0 4px;
+
+          .required {
+            color: #5c2e20;
+          }
+        }
+        .errorInputName {
+          color: #5c2e20;
+        }
+        .rbiGuidelines {
+          @media @tablet {
+            margin-bottom: 24px;
+          }
+          input:checked:before {
+            background-color: var(--primaryColor);
+          }
+          display: flex;
+          align-items: center;
+          margin-top: 16px;
+          accent-color: var(--primaryColor);
+
+          .rbiGuidelinesText {
+            display: flex;
+            font-family: inherit;
+            font-weight: 400;
+            font-size: 12px;
+            color: var(--textBody);
+            margin: 0 8px;
+            align-self: center;
+            line-height: 140%;
+          }
+          .rbiGuidelinesModal {
+            @media @desktop {
+              max-width: 450px;
+              padding: 8px;
+            }
+          }
+          .rbiGuidelinesContent {
+            padding: 16px;
+            ul {
+              padding-top: 0;
+              padding-inline-end: 0;
+              padding-bottom: 0;
+              padding-inline-start: 16px;
+              li {
+                list-style-type: disc;
+                &:not(:last-child) {
+                  margin-bottom: 16px;
+                }
+              }
+            }
+          }
+        }
+      }
+      .saveNewCard {
+        padding: 16px;
+        border-radius: @ButtonRadius;
+        background-color: var(--primaryColor);
+        border: none;
+        width: 100%;
+        margin-top: 16px;
+        font-weight: 600;
+        font-size: 14px;
+        text-transform: uppercase;
+        color: white;
+        cursor: pointer;
+        line-height: 140%;
+      }
+      .saveNewCard[disabled] {
+        padding: 16px;
+        border-radius: @ButtonRadius;
+        background-color: var(--primaryColor);
+        border: none;
+        width: 100%;
+        margin-top: 16px;
+        font-weight: 600;
+        font-size: 14px;
+        text-transform: uppercase;
+        color: white;
+        line-height: 140%;
+        opacity: 20%;
+        cursor: not-allowed;
+      }
+      .newCardModalContainer {
+        padding: 8px;
+      }
+      .newCardModalBody {
+        padding: 8px;
+      }
+      .cvvInfo {
+        padding: 24px 16px;
+        display: flex;
+        flex-direction: column;
+        @media @desktop {
+          width: 295px;
+          padding: 8px 12px;
+          box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.08);
+          border-radius: 8px;
+          position: absolute;
+          z-index: 99;
+          inset-inline-end: -116px;
+          transform: unset;
+          background: @DialogBackground;
+          border: 1px solid @DividerStokes;
+          top: 29px;
+        }
+        gap: 16px;
+        .type {
+          .title {
+            font-size: 16px;
+            @media @desktop {
+              font-size: 14px;
+            }
+            font-weight: 600;
+            color: var(--textHeading);
+          }
+
+          .desc {
+            margin-top: 8px;
+            margin-inline-end: 0;
+            margin-bottom: 16px;
+            margin-inline-start: 0;
+            color: var(--textBody);
+            @media @desktop {
+              font-size: 12px;
+            }
+          }
+        }
+      }
+    }
+    .addNewCardModal {
+      padding-top: 0px;
+      padding-inline-end: 16px;
+      padding-bottom: 24px;
+      padding-inline-start: 16px;
+    }
+  }
+
+  .modePay,
+  .cardlessPay,
+  .codPay,
+  .otherPay {
+    .payBtn {
+      padding: 14px;
+      border-radius: @ButtonRadius;
+      background-color: var(--primaryColor);
+      border: none;
+      color: #fff;
+      width: 100%;
+      margin-top: 24px;
+      font-weight: 600;
+      font-size: 14px;
+      text-transform: uppercase;
+      cursor: pointer;
+      line-height: 140%;
+      &:hover {
+        background-color: @ButtonPrimaryL1;
+        color: @White;
+      }
+    }
+    .payBtn[disabled] {
+      padding: 14px;
+      border-radius: @ButtonRadius;
+      background-color: white;
+      color: var(--primaryColor);
+      border: 1px solid var(--primaryColor);
+      width: 100%;
+      margin-top: 24px;
+      font-weight: 600;
+      font-size: 14px;
+      text-transform: uppercase;
+      cursor: pointer;
+      line-height: 140%;
+      opacity: 0.2;
+    }
+  }
+
+  .modeOption {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 16px;
+    @media @tablet {
+      gap: 0px;
+    }
+    .modeItemWrapper {
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      @media @desktop {
+        border-radius: 8px;
+      }
+      // padding: 16px;
+      label {
+        cursor: pointer;
+      }
+      @media @tablet {
+        padding: 24px 0px;
+        &:not(:last-child) {
+          border-bottom: 1px solid @DividerStokes;
+        }
+        &:first-child {
+          padding-top: 0;
+        }
+      }
+      .modeItem {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        border-radius: 8px;
+        gap: 12px;
+        .modeItemLogo {
+          display: flex;
+          img {
+            height: 38px;
+            width: 38px;
+          }
+        }
+        .modeItemName {
+          font-weight: 400;
+          font-size: 11px;
+          color: @TextHeading;
+          font-family: archivo;
+        }
+        .moreModeName {
+          color: @TextLabel;
+          font-size: 14px;
+          font-weight: 400;
+          line-height: 140%;
+          @media @tablet {
+            color: @TextHeading;
+            font-weight: 500;
+          }
+        }
+        .moreModeArrow {
+          transform: rotate(270deg);
+          [dir="rtl"] & {
+            transform: rotate(90deg);
+          }
+        }
+        .otherModeArrow {
+          transform: rotate(360deg);
+        }
+      }
+      .modePay {
+        .payBtn {
+          margin-top: 12px;
+        }
+        .payBtn[disabled] {
+          margin-top: 12px;
+          opacity: 0.2;
+        }
+      }
+    }
+    .modalHeader {
+      padding: 16px;
+    }
+    .modalBody {
+      padding: 0 16px;
+      max-height: 70vh;
+      min-height: 40vh;
+
+      @media @desktop {
+        max-height: 554px;
+        min-width: 420px;
+        & > div {
+          margin-bottom: 16px;
+        }
+      }
+
+      .searchBox {
+        height: 48px;
+        padding: 12px;
+        border: 1px solid @DividerStokes;
+        border-radius: 8px;
+        margin-top: 16px;
+        display: flex;
+        gap: 12px;
+        svg {
+          fill: @TextSecondary;
+        }
+        input {
+          width: 100%;
+          height: 100%;
+          border: none;
+          background: transparent;
+        }
+      }
+    }
+  }
+
+  .upiBox {
+  }
+
+  .upiMop {
+    padding-bottom: 24px;
+    @media @tablet {
+      .upiApp {
+        &:first-child {
+          padding-top: 0;
+        }
+      }
+    }
+  }
+
+  .upiApp {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    gap: 8px;
+    padding: 24px 0;
+    border-bottom: 1px solid var(--dividerStokes);
+    &.selectedUpiApp {
+      .displayName {
+        font-weight: 600 !important;
+      }
+    }
+    &.notBorderBottom {
+      &:last-child {
+        border-bottom: unset !important;
+        padding-bottom: 0;
+      }
+    }
+    .logo {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid var(--dividerStokes);
+      border-radius: 100px;
+      width: 38px;
+      height: 38px;
+      padding: 8px 4px;
+    }
+    .logo:last-child {
+      padding: unset;
+    }
+
+    .displayName {
+      flex: 1;
+      font-weight: 500;
+      font-size: 14px;
+      color: @TextHeading;
+      line-height: 140%;
+    }
+  }
+
+  .moreApps {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    gap: 8px;
+    padding: 24px 0;
+    padding-bottom: 0;
+
+    .logo {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 1px solid var(--dividerStokes);
+      border-radius: 100px;
+      .svg {
+        path {
+          fill: @TextBody;
+        }
+      }
+    }
+
+    .displayName {
+      flex: 1;
+      font-weight: 600;
+      font-size: 14px;
+      color: @TextHeading;
+    }
+
+    .rightArrow {
+      padding: 5px;
+      display: flex;
+    }
+  }
+
+  .upiSectionTitle {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--textHeading);
+    margin-bottom: 16px;
+  }
+  .upiQrCodeSection {
+    padding: 16px;
+    border: 1px solid var(--dividerStokes);
+    border-radius: 4px;
+    display: flex;
+    gap: 16px;
+    .upiQrCodeDescription {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 16px;
+      .scanQrTitle {
+        font-weight: 600;
+        font-size: 16px;
+        color: @TextHeading;
+        line-height: 22.4px;
+        margin-bottom: 4px;
+      }
+      .scanQrDescripton {
+        font-weight: 400;
+        font-size: 12px;
+        color: var(--textHeading);
+        line-height: 16.8px;
+      }
+      .scanQrApps {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+
+        .upiAppLogo {
+          width: 38px;
+          height: 38px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border: 0.43px solid var(--dividerStokes);
+          border-radius: 50%;
+          & > svg {
+            width: 100%;
+            height: 100%;
+          }
+        }
+        .moreUpiApps {
+          font-weight: 500;
+          font-size: 10px;
+        }
+      }
+      .expiryText {
+        font-weight: 400;
+        font-size: 12px;
+        color: #1f1f1f;
+        .countDown {
+          background-color: #edfaf4;
+          border-radius: 40px;
+          border: 1px solid #169256;
+          padding: 2px 7px;
+          margin: 0 4px;
+          color: #169256;
+        }
+        .minutes {
+          font-weight: 600;
+        }
+      }
+      .cancel {
+        font-weight: 600;
+        font-size: 12px;
+        color: var(--primaryColor);
+        cursor: pointer;
+      }
+    }
+    .upiQrCode {
+      border: 1px solid var(--dividerStokes);
+      padding: 13.31px;
+      border-radius: 4.25px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .qrCode {
+        width: 142px;
+        height: auto;
+      }
+      .blurred {
+        filter: blur(8px);
+      }
+      .showQrButton {
+        position: absolute;
+        padding: 11.5px 16px;
+        font-weight: 600;
+        font-size: 12px;
+        cursor: pointer;
+        background-color: var(--primaryColor);
+        color: #fff;
+        border-radius: 4px;
+      }
+      .qrLoader {
+        position: absolute;
+        border: 6px solid #f3f3f3;
+        border-top: 6px solid var(--primaryColor);
+        border-radius: 50%;
+        width: 50px;
+        height: 50px;
+        animation: spin 1s linear infinite;
+      }
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    }
+  }
+
+  .upiOrLine {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    margin: 24px 0;
+
+    &::before,
+    &::after {
+      content: "";
+      flex: 1;
+      border-bottom: 1px solid var(--dividerStokes);
+    }
+
+    .upiOrText {
+      font-weight: 400;
+      font-size: 12px;
+      padding: 12px 4px;
+      color: @TextHeading;
+    }
+  }
+
+  .upiIdWrapper {
+    position: relative;
+
+    .upiInput {
+      // margin: 24px 0;
+      padding: 16px;
+      border: 1px solid var(--dividerStokes);
+      border-radius: 4px;
+      width: 100%;
+      font-size: 16px;
+      touch-action: manipulation;
+    }
+
+    .input {
+      border: 1px solid var(--primaryColor);
+    }
+
+    .error {
+      border: 1px solid @ErrorText;
+    }
+
+    .upiInput.input {
+      border: 1px solid var(--primaryColor);
+    }
+    .upiInput.error {
+      border: 1px solid @ErrorText;
+    }
+
+    .inputName {
+      position: absolute;
+      top: -8px;
+      inset-inline-start: 16px;
+      font-size: 12px;
+      font-weight: 400;
+      background-color: @PageBackground;
+      line-height: 16.8px;
+      color: var(--primaryColor);
+      padding: 0 4px;
+
+      .required {
+        color: #5c2e20;
+      }
+    }
+    .errorInputName {
+      color: #5c2e20;
+    }
+  }
+
+  .upiPay {
+    .payBtn {
+      padding: 14px;
+      border-radius: @ButtonRadius;
+      background-color: var(--primaryColor);
+      border: none;
+      width: 100%;
+      color: #fff;
+      font-weight: 600;
+      font-size: 14px;
+      text-transform: uppercase;
+      cursor: pointer;
+      line-height: 140%;
+      margin-top: 16px;
+      margin-bottom: 24px;
+      &:hover {
+        background-color: @ButtonPrimaryL1;
+        color: @White;
+      }
+    }
+
+    .payBtn[disabled] {
+      padding: 14px;
+      border-radius: @ButtonRadius;
+      width: 100%;
+      font-weight: 600;
+      font-size: 14px;
+      text-transform: uppercase;
+      margin: 24px 0;
+      background-color: var(--primaryColor);
+      border: none;
+      color: white;
+      line-height: 140%;
+      opacity: 20%;
+      cursor: not-allowed;
+    }
+  }
+
+  .otherSelect {
+    -webkit-appearance: none;
+    user-select: none;
+    padding: 16px;
+    // background: url(/public/assets/arrow-dropdown-black.svg) 96% 50% no-repeat
+    //   #ffffff;
+    border: 1px solid #e2e2e2;
+    border-radius: 4px;
+    width: 100%;
+  }
+
+  .codWrapper {
+    padding-bottom: 16px;
+  }
+
+  .codTitle {
+    font-size: 12px;
+    font-weight: 400;
+    margin-bottom: 16px;
+  }
+
+  .codInfo {
+    font-weight: 400;
+    font-size: 12px;
+    color: @ErrorText;
+    line-height: 140%;
+    background-color: #fbeaea;
+    border-radius: 4px;
+    padding: 8px 0;
+    text-align: center;
+  }
+
+  .otherOption {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    .otherItem {
+      display: flex;
+      width: 204px;
+      height: unset;
+      min-height: 56px;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      padding: 5px;
+
+      .otherLeft {
+        align-self: center;
+        margin-inline-end: 10px;
+        margin-inline-start: 10px;
+      }
+
+      .otherMiddle {
+        align-self: center;
+        margin-inline-end: 10px;
+
+        img {
+          width: 45px;
+        }
+      }
+
+      .otherRight {
+        align-self: center;
+        font-weight: 400;
+        font-size: 14px;
+        color: #1f1f1f;
+        overflow: hidden;
+        word-wrap: break-word;
+      }
+    }
+  }
+  input[type="radio"] {
+    display: none;
+
+    &:checked {
+      color: green;
+    }
+  }
+
+  .formError {
+    color: @ErrorText;
+    font-size: 12px;
+    font-weight: 400;
+    margin-top: 8px;
+  }
+
+  .lightXxxs {
+    font-weight: 300;
+    font-size: 10px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .upiTabWrapper {
+  }
+  .upiHeader {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--textHeading);
+    line-height: 140%;
+    margin-bottom: 10px;
+  }
+
+  .savedUpi {
+    border: 1px solid #e2e2e2;
+    border-radius: 5px;
+    padding: 16px;
+
+    .upiIdListItem {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .vpa {
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--primaryColor);
+        line-height: 16.8px;
+      }
+    }
+  }
+
+  .upiAutoCompleteWrapper {
+    border: 1px solid var(--dividerStokes);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 5px;
+    border-radius: 5px;
+    max-height: 150px;
+    height: auto;
+    scrollbar-width: auto; /* Enable scrollbar */
+    -ms-overflow-style: auto; /* For IE */
+    overflow-y: auto;
+  }
+  .upiAutoCompleteItem {
+    border-bottom: 1px solid var(--dividerStokes);
+    width: 100%;
+    padding: 15.5px 16px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 400;
+    color: @TextBody;
+    line-height: 18px;
+  }
+  .upiAutoCompleteItem:last-child {
+    border-bottom: none;
+  }
+
+  .upiAutoCompleteItem:hover {
+    background-color: #f8f8f8;
+  }
+
+  .upiChipsWrapper {
+    margin-top: 16px;
+    display: flex;
+    gap: 8px;
+
+    .upiChip {
+      padding: 4px 12px;
+      border: 1px solid var(--dividerStokes);
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 16.8px;
+    }
+  }
+  .saveUpi {
+    display: flex;
+    align-items: center;
+    margin-top: 24px;
+    gap: 8px;
+
+    .saveForLater {
+      margin-inline-end: 5px;
+      accent-color: var(--primaryColor);
+    }
+    .saveUpiTitle {
+      font-size: 11px;
+      font-weight: 400;
+      font-family: "Archivo", sans-serif;
+      color: #171717;
+    }
+    .disableSaveUpiTitle {
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--primaryColor);
+      opacity: 0.5;
+      font-family: "Archivo", sans-serif;
+    }
+  }
+}
+.upiRedirectionModal {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  .loader {
+    border: 6px solid #f3f3f3;
+    border-top: 6px solid var(--primaryColor);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  }
+
+  .title {
+    font-weight: 700;
+    font-size: 24px;
+    line-height: 33.6px;
+    margin-top: 16px;
+    margin-inline-end: 0;
+    margin-bottom: 8px;
+    margin-inline-start: 0;
+    color: var(--primaryColor);
+  }
+
+  .message {
+    font-size: 14px;
+    font-weight: 500;
+    color: @TextBody;
+    line-height: 19.6px;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+}
+.couponValidity {
+  padding: 16px;
+
+  .message {
+    margin-bottom: 16px;
+    max-width: 450px;
+    color: @TextBody;
+  }
+  .select {
+    display: flex;
+    gap: 16px;
+  }
+  .commonBtn {
+    width: 100%;
+    padding: 8px;
+    border-radius: 20px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 140%;
+  }
+  .yesBtn {
+    background-color: var(--buttonSecondary);
+    border: 1px solid var(--buttonPrimary);
+    color: var(--primaryColor);
+  }
+  .noBtn {
+    background-color: var(--buttonPrimary);
+    color: #fff;
+  }
+}
+.couponValidityModal {
+  z-index: 99 !important;
+}
+.codModal {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+  .closeCodModal {
+    position: absolute;
+    inset-inline-end: 24px;
+  }
+  .message {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 22.4px;
+    text-align: center;
+    color: var(--primaryColor);
+    margin-bottom: 8px;
+  }
+  .codCharges {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16.8px;
+    color: @ErrorText;
+    text-align: center;
+  }
+  .payBtn {
+    padding: 14px;
+    border-radius: @ButtonRadius;
+    background-color: var(--primaryColor);
+    border: none;
+    color: #fff;
+    width: 100%;
+    font-weight: 600;
+    font-size: 14px;
+    text-transform: uppercase;
+    cursor: pointer;
+    line-height: 140%;
+    &:hover {
+      background-color: @ButtonPrimaryL1;
+      color: @White;
+    }
+  }
+}
+.whyCvvContainer {
+  position: relative;
+  .upArrowMark {
+    position: absolute;
+    inset-inline-start: 50%;
+    top: -6px;
+    path {
+      fill: @DividerStokes;
+    }
+  }
+}
+.cvvNotNeededModal {
+  padding: 16px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 19.6px;
+  max-width: 375px;
+  @media @desktop {
+    width: 295px;
+    padding: 8px 12px;
+    box-shadow: 0px 4px 16px 0px rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
+    position: absolute;
+    z-index: 99;
+    inset-inline-end: -116px;
+    transform: unset;
+    background: @DialogBackground;
+    border: 1px solid @DividerStokes;
+    top: 29px;
+  }
+}
+.cvImage {
+  display: flex;
+  justify-content: center;
+}
+.infoIcon {
+  cursor: pointer;
+}
+.modalBody {
+  overflow-y: auto;
+  scrollbar-width: thin !important;
+  .selectedBorder {
+    background-color: #f8f8f8;
+    border-radius: 8px;
+  }
+  .modeItemWrapper {
+    // min-height: 66px;
+    // padding: 12px 16px !important;
+    margin-bottom: unset !important;
+    border: none !important;
+    cursor: default !important;
+  }
+  .searchBox {
+    margin-bottom: 12px !important;
+  }
+  .nonSelectedBorder {
+    border: none;
+  }
+}
+.modeItemLogo {
+  .svgColor {
+    @media @desktop {
+      g > path {
+        fill: @TextBody;
+      }
+      path {
+        fill: @TextBody;
+      }
+    }
+    @media @tablet {
+      g > path {
+        fill: @TextHeading;
+      }
+      path {
+        fill: @TextHeading;
+      }
+    }
+  }
+  img {
+    border: 1px solid @DividerStokes;
+    padding: 8px 4px;
+    border-radius: 50%;
+    object-fit: contain;
+    @media @tablet {
+      margin-inline-end: 8px;
+    }
+    margin-inline-end: 12px;
+  }
+}
+.logoNameContainer {
+  display: flex;
+  align-items: center;
+}
+.modalBody::-webkit-scrollbar-thumb {
+  background-color: gray;
+  border-radius: 4px;
+}
+.upiError {
+  color: @ErrorText;
+  font-size: 12px;
+  font-weight: 400;
+}
+.cardDetailsHeader {
+  margin-bottom: unset !important;
+}
+.moreOptionContainer {
+  @media @desktop {
+    width: 420px;
+    height: 606px;
+  }
+  @media @tablet {
+    height: 434px;
+  }
+}
+.bodyContainer {
+  min-width: unset !important;
+  min-height: unset !important;
+  margin-bottom: 16px;
+  max-height: unset !important;
+  @media @tablet {
+    .modeItemName {
+      color: @TextBody !important;
+      font-size: 12px;
+      font-weight: 400 !important;
+    }
+    .selectedBorder {
+      .modeItemName {
+        font-weight: 500 !important;
+      }
+    }
+  }
+}
+.moreModeIcon {
+  transform: rotate(270deg);
+  [dir="rtl"] & {
+    transform: rotate(90deg);
+  }
+  display: flex;
+  align-items: center;
+  svg {
+    width: 20px;
+    height: 20px;
+    g > path {
+      fill: @TextLabel;
+    }
+  }
+}
+.otherBorder {
+  border: 1px solid @DividerStokes;
+  @media @tablet {
+    border: none;
+  }
+}
+.modeItemLogo {
+  @media @desktop {
+    .moreWlIcon {
+      width: 24px;
+      height: 24px;
+    }
+  }
+  @media @tablet {
+    span {
+      border: 1px solid @DividerStokes;
+      padding: 8px 4px;
+      border-radius: 50%;
+      object-fit: cover;
+      width: 38px;
+      height: 38px;
+      display: flex;
+      justify-content: center;
+      align-items: anchor-center;
+    }
+  }
+}
+.upiMargin {
+  @media @tablet {
+    &:last-child {
+      padding-bottom: 0 !important;
+    }
+  }
+}
+.cardTab {
+  .newCardModalHeader {
+    @media @tablet {
+      padding: 16px !important;
+    }
+  }
+}
+.newCardBodyModal {
+  @media @tablet {
+    .rbiGuidelines {
+      margin-top: 24px !important;
+    }
+    .saveNewCard {
+      margin-top: 0 !important;
+    }
+  }
+}
+.upiSuggestionsDesktop {
+  position: absolute;
+  width: 100%;
+  background: @PageBackground;
+  border-radius: 4px;
+  box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.08);
+  z-index: 1;
+}
+.closeWrapper {
+  display: flex;
+  justify-content: space-between;
+}
+.crossMobile {
+  position: absolute;
+  inset-inline-end: 16px;
+}
+.noResultFound {
+  color: var(--Text-Body, #4d4d4e);
+  font-family: var(--fontBody);
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 140%; /* 19.6px */
+  height: 75%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.visibleOnTab {
+  @media @tablet {
+    display: block !important;
+  }
+}
+.onDesktopView {
+  @media @tablet {
+    display: none;
+  }
+}
+.onMobileView {
+  @media @desktop {
+    display: none;
+  }
+}
+.mopIcon {
+  width: 24px;
+  height: 24px;
+}
+.noOptionContainer {
+  display: flex;
+  padding: 24px;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  align-self: stretch;
+  // border: 1px solid var(--dividerStokes);
+  border-top: unset;
+  border-radius: 0 0 8px 8px;
+  background: @PageBackground;
+  @media @tablet {
+    border-radius: 0;
+    border: none;
+  }
+  .noOptionText {
+    display: flex;
+    max-width: 580px;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    h3 {
+      color: @TextHeading;
+      text-align: center;
+      font-size: 16px;
+      font-style: normal;
+      font-weight: 700;
+      @media @tablet {
+        font-weight: 600;
+      }
+      line-height: 140%;
+      align-self: stretch;
+    }
+    p {
+      color: @TextBody;
+      text-align: center;
+      font-size: 14px;
+      @media @tablet {
+        font-size: 12px;
+      }
+      font-style: normal;
+      font-weight: 400;
+      line-height: 140%;
+      align-self: stretch;
+    }
+    .contact_us {
+      margin-top: 12px;
+    }
+  }
+}

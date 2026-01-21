@@ -1,0 +1,47 @@
+@import "../../styles/main.less";
+
+.beneficiaryItem {
+  input {
+    display: none;
+  }
+  .beneficiaryContent {
+    display: flex;
+    align-items: center;
+    padding: 5px 0px;
+    cursor: pointer;
+    width: fit-content;
+
+    .beneficiaryRadio {
+      color: @TextHeading;
+      padding: 2px;
+      flex: 0 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      &.checked {
+        color: @ButtonPrimary
+      }
+    }
+
+    .text {
+      margin-inline-start: 10px;
+      .boldxs {
+        font-weight: 700;
+        font-size: 14px;
+        @media @mobile {
+          font-size: 13px;
+        }
+      }
+      .regularxs {
+        font-weight: 400;
+        font-size: 14px;
+        @media @mobile {
+          font-size: 13px;
+        }
+      }
+      .beneficiarySubtitle {
+        margin-top: 10px;
+      }
+    }
+  }
+}

@@ -1,0 +1,91 @@
+import React, { useMemo, useState } from "react";
+import styles from "./filter-tags.less";
+
+import { useViewport } from "../../../../helper/hooks";
+import { useGlobalTranslation } from "fdk-core/utils";
+import SvgWrapper from "../../../../core/svgwrapper/svg-wrapper";
+
+const FilterTags = ({
+  selectedFilters,
+  onFilterUpdate = () => {},
+  onResetFiltersClick = () => {},
+}) => {
+  const { t } = useGlobalTranslation("translation");
+  const [isViewAll, setIsViewAll] = useState(false);
+
+  const isTablet = useViewport(0, 768);
+
+  const toggleViewAll = () => {
+    setIsViewAll((prevState) => !prevState);
+  };
+
+  const getTotalVisibleValues = (data, maxVisible) => {
+    let remainingSlots = maxVisible;
+
+    // return data((acc, filter) => {
+    //   if (remainingSlots <= 0) return acc;
+
+    //   const visibleValues = filter.values.slice(0, remainingSlots);
+    //   remainingSlots -= visibleValues.length;
+
+    //   return [...acc, { ...filter, values: visibleValues }];
+    // }, []);
+  };
+
+  const visibleFilters = useMemo(
+    () =>
+      isViewAll || isTablet
+        ? selectedFilters
+        : getTotalVisibleValues(selectedFilters, 5),
+    [isViewAll, selectedFilters, isTablet]
+  );
+
+  const showViewAll = useMemo(
+    () =>
+      selectedFilters?.reduce((acc, curr) => [...acc, ...curr?.values], [])
+        .length > 5,
+    [selectedFilters]
+  );
+
+  return (
+    <>
+      {visibleFilters?.length > 0 && (
+        <div className={styles.filterTagsContainer}>
+          <div className={styles.filterTags}>
+            {visibleFilters?.map((filter) =>
+              filter?.values?.map((filterItem) => (
+                <div key={filterItem?.display} className={styles.filterTagItem}>
+                  <span className={styles.tagTitle}>{filterItem?.display}</span>
+                  <span
+                    className={styles.removeTag}
+                    onClick={() => onFilterUpdate({ filter, item: filterItem })}
+                  >
+                    <SvgWrapper svgSrc="cross" />
+                  </span>
+                </div>
+              ))
+            )}
+          </div>
+          <div
+            className={`${styles.actionButton} ${styles.clearAll}`}
+            onClick={onResetFiltersClick}
+          >
+            {t("resource.facets.clear_all_caps")}
+          </div>
+          {showViewAll && (
+            <div
+              className={`${styles.actionButton} ${styles.viewAll}`}
+              onClick={toggleViewAll}
+            >
+              {isViewAll
+                ? t("resource.facets.view_less_caps")
+                : t("resource.facets.view_all")}
+            </div>
+          )}
+        </div>
+      )}
+    </>
+  );
+};
+
+export default FilterTags;

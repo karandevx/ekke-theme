@@ -1,0 +1,161 @@
+@import "../../../styles/main.less";
+
+.sendOtpBtn,
+.verifyOtpBtn {
+  // border: none;
+  border-radius: 4px;
+  width: 100%;
+  height: 48px;
+  color: @ButtonSecondary;
+  background: @ButtonPrimary;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 22.4px;
+  text-transform: uppercase;
+  cursor: pointer;
+
+  &[disabled] {
+    cursor: default;
+  }
+}
+
+.sendOtpBtn {
+  margin-top: 24px;
+}
+
+.resendOtpBtn {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 32px;
+  color: @TextSecondary;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 19.6px;
+  text-transform: uppercase;
+  cursor: pointer;
+  background: none;
+  // border: none;
+  &:focus-visible {
+    outline: none;
+  }
+  &[disabled] {
+    opacity: 0.5;
+    cursor: default;
+  }
+}
+
+.loginOtpWrapper {
+  margin-top: 32px;
+}
+
+.formReq {
+  color: var(--errorText);
+}
+
+.loginInputGroup {
+  margin-bottom: 24px;
+
+  .otpTitle {
+    margin-bottom: 8px;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 140%;
+    text-align: center;
+
+    @media @mobile {
+      font-size: 24px;
+    }
+  }
+
+  .otpSentMsg {
+    margin-bottom: 32px;
+    color: @TextBody;
+    text-align: center;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 19.6px;
+  }
+
+  .changeBtn {
+    color: @ButtonPrimary;
+    text-align: center;
+    margin-inline-start: 8px;
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 140%;
+    text-transform: uppercase;
+    font-family: 'Archivo', sans-serif;
+  }
+
+  .loginInput {
+    margin-bottom: 24px;
+  }
+
+  .loginInputTitle {
+    position: absolute;
+    background-color: @PageBackground;
+    padding: 0 4px;
+    margin: 0 12px;
+    z-index: 1;
+    transform: translateY(-50%);
+    color: var(--textLabel);
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16.8px;
+
+    &.error {
+      color: @ErrorText;
+    }
+  }
+
+  input {
+    width: 100%;
+    border: 1px solid @DividerStokes;
+    box-sizing: border-box;
+    padding: 16px;
+    border-radius: 4px;
+    background: none;
+    color: @TextBody;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: -0.28px;
+
+    &.error {
+      border-color: @ErrorText;
+    }
+  }
+}
+.password-lable-wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 3px;
+}
+
+.alertError {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 140%;
+  margin-top: 8px;
+  color: @ErrorText;
+}
+
+.loading {
+  div {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.otpInput {
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+  }
+}

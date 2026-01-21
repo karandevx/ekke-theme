@@ -1,0 +1,383 @@
+@import "../../../styles/main.less";
+
+.formWrapper {
+  background: #ffffff;
+  border-radius: 8px;
+  // padding: 24px;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+.formBody {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+// Required fields notice
+.requiredNotice {
+  font-family: "Archivo", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #333333;
+  // margin: 0 0 16px 0;
+  padding-left: 12px;
+}
+
+// Address Selection Section
+.addressSelectionSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.addressSelectionContainer {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+}
+
+.addressDropdownContainer {
+  position: relative;
+  flex: 1;
+}
+
+.addressInput {
+  width: 100%;
+  border: 1px solid #eeeeee;
+  font-family: "Archivo";
+  background-color: #ffffff;
+  cursor: pointer;
+  outline: none !important;
+
+  &:focus {
+    outline: none !important;
+    border: 1px solid #aaaaaa;
+  }
+
+  &:focus-visible {
+    outline: none !important;
+  }
+
+  &::placeholder {
+    color: @NeutralLight;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 120%;
+    letter-spacing: 0;
+  }
+}
+
+.dropdownButton {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: @NeutralLight;
+  cursor: pointer;
+  padding: 4px;
+
+  &:hover {
+    color: @ekkeBlack;
+  }
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.addAddressButton {
+  padding: 12px;
+  border: 1px solid #eeeeee;
+  border-radius: 6px;
+  background-color: #ffffff;
+  color: @NeutralLight;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 48px;
+
+  &:hover {
+    background-color: #f9fafb;
+    border-color: @ekkeBlack;
+  }
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+// Address Dropdown
+.addressDropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  z-index: 50;
+  max-height: 240px;
+  overflow-y: auto;
+  margin-top: 4px;
+}
+
+.addressOption {
+  padding: 12px;
+  cursor: pointer;
+  border-bottom: 1px solid #f3f4f6;
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  &:hover {
+    background-color: #f9fafb;
+  }
+
+  &.selectedAddress {
+    background-color: #eff6ff;
+    // border-left: 3px solid #3b82f6;
+  }
+}
+
+.addressOptionContent {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.addressName {
+  font-family: "Archivo", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  color: #111827;
+  margin: 0;
+}
+
+.addressDetails {
+  font-family: "Archivo", sans-serif;
+  font-size: 12px;
+  color: #6b7280;
+  margin: 0;
+}
+
+.noAddressMessage {
+  padding: 12px;
+  text-align: center;
+  color: #6b7280;
+  font-size: 14px;
+  font-family: "Archivo", sans-serif;
+}
+
+// Selected Address Display
+.selectedAddressDisplay {
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 16px;
+}
+
+.addressHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.addressStoreTitle {
+  font-family: "Archivo", sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: #374151;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+.editAddressButton {
+  background: none;
+  border: none;
+  color: #3b82f6;
+  font-size: 12px;
+  font-family: "Archivo", sans-serif;
+  cursor: pointer;
+  text-decoration: underline;
+
+  &:hover {
+    color: #1d4ed8;
+  }
+}
+
+.newTag {
+  margin-bottom: 12px;
+}
+
+.newTagText {
+  background-color: #dc2626;
+  color: #ffffff;
+  font-size: 10px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-family: "Archivo", sans-serif;
+}
+
+.addressDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.addressLine {
+  font-family: "Archivo", sans-serif;
+  font-size: 14px;
+  color: #374151;
+  margin: 0;
+  line-height: 1.4;
+}
+
+// Contact Information Section
+.contactInfoSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.formField {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.formLabel {
+  font-family: "Archivo", sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  color: #374151;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+.required {
+  color: #dc2626;
+}
+
+.formInput {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #eeeeee;
+  font-size: 12px;
+  font-family: "Archivo";
+  line-height: 120%;
+  color: @ekkeBlack;
+  background-color: #ffffff;
+  outline: none !important;
+
+  &:focus {
+    outline: none !important;
+    border: 1px solid #aaaaaa;
+  }
+
+  &:focus-visible {
+    outline: none !important;
+  }
+
+  &::placeholder {
+    color: @NeutralLight;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 120%;
+    letter-spacing: 0;
+  }
+}
+
+.phoneNote {
+  font-family: "Archivo";
+  font-size: 12px;
+  color: #6b7280;
+  margin: 4px 0 0 0;
+}
+
+.formError {
+  font-family: "Archivo";
+  font-size: 12px;
+  color: #dc2626;
+  margin: 4px 0 0 0;
+}
+
+// Submit Section
+.submitSection {
+  margin-top: 24px;
+}
+
+.submitButton {
+  width: 100%;
+  background-color: #e5e7eb;
+  color: #374151;
+  border: none;
+  border-radius: 6px;
+  padding: 16px;
+  font-family: "Archivo", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #d1d5db;
+  }
+
+  &:active {
+    background-color: #9ca3af;
+  }
+}
+
+// Responsive Design
+@media (max-width: 640px) {
+  .formWrapper {
+    padding: 16px;
+  }
+
+  .addressSelectionContainer {
+    flex-direction: column;
+  }
+
+  .addAddressButton {
+    align-self: flex-start;
+  }
+}
+
+.labelClassName {
+  font-family: "Archivo";
+  font-weight: 400;
+  font-style: normal;
+  line-height: 120%;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  color: #aaaaaa;
+  font-size: 11px;
+  text-transform: uppercase;
+}

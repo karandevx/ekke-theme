@@ -1,0 +1,1068 @@
+@import "../../styles/main.less";
+
+.productCard {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: white;
+  // Removed fixed aspect-ratio to accommodate the new button layout
+
+  .removeIcon {
+    path {
+      fill: @TextBody !important;
+    }
+  }
+
+  &.sliderCard {
+    .productDescContainer {
+      flex-direction: column !important;
+      background-color: white;
+
+      .addToCart {
+        width: 100% !important;
+      }
+    }
+  }
+  .imageContainer {
+    background-color: white;
+    position: relative;
+    overflow: hidden;
+    border-radius: @ImageRadius;
+    -webkit-mask-image: -webkit-radial-gradient(white, black); //safari fix
+    mask-image: radial-gradient(white, black);
+    width: 100%;
+
+    .hoverImageWrapper {
+      position: absolute;
+      .inset(0);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease;
+      &.showHoverOnTouch {
+        // ⬅️ add this
+        opacity: 1;
+        visibility: visible;
+      }
+    }
+
+    // aspect-ratio: 0.5625; // Ensures consistent image proportions
+
+    .wishlistBtn {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      position: relative;
+      z-index: 2;
+      fill: @ButtonPrimary;
+      color: @ThemeAccentL5;
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+
+      svg {
+        width: 16px;
+        height: 16px;
+
+        transition: all 0.2s ease;
+        flex-shrink: 0;
+
+        @media @desktop {
+          min-width: 16px;
+          min-height: 16px;
+          max-width: 16px;
+          max-height: 16px;
+        }
+
+        // @media @tablet {
+        //   width: 24px;
+        //   height: 24px;
+        //   max-width: 24px;
+        //   max-height: 24px;
+        // }
+      }
+
+      @media @desktop {
+        &:hover {
+          color: @ButtonPrimary;
+        }
+      }
+
+      &.active {
+        color: @ButtonPrimary;
+
+        svg {
+          fill: @ButtonPrimary;
+          color: @ButtonPrimary;
+        }
+      }
+    }
+
+    // Top-left color variants overlay
+    .colorVariantsOverlay {
+      position: absolute;
+      z-index: 2;
+      top: 0;
+      right: 0;
+      display: inline-flex;
+      flex-direction: column;
+
+      .colorDotBtn {
+        width: 16px;
+        height: 16px;
+        cursor: pointer;
+        padding: 0;
+        outline: none;
+        appearance: none;
+        transition: transform 150ms ease;
+        border: none;
+        position: relative;
+        border: none;
+        background-color: var(--color, #ccc);
+
+        &.currentColor {
+          &::before {
+            content: "";
+            position: absolute;
+            left: -6px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 4px;
+            border-radius: 1px;
+            background: @TextHeading;
+          }
+        }
+      }
+
+      .moreColors {
+        background-color: #eee;
+        /* font-size: 16px; */
+        width: 16px;
+        height: 16px;
+        cursor: pointer;
+        font-weight: 400;
+        line-height: 1;
+        align-self: center;
+        display: flex;
+        align-items: center;
+        justify-items: center;
+        justify-content: center;
+      }
+    }
+
+    .productImage {
+      width: 100%;
+      height: 100%;
+      // aspect-ratio: 0.5625;
+      // object-fit: fill;
+      object-fit: cover;
+
+      &:not(.media-display-image) {
+        aspect-ratio: 0.5625;
+      }
+
+      &.mainImage {
+        position: absolute;
+        .inset(0);
+        opacity: 1;
+        visibility: visible;
+      }
+
+      &.hoverImage {
+        position: absolute;
+        .inset(0);
+        visibility: hidden;
+        opacity: 0;
+      }
+    }
+    @lg-min: 860px;
+    @media @desktop {
+      &:hover {
+        .productImage.hoverImage {
+          opacity: 1;
+          visibility: visible;
+        }
+        .productImage.mainImage {
+          opacity: 0;
+          visibility: hidden;
+        }
+        // Reveal sizes only on hover
+        .wishlistAndSizesRow .sizesContainer {
+          opacity: 1;
+          visibility: visible;
+        }
+      }
+    }
+    .badge {
+      position: absolute;
+      min-width: 50px;
+      border-radius: @BadgeRadius;
+      padding: 6px 12px;
+      text-align: center;
+      background-color: @SaleBadgeBackground;
+      color: @SaleBadgeText;
+      overflow: hidden;
+      max-width: 60%;
+
+      .text {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+      }
+      &.outOfStock {
+        background-color: @ThemeAccentD5;
+        color: @ThemeAccentL5;
+      }
+      &.sale {
+        background-color: @SaleBadgeBackground;
+        color: @SaleBadgeText;
+      }
+    }
+    .review {
+      display: flex;
+      .column-gap(4px);
+      border-radius: 4px;
+      padding: 4px 8px;
+      background-color: @ThemeAccentL5;
+      color: @ThemeAccentD5;
+      position: absolute;
+
+      ::v-deep .inline-svg svg {
+        width: 14px !important;
+        height: 14px !important;
+      }
+    }
+
+    .extension {
+      position: absolute;
+    }
+  }
+
+  &:hover .imageContainer .hoverImageWrapper {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .productDescContainer {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    flex: 1;
+    width: 100%;
+    background-color: white;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .productDesc {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+      width: 100%;
+      padding: 10px 10px 10px 5px;
+      background-color: #fff;
+
+      .productBrand {
+        color: #000;
+        font-size: @text-1;
+        text-transform: uppercase;
+        font-family: "Archivo";
+        font-weight: 400;
+        line-height: 0.95;
+        text-align: left;
+      }
+      .productName {
+        font-size: @text-1;
+        font-family: "Archivo";
+        font-weight: 400;
+        line-height: 0.95;
+        font-style: normal;
+        color: #aaaaaa;
+        padding-left: 8px;
+        text-align: left;
+        .text-line-clamp();
+        &.centerAlign {
+          text-align: center;
+        }
+
+        @media (max-width: 768px) {
+          padding-left: 10px;
+        }
+      }
+      .productPrice {
+        display: flex;
+        flex-wrap: wrap;
+        font-size: 12px;
+        font-family: "Archivo";
+        font-weight: 400;
+        line-height: 0.95;
+        font-style: normal;
+        padding-left: 8px;
+
+        &--textCenter {
+          text-align: center;
+        }
+        &.center {
+          justify-content: center;
+        }
+
+        &--sale {
+          margin-inline-end: 8px;
+          color: @TextHeading;
+          font-size: @text-1;
+          font-family: "Archivo";
+          font-weight: 400;
+          line-height: 0.95;
+          font-style: normal;
+        }
+        &--regular {
+          color: @neutral-light;
+          margin-inline-end: 8px;
+          font-size: @text-1;
+          font-family: "Archivo";
+          font-weight: 400;
+          line-height: 0.95;
+          font-style: normal;
+        }
+        &--discount {
+          color: @SaleDiscountText;
+          font-size: @text-1;
+          font-family: "Archivo";
+          font-weight: 400;
+          line-height: 0.95;
+          font-style: normal;
+        }
+        &--loading {
+          color: @TextLabel;
+          font-size: 12px;
+          font-family: "Archivo";
+          font-weight: 400;
+          line-height: 0.95;
+          font-style: normal;
+        }
+        &--textCenter {
+          text-align: center;
+          font-size: 12px;
+          font-family: "Archivo";
+          font-weight: 400;
+          line-height: 0.95;
+          font-style: normal;
+        }
+        @media (max-width: 768px) {
+          padding-left: 10px;
+        }
+      }
+      .productVariants {
+        // margin-top: 8px;
+        color: @TextHeading;
+
+        .colorVariants {
+          color: @TextHeading;
+          .flex-align-center();
+          gap: 12px;
+
+          .colorDot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: block;
+            cursor: pointer;
+            // transition: all 0.2s ease;
+            text-decoration: none;
+            flex-shrink: 0;
+            position: relative;
+
+            // Default: just the color circle, no border
+            border: none;
+            background-color: var(--color, #ccc);
+
+            &:hover {
+              transform: scale(1.1);
+              z-index: 10;
+            }
+
+            // Only current color gets black outer ring with inner color
+            &.currentColor {
+              border: 1px solid @TextHeading; // Black outer ring
+              background-color: transparent;
+              width: 22px;
+              height: 22px;
+
+              // Inner color circle with spacing for current color only
+              &::before {
+                content: "";
+                position: absolute;
+                top: 2px;
+                left: 2px;
+                right: 2px;
+                bottom: 2px;
+                border-radius: 50%;
+                background-color: var(--color, #ccc);
+                z-index: 1;
+              }
+            }
+          }
+
+          .moreColors {
+            color: @TextBody;
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 14px;
+            letter-spacing: -0.24px;
+            white-space: nowrap;
+          }
+        }
+
+        .sizeVariants {
+          .flex-align-center();
+          gap: 8px;
+          flex-wrap: wrap;
+
+          .sizeOption {
+            color: @neutral-dark;
+            font-size: @text-2;
+            font-weight: 400;
+            line-height: 14px;
+            letter-spacing: -0.24px;
+            text-transform: uppercase;
+            cursor: pointer;
+
+            &.outOfStock {
+              color: @TextDisabled;
+            }
+          }
+        }
+      }
+
+      .productSizes {
+        .availableSizes {
+          .flex-align-center();
+          gap: 8px;
+          flex-wrap: wrap;
+
+          .sizeOption {
+            color: @neutral-dark;
+            font-size: @text-1;
+            font-weight: 400;
+            line-height: 140%;
+            letter-spacing: -0.24px;
+            text-transform: uppercase;
+            cursor: pointer;
+
+            @media @mobile {
+              padding-left: 0;
+            }
+
+            &:not(:last-child)::after {
+              content: "";
+              margin-left: 8px;
+            }
+
+            &.outOfStock {
+              color: @TextDisabled;
+            }
+          }
+
+          .moreSizes {
+            color: @neutral-dark;
+            font-size: @text-1;
+            font-weight: 500;
+            line-height: 140%;
+            letter-spacing: -0.24px;
+          }
+        }
+      }
+
+      // New layout for wishlist and sizes on same line
+      .wishlistAndSizesRow {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 34px;
+        gap: 8px;
+
+        .sizesContainer {
+          flex: 1;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+
+          // Hide sizes by default on desktop; show only on card hover
+          @media @desktop {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 200ms ease;
+          }
+
+          // Hide sizes by default on mobile; show only when mobileSizesVisible class is added
+          @media @tablet {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 200ms ease;
+          }
+
+          .productVariants {
+            .sizeVariants {
+              .flex-align-center();
+              gap: 8px;
+
+              .sizeOption {
+                color: @neutral-dark;
+                font-size: @text-2;
+                font-weight: 400;
+                line-height: 14px;
+                letter-spacing: -0.24px;
+                text-transform: uppercase;
+
+                &:not(:last-child)::after {
+                  content: "";
+                  margin-left: 8px;
+                }
+
+                &.outOfStock {
+                  color: @TextDisabled;
+                  text-decoration: line-through;
+                }
+              }
+            }
+          }
+
+          .productSizes {
+            .availableSizes {
+              .flex-align-center();
+              gap: 8px;
+              flex-wrap: wrap;
+
+              .sizeOption {
+                color: @neutral-dark;
+                font-size: @text-2;
+                font-weight: 400;
+                line-height: 14px;
+                letter-spacing: -0.24px;
+                text-transform: uppercase;
+
+                &:not(:last-child)::after {
+                  content: "";
+                  margin-left: 8px;
+                }
+
+                &.outOfStock {
+                  color: @TextDisabled;
+                }
+              }
+
+              .moreSizes {
+                color: @neutral-dark;
+                font-size: @text-2;
+                font-weight: 500;
+                line-height: normal;
+                letter-spacing: -0.24px;
+              }
+            }
+          }
+        }
+
+        .wishlistContainer {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          flex-shrink: 0;
+
+          // Hide wishlist by default on mobile; show only when mobileSizesVisible class is added
+          @media @tablet {
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 200ms ease;
+          }
+
+          .wishlistBtn {
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            svg {
+              width: 16px;
+              height: 16px;
+
+              @media @desktop {
+                min-width: 16px;
+                min-height: 16px;
+                max-width: 16px;
+                max-height: 16px;
+              }
+              transition: all 0.2s ease;
+              flex-shrink: 0;
+            }
+
+            &:hover svg {
+              transform: scale(1.1);
+            }
+
+            &.active svg {
+              fill: @ButtonPrimary;
+              color: @ButtonPrimary;
+            }
+          }
+        }
+
+        @media (max-width: 768px) {
+          margin-top: 26px;
+        }
+      }
+
+      @media (max-width: 768px) {
+        padding: 10px;
+      }
+    }
+
+    .addToCart {
+      background: @ButtonSecondary;
+      font-weight: 500;
+      line-height: 16px;
+      letter-spacing: -0.24px;
+      text-transform: uppercase;
+      padding: 12px 16px;
+      height: 40px;
+      font-size: 12px;
+      white-space: nowrap;
+    }
+  }
+  // Reveal sizes when hovering the card (desktop only)
+  @media @desktop {
+    &:hover .productDescContainer .wishlistAndSizesRow .sizesContainer {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  // Mobile: Show sizes/wishlist when mobileSizesVisible class is added
+  &.mobileSizesVisible {
+    @media @tablet {
+      .productDescContainer .wishlistAndSizesRow {
+        .sizesContainer,
+        .wishlistContainer {
+          opacity: 1;
+          visibility: visible;
+        }
+      }
+    }
+  }
+
+  @media @mobile {
+    &.mob-grid-1-card {
+      .imageContainer {
+        .wishlistBtn {
+          top: 16px;
+          inset-inline-end: 16px;
+        }
+        .badge {
+          inset-inline-start: 16px;
+          top: 16px;
+        }
+        .review {
+          inset-inline-end: 16px;
+          bottom: 16px;
+        }
+        .extension {
+          inset-inline-start: 16px;
+          bottom: 16px;
+        }
+      }
+    }
+    &.mob-grid-2-card {
+      .productDescContainer {
+        .productDesc {
+          .productPrice {
+            .productPrice--discount {
+              flex: 0 0 100%;
+            }
+          }
+        }
+
+        .addToCart {
+          width: 100%;
+        }
+      }
+      .imageContainer {
+        .wishlistBtn {
+          top: 8px;
+          inset-inline-end: 8px;
+        }
+        .badge {
+          inset-inline-start: 8px;
+          top: 8px;
+        }
+        .review {
+          inset-inline-end: 8px;
+          bottom: 8px;
+        }
+        .extension {
+          inset-inline-start: 8px;
+          bottom: 8px;
+        }
+      }
+    }
+  }
+  @media @mobile-up {
+    &.tablet-grid-2-card {
+      .addToCart {
+        font-size: 12px;
+      }
+
+      .imageContainer {
+        .wishlistBtn {
+          top: 24px;
+          inset-inline-end: 24px;
+        }
+        .badge {
+          inset-inline-start: 24px;
+          top: 29px;
+        }
+        .review {
+          inset-inline-end: 24px;
+          bottom: 24px;
+        }
+        .extension {
+          inset-inline-start: 24px;
+          bottom: 24px;
+        }
+      }
+    }
+    &.tablet-grid-3-card {
+      .imageContainer {
+        .wishlistBtn {
+          top: 12px;
+          inset-inline-end: 12px;
+        }
+        .badge {
+          inset-inline-start: 12px;
+          top: 17px;
+        }
+        .review {
+          inset-inline-end: 12px;
+          bottom: 12px;
+        }
+        .extension {
+          inset-inline-start: 12px;
+          bottom: 12px;
+        }
+      }
+      .productDesc {
+        .product-name {
+          margin-bottom: 5px;
+        }
+      }
+    }
+  }
+  @media @desktop {
+    &.desktop-grid-2-card {
+      .addToCart {
+        width: 144px;
+      }
+      .imageContainer {
+        .wishlistBtn {
+          top: 24px;
+          inset-inline-end: 24px;
+        }
+        .badge {
+          inset-inline-start: 24px;
+          top: 24px;
+        }
+        .review {
+          inset-inline-end: 24px;
+          bottom: 24px;
+        }
+        .extension {
+          inset-inline-start: 24px;
+          bottom: 24px;
+        }
+      }
+    }
+
+    &.desktop-grid-4-card {
+      .productDescContainer {
+        flex-direction: column;
+        width: 100%;
+
+        .addToCart {
+          width: 100%;
+        }
+      }
+
+      .imageContainer {
+        .wishlistBtn {
+          top: 12px;
+          inset-inline-end: 12px;
+        }
+        .badge {
+          inset-inline-start: 12px;
+          top: 12px;
+        }
+        .review {
+          inset-inline-end: 12px;
+          bottom: 12px;
+        }
+        .extension {
+          inset-inline-start: 12px;
+          bottom: 12px;
+        }
+      }
+    }
+  }
+
+  // Wishlist button when positioned in product description area
+  .productDesc {
+    position: relative;
+
+    .wishlistBtn {
+      right: 0;
+      top: 0;
+      background: none;
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+
+      svg {
+        width: 16px;
+        height: 16px;
+        transition: all 0.2s ease;
+        flex-shrink: 0;
+
+        @media @desktop {
+          min-width: 16px;
+          min-height: 16px;
+          max-width: 16px;
+          max-height: 16px;
+        }
+
+        @media @mobile {
+          width: 20px;
+          height: 20px;
+        }
+      }
+
+      &.active svg {
+        fill: @ButtonPrimary;
+        color: @ButtonPrimary;
+      }
+    }
+  }
+}
+
+// New permanent Add to Cart button section
+.addToCartSection {
+  position: relative;
+
+  .addToCartButton {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 4px 8px;
+    background: white;
+    color: black;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: "Archivo";
+    min-height: 24px;
+
+    &:hover {
+      background: #eeeeee;
+      border-radius: 0;
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+
+    &:disabled {
+      color: @TextDisabled;
+      cursor: not-allowed;
+      transform: none;
+
+      &:hover {
+        transform: none;
+      }
+    }
+
+    .addToCartText {
+      position: relative;
+      font-family: "Archivo";
+      text-transform: uppercase;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.5px;
+      color: black;
+
+      &:hover {
+        &::before {
+          content: "";
+          position: absolute;
+          left: -8px;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 4px;
+          height: 4px;
+          background: @TextHeading;
+          border-radius: 1px;
+        }
+      }
+    }
+  }
+  .wishListButton {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 4px 8px;
+    background: #eee;
+    color: black;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: "Archivo";
+    min-height: 24px;
+
+    &:hover {
+      background: #eeeeee;
+      border-radius: 0;
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+
+    &:disabled {
+      color: @TextDisabled;
+      cursor: not-allowed;
+      transform: none;
+
+      &:hover {
+        transform: none;
+      }
+    }
+
+    .addToCartText {
+      position: relative;
+      font-family: "Archivo";
+      text-transform: uppercase;
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 0.5px;
+      color: black;
+
+      &:hover {
+        &::before {
+          content: "";
+          position: absolute;
+          left: -8px;
+          top: 50%;
+          transform: translateY(-50%);
+          width: 4px;
+          height: 4px;
+          background: @TextHeading;
+        }
+      }
+    }
+  }
+  @media (max-width: 768px) {
+    .addToCartButton,
+    .wishListButton {
+      padding: 12px 8px;
+      max-height: 32px;
+    }
+  }
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+/* Add these rules to product-card.less */
+/* Hide Add to Cart and Description for mobile 4-column grid */
+
+&.mob-grid-4-card {
+  .addToCartSection,
+  .addToCartButton,
+  .wishListButton,
+  .productDescContainer,
+  .productDesc {
+    display: none !important;
+  }
+}
+/* Hide Add to Cart and Description for desktop 8-column grid */
+@media @desktop {
+  &.desktop-grid-8-card {
+    .addToCartSection,
+    .addToCartButton,
+    .wishListButton,
+    .productDescContainer,
+    .productDesc {
+      display: none !important;
+    }
+  }
+}
+
+// --- Wishlist visibility matches sizes visibility (desktop only) ---
+@media @desktop {
+  /* Wishlist button inside the image (top-right) */
+  .productCard .imageContainer .wishlistBtn {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 200ms ease;
+  }
+
+  /* Wishlist button that sits in the description row (right side) */
+  .productCard .productDescContainer .wishlistAndSizesRow .wishlistContainer {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 200ms ease;
+  }
+
+  /* Reveal both wishlist buttons on card hover */
+  .productCard:hover {
+    .imageContainer .wishlistBtn,
+    .productDescContainer .wishlistAndSizesRow .wishlistContainer {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+}
+@media @desktop {
+  &:hover .productDescContainer .wishlistAndSizesRow .sizesContainer {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+.productCard.mobileSizesVisible {
+  // you already toggle this on first tap
+  .imageContainer {
+    .hoverImageWrapper {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+}

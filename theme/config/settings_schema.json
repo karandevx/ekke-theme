@@ -1,0 +1,1292 @@
+{
+  "props": [
+    {
+      "type": "font",
+      "id": "font_header",
+      "category": "t:resource.settings_schema.common.typography",
+      "default": false,
+      "label": "t:resource.settings_schema.typography.title_font"
+    },
+    {
+      "type": "font",
+      "id": "font_body",
+      "category": "t:resource.settings_schema.common.typography",
+      "default": false,
+      "label": "t:resource.settings_schema.typography.body_font"
+    },
+    {
+      "type": "range",
+      "id": "mobile_logo_max_height",
+      "category": "t:resource.common.header",
+      "label": "t:resource.settings_schema.common.mobile_logo_max_height",
+      "min": 20,
+      "max": 100,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "select",
+      "id": "header_layout",
+      "default": "single",
+      "category": "t:resource.common.header",
+      "label": "t:resource.settings_schema.header.layout",
+      "options": [
+        {
+          "text": "t:resource.settings_schema.header.single_row_navigation",
+          "value": "single"
+        },
+        {
+          "text": "t:resource.settings_schema.header.double_row_navigation",
+          "value": "double"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "always_on_search",
+      "default": false,
+      "category": "t:resource.common.header",
+      "label": "t:resource.settings_schema.header.always_on_search",
+      "info": "t:resource.settings_schema.header.one_click_search_info"
+    },
+    {
+      "type": "checkbox",
+      "id": "header_border",
+      "default": true,
+      "category": "t:resource.common.header",
+      "label": "t:resource.settings_schema.header.show_border_on_desktop",
+      "info": "t:resource.settings_schema.header.show_border_on_desktop_info"
+    },
+    {
+      "type": "select",
+      "id": "logo_menu_alignment",
+      "default": "layout_1",
+      "category": "t:resource.common.header",
+      "label": "t:resource.settings_schema.header.desktop_logo_menu_alignment",
+      "options": [
+        {
+          "text": "t:resource.settings_schema.header.logo_left_menu_center",
+          "value": "layout_1"
+        },
+        {
+          "text": "t:resource.settings_schema.header.logo_left_menu_left",
+          "value": "layout_2"
+        },
+        {
+          "text": "t:resource.settings_schema.header.logo_left_menu_right",
+          "value": "layout_3"
+        },
+        {
+          "text": "t:resource.settings_schema.header.logo_centre",
+          "value": "layout_4"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "header_mega_menu",
+      "default": false,
+      "category": "t:resource.common.header",
+      "label": "t:resource.settings_schema.header.switch_to_mega_menu",
+      "info": "t:resource.settings_schema.header.mega_menu_double_row_required"
+    },
+    {
+      "type": "checkbox",
+      "id": "header_mega_menu_fullwidth",
+      "default": false,
+      "category": "t:resource.common.header",
+      "label": "t:resource.settings_schema.header.use_full_width_mega_menu",
+      "info": "t:resource.settings_schema.header.use_full_width_mega_menu_info"
+    },
+    {
+      "type": "select",
+      "id": "nav_weight",
+      "category": "t:resource.common.header",
+      "label": "t:resource.settings_schema.header.navigation_font_weight",
+      "info": "",
+      "default": "semibold",
+      "options": [
+        {
+          "value": "regular",
+          "text": "t:resource.settings_schema.header.regular"
+        },
+        {
+          "value": "semibold",
+          "text": "t:resource.settings_schema.header.semibold"
+        },
+        {
+          "value": "bold",
+          "text": "t:resource.settings_schema.header.bold"
+        }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "id": "is_hyperlocal",
+      "default": false,
+      "category": "t:resource.common.header",
+      "label": "t:resource.settings_schema.header.serviceability_check_in_header"
+    },
+    {
+      "type": "checkbox",
+      "id": "is_mandatory_pincode",
+      "category": "t:resource.common.header",
+      "label": "t:resource.settings_schema.header.mandatory_serviceability_check",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "is_delivery_minutes",
+      "default": false,
+      "category": "t:resource.common.header",
+      "label": "t:resource.settings_schema.header.minutes",
+      "info": "t:resource.settings_schema.header.show_delivery_promise_in_minutes"
+    },
+    {
+      "type": "text",
+      "id": "max_delivery_min",
+      "label": "t:resource.settings_schema.header.minutes",
+      "category": "t:resource.common.header",
+      "default": "60",
+      "info": "t:resource.settings_schema.header.set_minute_threshold_for_promise"
+    },
+    {
+      "type": "checkbox",
+      "id": "is_delivery_hours",
+      "default": false,
+      "category": "t:resource.common.header",
+      "label": "t:resource.settings_schema.header.hours",
+      "info": "t:resource.settings_schema.header.show_delivery_promise_in_hours"
+    },
+    {
+      "type": "text",
+      "id": "max_delivery_hours",
+      "label": "t:resource.settings_schema.header.hours",
+      "category": "t:resource.common.header",
+      "default": "2",
+      "info": "t:resource.settings_schema.header.set_hour_threshold_for_promise"
+    },
+    {
+      "type": "checkbox",
+      "id": "is_delivery_day",
+      "default": false,
+      "category": "t:resource.common.header",
+      "label": "t:resource.settings_schema.header.today_tomorrow",
+      "info": "t:resource.settings_schema.header.today_tomorrow_info"
+    },
+    {
+      "type": "checkbox",
+      "id": "is_delivery_date",
+      "default": false,
+      "category": "t:resource.common.header",
+      "label": "t:resource.settings_schema.header.date_range",
+      "info": "t:resource.settings_schema.header.date_range_info"
+    },
+    {
+      "type": "checkbox",
+      "id": "algolia_enabled",
+      "label": "t:resource.settings_schema.algolia_configuration.enable_algolia",
+      "default": false,
+      "info": "t:resource.settings_schema.algolia_configuration.enable_algolia",
+      "category": "t:resource.settings_schema.common.algolia_configuration"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "default": "",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "t:resource.settings_schema.footer.logo"
+    },
+    {
+      "type": "text",
+      "id": "footer_description",
+      "label": "t:resource.common.description",
+      "category": "t:resource.settings_schema.common.footer"
+    },
+    {
+      "type": "image_picker",
+      "id": "payments_logo",
+      "default": "",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "t:resource.settings_schema.footer.bottom_bar_image"
+    },
+    {
+      "type": "checkbox",
+      "id": "footer_image",
+      "default": false,
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "t:resource.settings_schema.footer.enable_footer_image"
+    },
+    {
+      "type": "image_picker",
+      "id": "footer_image_desktop",
+      "default": "",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "t:resource.settings_schema.footer.desktop"
+    },
+    {
+      "type": "image_picker",
+      "id": "footer_image_mobile",
+      "default": "",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "t:resource.settings_schema.footer.mobile_tablet"
+    },
+    {
+      "type": "checkbox",
+      "id": "footer_contact_background",
+      "default": true,
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "t:resource.settings_schema.footer.show_footer_contact_details_background"
+    },
+    {
+      "type": "text",
+      "id": "footer_social_text",
+      "default": "Social Media",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "t:resource.settings_schema.footer.social_media_text",
+      "info": "t:resource.settings_schema.footer.social_media_text_info"
+    },
+    {
+      "type": "range",
+      "id": "footer_logo_max_height_mobile",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "t:resource.settings_schema.footer.footer_logo_max_height_mobile",
+      "min": 25,
+      "max": 100,
+      "unit": "px",
+      "default": 25
+    },
+    {
+      "type": "range",
+      "id": "footer_logo_max_height_desktop",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "t:resource.settings_schema.footer.footer_logo_max_height_desktop",
+      "min": 36,
+      "max": 100,
+      "unit": "px",
+      "default": 36
+    },
+    {
+      "type": "header",
+      "category": "t:resource.settings_schema.common.footer",
+      "value": "Footer Navigation Links"
+    },
+    {
+      "type": "text",
+      "id": "footer_nav_link_1_text",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Navigation Link 1 Text",
+      "default": "Ready-to-Wear"
+    },
+    {
+      "type": "url",
+      "id": "footer_nav_link_1_url",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Navigation Link 1 URL",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "footer_nav_link_2_text",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Navigation Link 2 Text",
+      "default": "Accessories"
+    },
+    {
+      "type": "url",
+      "id": "footer_nav_link_2_url",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Navigation Link 2 URL",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "footer_nav_link_3_text",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Navigation Link 3 Text",
+      "default": "Living"
+    },
+    {
+      "type": "url",
+      "id": "footer_nav_link_3_url",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Navigation Link 3 URL",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "footer_nav_link_4_text",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Navigation Link 4 Text",
+      "default": "Exclusives Editions"
+    },
+    {
+      "type": "url",
+      "id": "footer_nav_link_4_url",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Navigation Link 4 URL",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "footer_nav_link_5_text",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Navigation Link 5 Text",
+      "default": "Found & Collectibles"
+    },
+    {
+      "type": "url",
+      "id": "footer_nav_link_5_url",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Navigation Link 5 URL",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "footer_nav_link_6_text",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Navigation Link 6 Text",
+      "default": "Sitemap"
+    },
+    {
+      "type": "url",
+      "id": "footer_nav_link_6_url",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Navigation Link 6 URL",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "footer_nav_link_7_text",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Navigation Link 7 Text",
+      "default": ""
+    },
+    {
+      "type": "url",
+      "id": "footer_nav_link_7_url",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Navigation Link 7 URL",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "footer_nav_link_8_text",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Navigation Link 8 Text",
+      "default": ""
+    },
+    {
+      "type": "url",
+      "id": "footer_nav_link_8_url",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Navigation Link 8 URL",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "footer_nav_link_9_text",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Navigation Link 9 Text",
+      "default": ""
+    },
+    {
+      "type": "url",
+      "id": "footer_nav_link_9_url",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Navigation Link 9 URL",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "footer_nav_link_10_text",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Navigation Link 10 Text",
+      "default": ""
+    },
+    {
+      "type": "url",
+      "id": "footer_nav_link_10_url",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Navigation Link 10 URL",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "footer_nav_link_11_text",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Navigation Link 11 Text",
+      "default": ""
+    },
+    {
+      "type": "url",
+      "id": "footer_nav_link_11_url",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Navigation Link 11 URL",
+      "default": ""
+    },
+    {
+      "type": "header",
+      "category": "t:resource.settings_schema.common.footer",
+      "value": "Footer Button Configuration"
+    },
+    {
+      "type": "checkbox",
+      "id": "footer_show_button",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Show Footer Buttons Section",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "footer_show_button_1",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Show Footer Button 1",
+      "default": false,
+      "info": "Toggle to show/hide this button"
+    },
+    {
+      "type": "text",
+      "id": "footer_button_text_1",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Footer Button 1 Text",
+      "default": "EKKE RADIO"
+    },
+    {
+      "type": "url",
+      "id": "footer_button_url_1",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Footer Button 1 URL",
+      "default": ""
+    },
+    {
+      "type": "checkbox",
+      "id": "footer_show_button_2",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Show Footer Button 2",
+      "default": true,
+      "info": "Toggle to show/hide this button"
+    },
+    {
+      "type": "text",
+      "id": "footer_button_text_2",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Footer Button 2 Text",
+      "default": "JOURNAL"
+    },
+    {
+      "type": "url",
+      "id": "footer_button_url_2",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Footer Button 2 URL",
+      "default": ""
+    },
+    {
+      "type": "checkbox",
+      "id": "footer_show_button_3",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Show Footer Button 3",
+      "default": true,
+      "info": "Toggle to show/hide this button"
+    },
+    {
+      "type": "text",
+      "id": "footer_button_text_3",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Footer Button 3 Text",
+      "default": "NEWSLETTER"
+    },
+    {
+      "type": "url",
+      "id": "footer_button_url_3",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Footer Button 3 URL",
+      "default": ""
+    },
+    {
+      "type": "checkbox",
+      "id": "footer_button_open_new_tab",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Open Footer Button in New Tab",
+      "default": false
+    },
+    {
+      "type": "header",
+      "category": "t:resource.settings_schema.common.footer",
+      "value": "Radio Player Configuration"
+    },
+    {
+      "type": "text",
+      "id": "radio_player_header_text",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Radio Player Header Text",
+      "default": "EKKE PLAYLIST"
+    },
+    {
+      "type": "text",
+      "id": "radio_song_1_name",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Song 1 - Name",
+      "default": "SANDY BEACH",
+      "info": "Enter the song title"
+    },
+    {
+      "type": "text",
+      "id": "radio_song_1_artist",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Song 1 - Artist",
+      "default": "Natural Sound",
+      "info": "Enter the artist name"
+    },
+    {
+      "type": "url",
+      "id": "radio_song_1_url",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Song 1 - Audio URL",
+      "default": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+      "info": "Enter the direct URL to the audio file (MP3, WAV, etc.)"
+    },
+    {
+      "type": "image_picker",
+      "id": "radio_song_1_thumbnail",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Song 1 - Thumbnail Image",
+      "default": "",
+      "info": "Upload thumbnail image for the song"
+    },
+    {
+      "type": "text",
+      "id": "radio_song_2_name",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Song 2 - Name",
+      "default": "TELL YOUR GIRLFRIEND",
+      "info": "Enter the song title"
+    },
+    {
+      "type": "text",
+      "id": "radio_song_2_artist",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Song 2 - Artist",
+      "default": "Lay Bankz",
+      "info": "Enter the artist name"
+    },
+    {
+      "type": "url",
+      "id": "radio_song_2_url",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Song 2 - Audio URL",
+      "default": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
+      "info": "Enter the direct URL to the audio file (MP3, WAV, etc.)"
+    },
+    {
+      "type": "image_picker",
+      "id": "radio_song_2_thumbnail",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Song 2 - Thumbnail Image",
+      "default": "",
+      "info": "Upload thumbnail image for the song"
+    },
+    {
+      "type": "text",
+      "id": "radio_song_3_name",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Song 3 - Name",
+      "default": "RAIN SOUND",
+      "info": "Enter the song title"
+    },
+    {
+      "type": "text",
+      "id": "radio_song_3_artist",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Song 3 - Artist",
+      "default": "Natural Sound",
+      "info": "Enter the artist name"
+    },
+    {
+      "type": "url",
+      "id": "radio_song_3_url",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Song 3 - Audio URL",
+      "default": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3",
+      "info": "Enter the direct URL to the audio file (MP3, WAV, etc.)"
+    },
+    {
+      "type": "image_picker",
+      "id": "radio_song_3_thumbnail",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Song 3 - Thumbnail Image",
+      "default": "",
+      "info": "Upload thumbnail image for the song"
+    },
+    {
+      "type": "text",
+      "id": "radio_song_4_name",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Song 4 - Name",
+      "default": "SUNSET BY THE SEA",
+      "info": "Enter the song title"
+    },
+    {
+      "type": "text",
+      "id": "radio_song_4_artist",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Song 4 - Artist",
+      "default": "Natural Sound",
+      "info": "Enter the artist name"
+    },
+    {
+      "type": "url",
+      "id": "radio_song_4_url",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Song 4 - Audio URL",
+      "default": "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3",
+      "info": "Enter the direct URL to the audio file (MP3, WAV, etc.)"
+    },
+    {
+      "type": "image_picker",
+      "id": "radio_song_4_thumbnail",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Song 4 - Thumbnail Image",
+      "default": "",
+      "info": "Upload thumbnail image for the song"
+    },
+    {
+      "type": "text",
+      "id": "radio_song_5_name",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Song 5 - Name",
+      "default": "",
+      "info": "Enter the song title (optional)"
+    },
+    {
+      "type": "text",
+      "id": "radio_song_5_artist",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Song 5 - Artist",
+      "default": "",
+      "info": "Enter the artist name (optional)"
+    },
+    {
+      "type": "url",
+      "id": "radio_song_5_url",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Song 5 - Audio URL",
+      "default": "",
+      "info": "Enter the direct URL to the audio file (optional)"
+    },
+    {
+      "type": "image_picker",
+      "id": "radio_song_5_thumbnail",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Song 5 - Thumbnail Image",
+      "default": "",
+      "info": "Upload thumbnail image for the song (optional)"
+    },
+    {
+      "type": "text",
+      "id": "radio_song_6_name",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Song 6 - Name",
+      "default": "",
+      "info": "Enter the song title (optional)"
+    },
+    {
+      "type": "text",
+      "id": "radio_song_6_artist",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Song 6 - Artist",
+      "default": "",
+      "info": "Enter the artist name (optional)"
+    },
+    {
+      "type": "url",
+      "id": "radio_song_6_url",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Song 6 - Audio URL",
+      "default": "",
+      "info": "Enter the direct URL to the audio file (optional)"
+    },
+    {
+      "type": "image_picker",
+      "id": "radio_song_6_thumbnail",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Song 6 - Thumbnail Image",
+      "default": "",
+      "info": "Upload thumbnail image for the song (optional)"
+    },
+    {
+      "type": "text",
+      "id": "radio_song_7_name",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Song 7 - Name",
+      "default": "",
+      "info": "Enter the song title (optional)"
+    },
+    {
+      "type": "text",
+      "id": "radio_song_7_artist",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Song 7 - Artist",
+      "default": "",
+      "info": "Enter the artist name (optional)"
+    },
+    {
+      "type": "url",
+      "id": "radio_song_7_url",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Song 7 - Audio URL",
+      "default": "",
+      "info": "Enter the direct URL to the audio file (optional)"
+    },
+    {
+      "type": "image_picker",
+      "id": "radio_song_7_thumbnail",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Song 7 - Thumbnail Image",
+      "default": "",
+      "info": "Upload thumbnail image for the song (optional)"
+    },
+    {
+      "type": "text",
+      "id": "radio_song_8_name",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Song 8 - Name",
+      "default": "",
+      "info": "Enter the song title (optional)"
+    },
+    {
+      "type": "text",
+      "id": "radio_song_8_artist",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Song 8 - Artist",
+      "default": "",
+      "info": "Enter the artist name (optional)"
+    },
+    {
+      "type": "url",
+      "id": "radio_song_8_url",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Song 8 - Audio URL",
+      "default": "",
+      "info": "Enter the direct URL to the audio file (optional)"
+    },
+    {
+      "type": "image_picker",
+      "id": "radio_song_8_thumbnail",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Song 8 - Thumbnail Image",
+      "default": "",
+      "info": "Upload thumbnail image for the song (optional)"
+    },
+    {
+      "type": "text",
+      "id": "radio_song_9_name",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Song 9 - Name",
+      "default": "",
+      "info": "Enter the song title (optional)"
+    },
+    {
+      "type": "text",
+      "id": "radio_song_9_artist",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Song 9 - Artist",
+      "default": "",
+      "info": "Enter the artist name (optional)"
+    },
+    {
+      "type": "url",
+      "id": "radio_song_9_url",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Song 9 - Audio URL",
+      "default": "",
+      "info": "Enter the direct URL to the audio file (optional)"
+    },
+    {
+      "type": "image_picker",
+      "id": "radio_song_9_thumbnail",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Song 9 - Thumbnail Image",
+      "default": "",
+      "info": "Upload thumbnail image for the song (optional)"
+    },
+    {
+      "type": "text",
+      "id": "radio_song_10_name",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Song 10 - Name",
+      "default": "",
+      "info": "Enter the song title (optional)"
+    },
+    {
+      "type": "text",
+      "id": "radio_song_10_artist",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Song 10 - Artist",
+      "default": "",
+      "info": "Enter the artist name (optional)"
+    },
+    {
+      "type": "url",
+      "id": "radio_song_10_url",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Song 10 - Audio URL",
+      "default": "",
+      "info": "Enter the direct URL to the audio file (optional)"
+    },
+    {
+      "type": "image_picker",
+      "id": "radio_song_10_thumbnail",
+      "category": "t:resource.settings_schema.common.footer",
+      "label": "Song 10 - Thumbnail Image",
+      "default": "",
+      "info": "Upload thumbnail image for the song (optional)"
+    },
+    {
+      "type": "header",
+      "category": "t:resource.settings_schema.common.cart_and_button_configuration",
+      "value": "Cart Options"
+    },
+    {
+      "type": "checkbox",
+      "id": "disable_cart",
+      "default": false,
+      "category": "t:resource.settings_schema.common.cart_and_button_configuration",
+      "label": "t:resource.settings_schema.cart_and_button_configuration.disable_cart",
+      "info": "t:resource.settings_schema.cart_and_button_configuration.disables_cart_and_checkout"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_price",
+      "label": "t:resource.settings_schema.cart_and_button_configuration.show_price",
+      "category": "t:resource.settings_schema.common.cart_and_button_configuration",
+      "default": true,
+      "info": "t:resource.settings_schema.cart_and_button_configuration.applies_to_product_pdp_featured_section"
+    },
+    {
+      "type": "header",
+      "category": "t:resource.settings_schema.common.cart_and_button_configuration",
+      "value": "Buy Button Configurations"
+    },
+    {
+      "type": "select",
+      "id": "button_options",
+      "label": "t:resource.settings_schema.cart_and_button_configuration.button_options",
+      "category": "t:resource.settings_schema.common.cart_and_button_configuration",
+      "default": "addtocart_buynow",
+      "info": "t:resource.settings_schema.cart_and_button_configuration.applicable_pdp_featured_product",
+      "options": [
+        {
+          "value": "addtocart_buynow",
+          "text": "t:resource.settings_schema.cart_and_button_configuration.add_to_cart_buy_now"
+        },
+        {
+          "value": "addtocart_button",
+          "text": "t:resource.settings_schema.cart_and_button_configuration.add_to_cart_custom_button"
+        },
+        {
+          "value": "buynow_button",
+          "text": "t:resource.settings_schema.cart_and_button_configuration.buy_now_custom_button"
+        },
+        {
+          "value": "button",
+          "text": "t:resource.common.custom_button"
+        },
+        {
+          "value": "addtocart",
+          "text": "t:resource.settings_schema.cart_and_button_configuration.add_to_cart"
+        },
+        {
+          "value": "buynow",
+          "text": "t:resource.settings_schema.cart_and_button_configuration.buy_now"
+        },
+        {
+          "value": "addtocart_buynow_button",
+          "text": "t:resource.settings_schema.cart_and_button_configuration.all_three"
+        },
+        {
+          "value": "none",
+          "text": "t:resource.settings_schema.cart_and_button_configuration.none"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "custom_button_text",
+      "label": "t:resource.common.custom_button_text",
+      "category": "t:resource.settings_schema.common.cart_and_button_configuration",
+      "default": "t:resource.default_values.enquire_now",
+      "info": "t:resource.settings_schema.cart_and_button_configuration.applicable_pdp_featured_product"
+    },
+    {
+      "type": "url",
+      "id": "custom_button_link",
+      "label": "t:resource.common.custom_button_link",
+      "category": "t:resource.settings_schema.common.cart_and_button_configuration",
+      "default": ""
+    },
+    {
+      "type": "checkbox",
+      "id": "show_quantity_control",
+      "label": "t:resource.settings_schema.cart_and_button_configuration.show_quantity_control",
+      "category": "t:resource.settings_schema.common.cart_and_button_configuration",
+      "default": false,
+      "info": "t:resource.settings_schema.cart_and_button_configuration.display_in_place_of_add_to_cart"
+    },
+    {
+      "type": "image_picker",
+      "id": "custom_button_icon",
+      "label": "t:resource.common.custom_button_icon",
+      "category": "t:resource.settings_schema.common.cart_and_button_configuration",
+      "info": "t:resource.settings_schema.cart_and_button_configuration.applicable_pdp_featured_product",
+      "default": "",
+      "options": {
+        "aspect_ratio": "1:1",
+        "aspect_ratio_strict_check": true
+      }
+    },
+    {
+      "type": "header",
+      "category": "t:resource.settings_schema.common.product_card_configuration",
+      "value": "Product Card Aspect Ratio"
+    },
+    {
+      "type": "text",
+      "id": "product_img_width",
+      "category": "t:resource.settings_schema.common.product_card_configuration",
+      "default": "",
+      "label": "t:resource.settings_schema.product_card_configuration.width_in_px",
+      "info": "t:resource.settings_schema.product_card_configuration.default_aspect_ratio_limit"
+    },
+    {
+      "type": "text",
+      "id": "product_img_height",
+      "category": "t:resource.settings_schema.common.product_card_configuration",
+      "default": "",
+      "label": "t:resource.settings_schema.product_card_configuration.height_in_px",
+      "info": "t:resource.settings_schema.product_card_configuration.default_aspect_ratio_limit"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sale_badge",
+      "category": "t:resource.settings_schema.common.product_card_configuration",
+      "default": true,
+      "label": "t:resource.settings_schema.product_card_configuration.display_sale_badge",
+      "info": "t:resource.settings_schema.product_card_configuration.hide_sale_badge"
+    },
+    {
+      "type": "range",
+      "category": "t:resource.settings_schema.common.product_card_configuration",
+      "id": "image_border_radius",
+      "min": 0,
+      "max": 30,
+      "unit": "px",
+      "label": "t:resource.settings_schema.product_card_configuration.image_border_radius",
+      "default": 24,
+      "info": "t:resource.settings_schema.product_card_configuration.border_radius_for_image"
+    },
+    {
+      "type": "range",
+      "category": "t:resource.settings_schema.common.product_card_configuration",
+      "id": "badge_border_radius",
+      "min": 0,
+      "max": 30,
+      "unit": "px",
+      "label": "t:resource.settings_schema.product_card_configuration.badge_border_radius",
+      "default": 24,
+      "info": "t:resource.settings_schema.product_card_configuration.badge_border_radius_info"
+    },
+    {
+      "type": "checkbox",
+      "id": "img_fill",
+      "category": "t:resource.settings_schema.common.product_card_configuration",
+      "default": false,
+      "label": "t:resource.common.fit_image_to_container",
+      "info": "t:resource.common.clip_image_to_fit_container"
+    },
+    {
+      "type": "color",
+      "id": "img_container_bg",
+      "category": "t:resource.settings_schema.common.product_card_configuration",
+      "label": "t:resource.common.container_background_color",
+      "info": "t:resource.common.image_container_bg_color"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_image_on_hover",
+      "category": "t:resource.settings_schema.common.product_card_configuration",
+      "label": "t:resource.settings_schema.product_card_configuration.show_image_on_hover",
+      "info": "t:resource.settings_schema.product_card_configuration.hover_image_display",
+      "default": false
+    },
+    {
+      "type": "header",
+      "category": "t:resource.settings_schema.common.other_page_configuration",
+      "value": "Improve Image Quality"
+    },
+    {
+      "type": "checkbox",
+      "id": "img_hd",
+      "category": "t:resource.settings_schema.common.other_page_configuration",
+      "default": false,
+      "label": "t:resource.settings_schema.other_page_configuration.use_original_images",
+      "info": "t:resource.settings_schema.other_page_configuration.home_page_performance_impact"
+    },
+    {
+      "type": "header",
+      "category": "t:resource.settings_schema.common.other_page_configuration",
+      "value": "Border Radius"
+    },
+    {
+      "type": "range",
+      "category": "t:resource.settings_schema.common.other_page_configuration",
+      "id": "button_border_radius",
+      "min": 0,
+      "max": 30,
+      "unit": "px",
+      "label": "t:resource.settings_schema.other_page_configuration.button_border_radius",
+      "default": 4,
+      "info": "t:resource.settings_schema.other_page_configuration.border_radius_for_button"
+    },
+    {
+      "type": "checkbox",
+      "id": "is_google_map",
+      "category": "t:resource.settings_schema.common.google_maps",
+      "default": false,
+      "label": "t:resource.settings_schema.google_maps.enable_google_maps",
+      "info": ""
+    },
+    {
+      "type": "text",
+      "id": "map_api_key",
+      "category": "t:resource.settings_schema.common.google_maps",
+      "default": "",
+      "label": "t:resource.settings_schema.google_maps.google_maps_api_key",
+      "info": "t:resource.settings_schema.google_maps.google_maps_api_key_info"
+    },
+    {
+      "type": "text",
+      "id": "header",
+      "category": "Not Found Page",
+      "default": "",
+      "label": "Error Header",
+      "info": "Error header"
+    },
+    {
+      "type": "text",
+      "id": "largeheader",
+      "category": "Not Found Page",
+      "default": "",
+      "label": "Error Header",
+      "info": "Error header"
+    },
+    {
+      "type": "text",
+      "id": "suggestionText1",
+      "category": "Not Found Page",
+      "label": "Suggestion Text 1",
+      "info ": "Suggestion Text 1"
+    },
+    {
+      "type": "url",
+      "id": "suggestionLink1",
+      "category": "Not Found Page",
+      "label": "Suggestion Link 1",
+      "info": "Suggestion Link 1"
+    },
+    {
+      "type": "text",
+      "id": "suggestionText2",
+      "category": "Not Found Page",
+      "label": "Suggestion Text 2",
+      "info ": "Suggestion Text 2"
+    },
+    {
+      "type": "url",
+      "id": "suggestionLink2",
+      "category": "Not Found Page",
+      "label": "Suggestion Link 2",
+      "info": "Suggestion Link 2"
+    },
+    {
+      "type": "text",
+      "id": "suggestionText3",
+      "category": "Not Found Page",
+      "label": "Suggestion Text 3",
+      "info ": "Suggestion Text 3"
+    },
+    {
+      "type": "url",
+      "id": "suggestionLink3",
+      "category": "Not Found Page",
+      "label": "Suggestion Link 3",
+      "info": "Suggestion Link 3"
+    },
+    {
+      "type": "text",
+      "id": "suggestionText4",
+      "category": "Not Found Page",
+      "label": "Suggestion Text 4",
+      "info ": "Suggestion Text 4"
+    },
+    {
+      "type": "url",
+      "id": "suggestionLink4",
+      "category": "Not Found Page",
+      "label": "Suggestion Link 4",
+      "info": "Suggestion Link 4"
+    },
+    {
+      "type": "text",
+      "id": "suggestionText5",
+      "category": "Not Found Page",
+      "label": "Suggestion Text 5",
+      "info ": "Suggestion Text 5"
+    },
+    {
+      "type": "url",
+      "id": "suggestionLink5",
+      "category": "Not Found Page",
+      "label": "Suggestion Link 5",
+      "info": "Suggestion Link 5"
+    },
+    {
+      "type": "text",
+      "id": "suggestionText6",
+      "category": "Not Found Page",
+      "label": "Suggestion Text 6",
+      "info ": "Suggestion Text 6"
+    },
+    {
+      "type": "url",
+      "id": "suggestionLink6",
+      "category": "Not Found Page",
+      "label": "Suggestion Link 6",
+      "info": "Suggestion Link 6"
+    },
+    {
+      "type": "text",
+      "id": "bannerText1",
+      "category": "Not Found Page",
+      "label": "Suggestion Text 1",
+      "info ": "Suggestion Text 1"
+    },
+    {
+      "type": "url",
+      "id": "bannerLink1",
+      "category": "Not Found Page",
+      "label": "Suggestion Link 1",
+      "info": "Suggestion Link 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_image_1",
+      "category": "Not Found Page",
+      "label": "Banner Image 1",
+      "info": "Banner Image 1"
+    },
+    {
+      "type": "text",
+      "id": "bannerText2",
+      "category": "Not Found Page",
+      "label": "Suggestion Text 2",
+      "info ": "Suggestion Text 2"
+    },
+    {
+      "type": "url",
+      "id": "bannerLink2",
+      "category": "Not Found Page",
+      "label": "Suggestion Link 2",
+      "info": "Suggestion Link 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_image_2",
+      "category": "Not Found Page",
+      "label": "Banner Image 2",
+      "info": "Banner Image 2"
+    },
+    {
+      "type": "text",
+      "id": "bannerText13",
+      "category": "Not Found Page",
+      "label": "Suggestion Text 3",
+      "info ": "Suggestion Text 3"
+    },
+    {
+      "type": "url",
+      "id": "bannerLink3",
+      "category": "Not Found Page",
+      "label": "Suggestion Link 3",
+      "info": "Suggestion Link 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_image_3",
+      "category": "Not Found Page",
+      "label": "Banner Image 3",
+      "info": "Banner Image 3"
+    },
+    {
+      "type": "text",
+      "id": "bannerText4",
+      "category": "Not Found Page",
+      "label": "Suggestion Text 4",
+      "info ": "Suggestion Text 4"
+    },
+    {
+      "type": "url",
+      "id": "bannerLink4",
+      "category": "Not Found Page",
+      "label": "Suggestion Link 4",
+      "info": "Suggestion Link 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "banner_image_4",
+      "category": "Not Found Page",
+      "label": "Banner Image 4",
+      "info": "Banner Image 4"
+    },
+    {
+      "id": "announcement_text1",
+      "label": "Text 1",
+      "type": "text",
+      "default": "",
+      "info": "The Heading text of annoucement",
+      "category": "Announcement BAR"
+    },
+    {
+      "id": "announcement_text2",
+      "label": "Text 2",
+      "type": "text",
+      "default": "",
+      "info": "The Heading text of annoucement",
+      "category": "Announcement BAR"
+    },
+    {
+      "id": "announcement_text3",
+      "label": "Text 3",
+      "type": "text",
+      "default": "",
+      "info": "The Heading text of annoucement",
+      "category": "Announcement BAR"
+    },
+    {
+      "id": "announcement_bg_color_picker",
+      "label": "Background Color Chooser",
+      "type": "color",
+      "default": "",
+      "category": "Announcement BAR",
+      "info": "Pick a color from the color picker."
+    },
+    {
+      "id": "announcement_text_color_picker",
+      "label": "Text Color Chooser",
+      "type": "color",
+      "default": "",
+      "info": "Pick a color from the color picker.",
+      "category": "Announcement BAR"
+    }
+  ]
+}

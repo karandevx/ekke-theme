@@ -1,0 +1,163 @@
+@import "../../../styles/main.less";
+
+// .modal {
+//   position: fixed;
+//   inset: 0;
+//   z-index: @header;
+//   overflow-y: auto;
+//   overflow-x: hidden;
+//   transition: opacity 0.25s ease;
+//   .flex-center();
+//   @media @tablet {
+//     align-items: flex-end;
+//   }
+//   &:before {
+//     content: "";
+//     background-color: @Overlay;
+//     opacity: 0.6;
+//     inset: 0;
+//     position: fixed;
+//     z-index: -1;
+//   }
+
+//   .modalContainer {
+//     min-width: 300px;
+//     background-color: @DialogBackground;
+//     border: 1px solid @White;
+//     border-radius: @border-radius;
+//     min-height: 100px;
+//     max-width: 720px;
+//     overflow: auto;
+//     @media @tablet {
+//       width: 100%;
+//       max-width: unset;
+//     }
+//   }
+// }
+// .rightModal {
+//   justify-content: flex-end;
+//   .modalContainer {
+//     height: 100%;
+//     width: 40%;
+//     @media @tablet {
+//       width: 100%;
+//     }
+//   }
+// }
+.modal {
+  position: fixed;
+  top: 0px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  outline: none;
+  border: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-focus-ring-color: transparent;
+
+  &:focus,
+  &:focus-visible,
+  &:active {
+    outline: none;
+    border: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  &.left {
+    .modalContainer {
+      margin: 0;
+      // height: 100%;
+      width: 400px;
+      padding: 20px;
+      border-radius: 0;
+
+      // transform: translateX(-100%);
+      // animation: slideInLeft 0.3s forwards;
+    }
+  }
+  &.right {
+    justify-content: flex-end; // stick to right edge
+    .modalContainer {
+      margin: 0;
+      width: 400px;
+      padding: 20px;
+      will-change: transform;
+      border-radius: 0;
+      // transform: translateX(-100%);
+      // animation: slideInRight 0.3s forwards;
+    }
+  }
+
+  &.bottom {
+    .modalContainer {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      transform: translateY(100%);
+      animation: slideUpBottom 0.3s forwards;
+      border-radius: 0px;
+    }
+  }
+}
+
+.modalContainer {
+  background: #fff;
+  border-radius: 4px;
+  margin: auto;
+  position: relative;
+  outline: none;
+  border: none;
+  -webkit-tap-highlight-color: transparent;
+
+  &:focus,
+  &:focus-visible,
+  &:active {
+    outline: none;
+    border: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+@keyframes slideInLeft {
+  to {
+    transform: translateX(0);
+  }
+}
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideUpBottom {
+  to {
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .modal {
+    outline: none !important;
+    border: none !important;
+    -webkit-tap-highlight-color: transparent !important;
+
+    &.left {
+      .modalContainer {
+        width: 100%;
+      }
+    }
+  }
+
+  .modalContainer {
+    outline: none !important;
+    border: none !important;
+    -webkit-tap-highlight-color: transparent !important;
+  }
+}

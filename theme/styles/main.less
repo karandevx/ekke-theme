@@ -1,0 +1,94 @@
+@import "./variables.less";
+@import "./media.less";
+@import "./theme.less";
+@import "./sections.less";
+@import "./mixins.less";
+@import "./fonts.less";
+
+.flexColumn {
+  display: flex;
+  flex-direction: column;
+}
+.flexAlignCenter {
+  .flex-align-center();
+}
+.flexCenter {
+  .flex-center();
+}
+.justifyStart {
+  justify-content: flex-start;
+}
+.justifyBetween {
+  justify-content: space-between;
+}
+.primaryBackground {
+  background-color: @primary-background;
+}
+.heading-3 {
+  font-size: @heading-3;
+  font-weight: 200;
+}
+.heading-2 {
+  font-size: @heading-2;
+  font-weight: 200;
+  color: @color-black;
+
+  @media @mobile {
+    font-size: @heading-2-mobile !important;
+  }
+}
+
+.subheading-1 {
+  font-size: @subheading-1;
+  font-weight: 700;
+}
+.subheading-2 {
+  font-size: @subheading-2;
+  font-weight: 200;
+
+  @media @mobile {
+    font-size: @subheading-2-mobile !important;
+  }
+}
+
+.paragraph-1 {
+  font-size: @paragraph-1;
+  font-weight: 200;
+  color: @color-black;
+
+  @media @mobile {
+    font-size: @paragraph-1-mobile !important;
+  }
+}
+
+[type="checkbox"]:checked,
+[type="radio"]:checked {
+  background-color: transparent !important;
+}
+
+[type="checkbox"],
+[type="radio"] {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+[type="checkbox"]:focus,
+[type="radio"]:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+// .slick-slide {
+//   opacity: 0;
+//   transition: opacity 0.8s ease-in-out;
+// }
+
+// .slick-active {
+//   opacity: 1;
+// }
+
+// .slick-slide.slick-current {
+//   opacity: 1;
+// }
+
+

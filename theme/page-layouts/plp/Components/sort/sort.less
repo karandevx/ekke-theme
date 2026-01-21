@@ -1,0 +1,583 @@
+@import "../../../../styles/main.less";
+
+// Variables
+@overlay-z: 998;
+@panel-z: 999;
+@font: "Archivo";
+
+// Main dropdown trigger (if needed)
+.dropdown {
+  display: flex;
+  position: relative;
+  .selectedSortWrapper {
+    display: flex;
+    cursor: pointer;
+    align-items: center;
+    background: white;
+
+    @media @tablet {
+      display: flex;
+      flex-shrink: 0;
+      white-space: nowrap;
+      height: 8px;
+      align-items: center;
+    }
+
+    .sortLabel {
+      color: #000;
+      /* Text/BODYCOPY 01 */
+      font-family: Archivo;
+      font-size: var(--Text-Sizes-BODYCOPY-01, 11px);
+      font-style: normal;
+      font-weight: 400;
+      line-height: 120%; /* 13.2px */
+      text-transform: uppercase;
+    }
+    &::before {
+      content: " ";
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 4px;
+      height: 4px;
+      background-color: #000000;
+      position: absolute;
+      left: -8px;
+      transition: opacity 0.3s ease;
+      border-radius: 1px;
+      opacity: 0;
+      transition: all 0.3s ease;
+      color: #000000;
+    }
+
+    &:hover:not(.disabled) {
+      &::before {
+        opacity: 1;
+        transform: translateY(-50%) translateX(0);
+      }
+    }
+  }
+}
+
+// Overlay - FIXED: proper visibility and background
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); // Increased opacity for visibility
+  z-index: @overlay-z;
+  opacity: 0;
+  visibility: hidden;
+  overflow: hidden; // Prevent overlay from scrolling
+
+  &.isOpen {
+    opacity: 1;
+    visibility: visible;
+  }
+}
+
+// Sort Panel - Fade in/out animation
+.sortPanel {
+  position: fixed;
+  background-color: #ffffff;
+  z-index: @panel-z;
+  overflow: hidden; // Prevent panel from scrolling, let content handle it
+  will-change: opacity;
+  transition: opacity 0.3s;
+  opacity: 0;
+  visibility: hidden;
+
+  // Desktop
+  @media (min-width: 769px) {
+    top: 0;
+    right: 0;
+    width: 320px;
+    height: 100vh;
+    box-shadow: -2px 0 8px rgba(0, 0, 0, 0.15);
+
+    &.isOpen {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  // Mobile
+  @media (max-width: 768px) {
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.15);
+    border-radius: 0;
+
+    &.isOpen {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  .sortContent {
+    padding: 8px;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden; // Prevent horizontal scroll
+    font-family: @font, Arial, sans-serif;
+    // Smooth scrolling
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+
+    .sortHeader {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      row-gap: 32px;
+      margin-bottom: 24px;
+
+      .sortLabel {
+        display: flex;
+        flex-direction: column;
+        row-gap: 12px;
+        align-items: flex-start;
+      }
+
+      .sortTitle {
+        font-family: Archivo;
+        font-size: 11px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 120%; /* 13.2px */
+        text-transform: uppercase;
+        color: var(--Color-Neutral-Light, #aaa);
+      }
+
+      .clearAll {
+        font-family: Archivo;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 120%; /* 14.4px */
+        color: var(--EKKE-01---Dark, #171717);
+        text-decoration-line: underline;
+        text-decoration-style: solid;
+        text-decoration-skip-ink: none;
+        text-decoration-thickness: auto;
+        text-underline-offset: auto;
+        text-underline-position: from-font;
+
+        &:hover {
+          color: #000;
+        }
+      }
+      .closeButton {
+        background: none;
+        border: none;
+        color: #171717;
+        font-size: 11px;
+        font-weight: 400;
+        cursor: pointer;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        text-align: end;
+        padding: 0;
+      }
+    }
+
+    .sortOptions {
+      margin-bottom: 24px;
+
+      .sortOption {
+        display: flex;
+        align-items: center;
+        margin-bottom: 12px;
+        cursor: pointer;
+        gap: 8px;
+        padding: 0px 6px; // small padding helps background show nicely
+        border-radius: 4px; // optional for smoother edges
+        min-height: 20px; // Fixed height to prevent size changes
+        box-sizing: border-box;
+        transition:
+          background-color 0.1s ease,
+          color 0.1s ease;
+
+        .checkboxContainer {
+          display: flex;
+          align-items: center;
+          cursor: pointer;
+          min-width: 8px;
+          width: 8px; // Fixed width
+          height: 12px; // Fixed height
+          flex-shrink: 0;
+        }
+
+        .radioIcon,
+        .checkboxIcon {
+          width: 8px;
+          height: 8px;
+          flex-shrink: 0;
+
+          &.selected {
+            color: #5c2e20;
+          }
+        }
+
+        .sortLabel {
+          font-size: 11px;
+          font-weight: 400;
+          font-family: Archivo;
+          color: #171717;
+          letter-spacing: 0.3px;
+          text-transform: uppercase;
+          line-height: 1.25;
+          flex: 1;
+          transition:
+            color 0.2s ease,
+            background-color 0.2s ease;
+          padding: 1px;
+          justify-content: center;
+          min-height: 13px; // Fixed height to prevent size changes
+          box-sizing: border-box;
+        }
+
+        // ✅ Apply hover directly on .sortOption - fixed dimensions
+        &:hover {
+          .sortLabel {
+            background-color: #5c2e20;
+            color: #ffffff;
+          }
+          .checkboxContainer,
+          .radioIcon,
+          .checkboxIcon {
+            color: #ffffff;
+          }
+        }
+      }
+    }
+
+    .filterSection {
+      position: relative;
+      margin-bottom: 24px;
+
+      .filterHeader {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        background: var(--Color-Neutral-Lightest, #fff);
+        border: 1px solid #171717;
+        padding: 8px 12px;
+        cursor: pointer;
+        font-size: 11px;
+        font-weight: 500;
+        color: #171717;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        min-height: 36px; // Fixed height to prevent size changes
+        box-sizing: border-box;
+        transition: background-color 0.2s ease;
+
+        &:hover {
+          background-color: #f9f9f9;
+        }
+
+        // Different background when filters are selected
+        &.hasSelection {
+          background: var(--Color-Neutral-Lightest, #eee);
+        }
+
+        .headerContent {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          flex: 1;
+
+          .colorSwatchGroup {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+          }
+
+          .colorSwatchHeader {
+            width: 16px;
+            height: 16px;
+            border-radius: 2px;
+            border: 1px solid #171717;
+            flex-shrink: 0;
+          }
+        }
+
+        .expandIcon {
+          font-size: 16px;
+          color: #171717;
+          font-weight: 300;
+        }
+      }
+
+      // Make accordion body scrollable within its parent (mobile friendly)
+      position: relative;
+
+      .filterContent {
+        position: relative;
+        width: 100%;
+        background-color: #ffffff;
+        border: 1px solid #eee;
+        padding: 12px;
+        font-size: 11px;
+        color: #171717;
+        max-height: 60vh;
+        overflow-y: auto;
+        overflow-x: hidden; // Prevent horizontal scroll
+        z-index: 50;
+        // Smooth scrolling
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: thin;
+        scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+
+        .sizeGroup {
+          margin-bottom: 0px;
+
+          &:last-child {
+            margin-bottom: 0;
+          }
+
+          .sizeGroupLabel {
+            font-family: Archivo;
+            font-size: 11px;
+            font-style: normal;
+            font-weight: 500;
+            line-height: 120%;
+            text-transform: uppercase;
+            color: var(--Color-Neutral-Light, #aaa);
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+          }
+
+          .sizeOptions {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+          }
+        }
+
+        .sortOption {
+          display: flex;
+          align-items: center;
+          margin-bottom: 8px;
+          cursor: pointer;
+          gap: 8px;
+          padding: 2px 0;
+          min-height: 20px; // Fixed height to prevent size changes
+          box-sizing: border-box;
+
+          .checkboxContainer {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            min-width: 8px;
+            width: 8px; // Fixed width
+            height: 8px; // Fixed height
+            flex-shrink: 0;
+          }
+
+          .checkboxIcon {
+            width: 8px;
+            height: 8px;
+            flex-shrink: 0;
+
+            &.selected {
+              color: #5c2e20;
+            }
+          }
+
+          .colorSwatch {
+            width: 8px;
+            height: 8px;
+            flex-shrink: 0;
+            margin-right: 8px;
+          }
+
+          .sortLabel {
+            font-size: 11px;
+            font-weight: 400;
+            color: #171717;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+            line-height: 1.2;
+            flex: 1;
+            min-height: 13px; // Fixed height to prevent size changes
+            box-sizing: border-box;
+          }
+
+          &:hover {
+            background: var(--Color-Neutral-Lightest, #eee);
+            border: none;
+            .sortLabel {
+              color: #5c2e20;
+            }
+          }
+        }
+
+        // Color option specific styles
+        .colorOption {
+          display: flex;
+          align-items: center;
+          margin-bottom: 8px;
+          cursor: pointer;
+          gap: 8px;
+          padding: 4px 6px;
+          border-radius: 4px;
+          min-height: 20px; // Fixed height to prevent size changes
+          box-sizing: border-box;
+          transition: background-color 0.2s ease;
+
+          .checkboxContainer {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            min-width: 8px;
+            width: 8px; // Fixed width
+            height: 8px; // Fixed height
+            flex-shrink: 0;
+          }
+
+          .checkboxIcon {
+            width: 8px;
+            height: 8px;
+            flex-shrink: 0;
+
+            &.selected {
+              color: #5c2e20;
+            }
+          }
+
+          .colorSwatch {
+            width: 12px;
+            height: 12px;
+            border-radius: 1px;
+            flex-shrink: 0;
+          }
+
+          .sortLabel {
+            font-size: 11px;
+            font-weight: 400;
+            color: #171717;
+            letter-spacing: 0.3px;
+            text-transform: uppercase;
+            line-height: 1.2;
+            flex: 1;
+            min-height: 13px; // Fixed height to prevent size changes
+            box-sizing: border-box;
+          }
+
+          // Hover state - no dimension changes
+          &:hover {
+            background: var(--Color-Neutral-Lightest, #eee);
+          }
+        }
+
+        // Size specific styles
+        .sizeOption {
+          display: flex;
+          align-items: center;
+          margin-bottom: 8px;
+          cursor: pointer;
+          padding: 2px 0;
+          min-height: 20px; // Fixed height to prevent size changes
+          box-sizing: border-box;
+
+          .checkboxContainer {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            gap: 8px;
+            width: 100%;
+
+            .checkboxIcon {
+              width: 8px;
+              height: 8px;
+              flex-shrink: 0;
+
+              &.selected {
+                color: #5c2e20;
+              }
+            }
+
+            .sizeLabel {
+              font-size: 11px;
+              font-weight: 400;
+              color: #171717;
+              letter-spacing: 0.3px;
+              text-transform: uppercase;
+              line-height: 1.2;
+              flex: 1;
+              min-height: 13px; // Fixed height to prevent size changes
+              box-sizing: border-box;
+            }
+
+            .count {
+              font-size: 11px;
+              color: #171717;
+            }
+
+            &:hover {
+              .sizeLabel {
+                color: #5c2e20;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .markdownSection {
+      margin-top: 20px;
+      padding-top: 20px;
+
+      .sortOption {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        gap: 8px;
+        padding: 2px 0;
+
+        .checkboxContainer {
+          display: flex;
+          align-items: center;
+          cursor: pointer;
+          width: 8px;
+          height: 8px;
+        }
+
+        .checkboxIcon {
+          width: 8px;
+          height: 8px;
+          flex-shrink: 0;
+
+          &.selected {
+            color: #5c2e20;
+          }
+        }
+
+        .sortLabel {
+          font-size: 11px;
+          font-weight: 400;
+          color: #171717;
+          letter-spacing: 0.3px;
+          text-transform: uppercase;
+          line-height: 1.2;
+          flex: 1;
+        }
+
+        &:hover {
+          .sortLabel {
+            color: #5c2e20;
+          }
+        }
+      }
+    }
+  }
+}

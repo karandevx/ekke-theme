@@ -1,0 +1,97 @@
+@import "../../../styles/main.less";
+
+.paymentSkeleton {
+  width: 100%;
+  @media @tablet-range {
+    padding: 8px;
+  }
+}
+
+.container {
+  // max-width: 459px;
+  margin-top: 24px;
+  @media @tablet-range {
+    padding: 8px;
+  }
+  @media @desktop {
+    padding: 0;
+  }
+}
+
+.securityNotice {
+  margin-bottom: 24px;
+  padding-left: 8px;
+}
+
+.paymentCards {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.paymentCard {
+  border: 1px solid #EEEEEE;
+  background-color: #fff;
+  padding: 16px;
+  @media @tablet-range {
+    padding: 12px;
+  }
+}
+
+.billingCard {
+  border: 1px solid #EEEEEE;
+  background-color: #fff;
+  padding: 12px;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.cardLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cardRight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.expandedContent {
+  margin-top: 16px;
+  padding-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.formField {
+  width: 100%;
+}
+
+.formRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  @media @tablet-range {
+    grid-template-columns: 1fr;
+  }
+}
+
+.checkboxField {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.placeOrderButton {
+  margin-top: 24px;
+  width: 100%;
+}

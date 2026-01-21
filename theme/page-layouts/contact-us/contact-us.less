@@ -1,0 +1,161 @@
+@import "../../styles/main.less";
+
+.contactUs_mainContainer {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: hidden;
+  margin: 0 auto;
+  padding: 40px 80px;
+  background-color: #f7f7f5;
+
+  @media @mobile {
+    gap: 20px;
+  }
+
+  @media @tablet {
+    padding: 0;
+    grid-template-columns: 1fr;
+  }
+  .imageContainer {
+    /* Make the left column sticky */
+    position: sticky;
+    top: 0;
+    align-self: start; // required for sticky inside CSS grid
+    height: 100vh; // full viewport height
+    min-height: 100vh; // defensive
+    /* keep your existing styles below */
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; // ok on the sticky element itself
+    background-color: #f8f7f5;
+    .imageWrapper {
+      img {
+        object-fit: cover;
+      }
+      .overlay {
+        opacity: var(--overlay-opacity) !important;
+      }
+    }
+    @media @tablet {
+      padding: 4rem;
+      /* Disable sticky on stacked layout */
+      position: static;
+      height: auto;
+      min-height: unset;
+    }
+  }
+}
+
+.contact_container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background-color: #f8f7f5;
+  // min-height: 80vh !important;
+
+  &.reducedBottomGap {
+    padding-bottom: 61px;
+    @media @tablet {
+      padding-bottom: 0;
+    }
+  }
+  &.onImageContainer {
+    @media @desktop {
+      flex-direction: column;
+      width: 50%;
+      padding: 80px 120px;
+      gap: 56px;
+      .flex_item {
+        width: 100%;
+      }
+    }
+  }
+
+  @media @tablet {
+    flex-direction: column-reverse;
+    width: 100%;
+    padding: 32px 16px;
+    gap: 24px;
+  }
+
+  @media @mobile {
+    padding: 24px 16px;
+    gap: 20px;
+  }
+}
+
+.flex_item {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  &.descriptionMargin {
+    max-width: 464px !important;
+    text-align: center;
+    margin: 0 auto;
+    padding-bottom: 40px;
+    p {
+      margin-top: 0;
+    }
+    @media @tablet {
+      margin: unset;
+      padding: 0 16px;
+      padding-bottom: 32px;
+    }
+  }
+  &.descriptionPaddingTop {
+    @media @desktop {
+      padding-top: 61px;
+    }
+  }
+  .description {
+    color: @TextBody;
+    font-size: 16px;
+    @media @tablet {
+      font-size: 14px;
+      text-align: start;
+    }
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+    letter-spacing: -0.32px;
+    align-self: stretch;
+    margin-top: 12px;
+  }
+  @media @tablet {
+    width: 100%;
+    flex-direction: column-reverse;
+    gap: 48px;
+  }
+  .listItems {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-self: stretch;
+    .item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      align-self: stretch;
+      svg g > path {
+        fill: @TextHeading;
+      }
+      span {
+        display: inline-block;
+        word-break: break-word;
+        overflow-wrap: break-word;
+      }
+    }
+  }
+}
+
+.invert {
+  flex-direction: row-reverse;
+}
+
+.iconSpacing {
+  @media @mobile {
+    gap: 12px;
+  }
+}

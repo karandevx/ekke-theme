@@ -1,0 +1,192 @@
+@import "../../../styles/main.less";
+
+.reviewHeaderUnselect {
+  padding: 24px;
+  @media @tablet-range {
+    padding: 16px;
+  }
+  display: flex;
+  border: 1px solid var(--dividerStokes);
+  border-radius: 8px;
+  opacity: 0.5;
+  margin-top: 20px;
+
+  @media @mobile {
+    display: none;
+  }
+  .icon {
+    /* Styles for .icon class */
+  }
+
+  .heading {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding-inline-start: 15px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 140%;
+  }
+}
+
+.addressSelectedHeaderContainer {
+  padding: 24px;
+  margin-top: 20px;
+  display: flex;
+  @media @tablet-range {
+    padding: 16px;
+  }
+  justify-content: space-between;
+  border: 1px solid var(--dividerStokes);
+  border-radius: 8px;
+  @media @mobile {
+    display: none;
+  }
+  .leftSelected {
+    display: flex;
+  }
+
+  .deliverAdd {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding-inline-start: 15px;
+
+    .title {
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 140%;
+    }
+  }
+
+  .address {
+    font-size: 12px;
+    color: #1f1f1f;
+    font-weight: 400;
+    line-height: 140%;
+  }
+
+  .rightSelected {
+    font-weight: 600;
+    font-size: 12px;
+    padding: 12px 16px;
+    border-radius: @ButtonRadius;
+    color: var(--buttonPrimary);
+    background-color: #fff;
+    border: 1px solid var(--buttonPrimary);
+    text-transform: uppercase;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+}
+
+.reviewHeaderSelect {
+  padding: 24px;
+  @media @desktop {
+    border-radius: 8px 8px 0 0;
+  }
+  @media @tablet-range {
+    padding: 16px;
+  }
+  display: flex;
+  justify-content: space-between;
+  border: 1px solid var(--dividerStokes);
+  margin-top: 20px;
+
+  @media @mobile {
+    padding: 6px 16px;
+    margin-top: 10px;
+    display: none;
+    border-width: 1px 0;
+  }
+  .left {
+    display: flex;
+    @media @mobile {
+      .icon {
+        display: none;
+      }
+    }
+  }
+  .right {
+    display: flex;
+    @media @mobile {
+      display: none;
+    }
+  }
+
+  .headerContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    padding-inline-start: 15px;
+    @media @mobile {
+      padding-inline-start: 0;
+    }
+    .orderSummary {
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 140%;
+    }
+
+    .shipment {
+      font-size: 12px;
+      color: var(--textHeading);
+      font-weight: 400;
+      line-height: 140%;
+    }
+  }
+
+  .editCart {
+    font-weight: 600;
+    font-size: 12px;
+    padding: 12px 16px;
+    border-radius: @ButtonRadius;
+    color: var(--buttonPrimary);
+    border: 1px solid var(--buttonPrimary);
+    text-transform: uppercase;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+
+  .proceedPay {
+    font-weight: 600;
+    font-size: 12px;
+    padding: 12px 16px;
+    border-radius: @ButtonRadius;
+    border: 1px solid var(--buttonPrimary);
+    background-color: var(--buttonPrimary);
+    color: var(--buttonSecondary);
+    margin-inline-start: 24px;
+    text-transform: uppercase;
+    display: flex;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    &.disabledProceed {
+      pointer-events: none;
+    }
+  }
+}
+.payBtn {
+  padding: 14px;
+  border-radius: @ButtonRadius;
+  background-color: var(--primaryColor);
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  cursor: pointer;
+  line-height: 140%;
+  margin-left: 24px;
+  &:hover {
+    background-color: @ButtonPrimaryL1;
+    color: @White;
+  }
+}
+.orderEditContainer {
+  display: flex;
+}

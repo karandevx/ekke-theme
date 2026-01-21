@@ -1,0 +1,58 @@
+@import "../../../../styles/main.less";
+
+.filter {
+  display: flex;
+  flex-direction: column;
+  
+
+  &__title {
+    display: flex;
+    width: 100%;
+    cursor: pointer;
+    align-items: flex-start;
+    padding: 0 0 24px 0;
+    background: #fff;
+    line-height: 8px;
+    margin-top: 80px;
+
+    .name {
+      color: @TextHeading;
+      line-height: inherit;
+      font-family: Archivo;
+      font-size: var(--Text-Sizes-BODYCOPY-01, 11px);
+      font-style: normal;
+      font-weight: 400;
+      line-height: 8px;
+      text-transform: uppercase;
+    }
+
+    .arrow-icon {
+      width: 24px;
+      height: 24px;
+      fill: @TextHeading;
+      transition: all 0.25s ease;
+
+      &.isOpen {
+        transform: scale(1, -1);
+      }
+    }
+  }
+
+  &__list {
+    transition: 300ms all cubic-bezier(0, 0, 0.2, 1);
+    opacity: 1;
+    visibility: visible;
+
+    &.collapse {
+      max-height: 0;
+      margin-bottom: 0;
+      opacity: 0;
+      visibility: hidden;
+      overflow: hidden;
+    }
+  }
+
+  @media (max-width: 768px) {
+    margin-top: 0;
+  }
+}

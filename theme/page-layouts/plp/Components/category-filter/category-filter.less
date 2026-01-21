@@ -1,0 +1,160 @@
+@import "../../../../styles/main.less";
+
+.category-sidebar {
+  font-family: "Archivo";
+
+  &__title {
+    color: #171717;
+    font-size: 11px;
+    font-weight: 400;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    position: relative;
+  }
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__item-btn {
+    display: flex;
+    padding: 4px;
+    align-items: flex-start;
+    gap: 4px;
+
+    &:hover {
+      color: #171717;
+    }
+  }
+
+  &__item-label {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: #aaa;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 400;
+    text-transform: uppercase;
+    line-height: 8px;
+    text-align: center;
+    &:hover {
+      color: #171717;
+    }
+
+    &--active {
+      color: #171717;
+    }
+  }
+
+  &__bullet {
+    position: absolute;
+    left: -8px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 4px;
+    border-radius: 1px;
+    background: #171717;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+  }
+
+  /* Visible when active */
+  &__bullet--visible {
+    opacity: 1;
+  }
+
+  /* Visible on hover */
+  &__item-label:hover &__bullet,
+  &__sub-link:hover &__bullet {
+    opacity: 1;
+  }
+
+  /* ----------------------- SUB NAV ----------------------- */
+
+  &__sub-list {
+    display: none;
+    padding: 0 12px;
+    margin: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.25s ease-out;
+  }
+
+  &__sub-list--open {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 500px;
+    overflow-y: auto;
+    transition: max-height 0.25s ease-in;
+    padding: 8px 12px 0;
+    -webkit-overflow-scrolling: touch;
+
+    &::-webkit-scrollbar {
+      width: 8px;
+      -webkit-appearance: none;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: transparent;
+      border-radius: 0;
+      transition: background 0.2s ease;
+    }
+
+    scrollbar-width: thin;
+    scrollbar-color: transparent transparent;
+
+    // Show scrollbar on hover
+    &:hover {
+      &::-webkit-scrollbar-thumb {
+        background: @color-black;
+      }
+
+      scrollbar-color: #000000 transparent;
+    }
+  }
+
+  &__sub-item {
+    display: flex;
+    width: 100%;
+    padding: 4px;
+    align-items: flex-start;
+  }
+
+  &__sub-link {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    font-weight: 400;
+    text-transform: uppercase;
+    color: #aaa;
+    text-decoration: none;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+
+    &:hover {
+      color: #171717;
+    }
+
+    &--active {
+      color: #171717;
+    }
+  }
+}

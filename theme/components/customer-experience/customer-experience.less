@@ -1,0 +1,78 @@
+@import "../../styles/main.less";
+
+.wrapper {
+  display: flex;
+  height: 40px;
+  padding: 16px 16px 16px 12px;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 32px;
+  border: 1px solid var(--Color-Neutral-Lightest, #eee);
+  background: var(--EKKE-05---Light, #f7f7f5);
+}
+
+.list {
+  display: flex;
+}
+
+.navigation {
+  position: relative; /* so ::before positions against the link */
+  color: var(--EKKE-01---Dark, #171717);
+  font-family: Archivo;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 120%;
+  text-transform: uppercase;
+  text-decoration: none;
+
+  /* Base dot (hidden by default) */
+  &::before {
+    content: "";
+    position: absolute;
+    left: -8px; /* sits in the padding area we added */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 4px;
+    border: 1px solid #171717;
+    background: #171717;
+    border-radius: 1px;
+    opacity: 0; /* hidden until hover/active */
+    transition: opacity 0.2s ease;
+  }
+
+  &:hover {
+    color: #171717;
+
+    &::before {
+      opacity: 1; /* show on hover */
+    }
+  }
+}
+
+/* Active state: persist the dot and optionally tweak text weight */
+.navigationActive {
+  font-weight: 400; /* optional: emphasize active item */
+
+  &::before {
+    opacity: 1; /* show the dot when active */
+  }
+}
+
+@media (max-width: 768px) {
+  .wrapper {
+    display: flex;
+    height: 40px;
+    padding: 16px 16px 16px 12px;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 24px;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  .navigation {
+    white-space: nowrap;
+  }
+}

@@ -1,0 +1,426 @@
+@import "../../styles/main.less";
+
+.mapWrap {
+  padding-bottom: 16px;
+}
+
+.formGroup {
+  margin-bottom: 12px;
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  .groupLabel {
+    font-size: 11px;
+    margin-bottom: 12px;
+    color: #aaaaaa;
+    text-transform: uppercase;
+    font-weight: 400;
+    font-family: "Archivo", sans-serif;
+    line-height: 1.2;
+  }
+}
+.formItemDiv {
+  position: relative;
+  margin-bottom: 24px;
+  &.fullInput {
+    width: 100%;
+  }
+  &.halfInput {
+    width: 47%;
+    @media @tablet {
+      width: 100%;
+    }
+  }
+
+  .formInputBox {
+    &.otherInput {
+      width: 45%;
+    }
+    font-size: 0.8rem;
+    outline: none;
+    border: 1px solid var(--dividerStokes);
+    border-radius: 5px;
+    padding: 0 0.7rem;
+    height: 48px;
+    color: var(--textHeading);
+    transition: 0.1s ease-out;
+    box-sizing: border-box;
+    width: 100%;
+    background-color: transparent;
+  }
+
+  .formCheckBox {
+    font-size: 0.8rem;
+    outline: none;
+    border: 1px solid var(--dividerStokes);
+    border-radius: 5px;
+    padding: 0 0.7rem;
+    height: 15px;
+    width: 15px;
+    color: var(--buttonPrimary);
+    transition: 0.1s ease-out;
+    box-sizing: border-box;
+    margin-inline-end: 10px;
+  }
+
+  .formCheckboxLabel {
+    font-size: 0.8rem;
+    position: absolute;
+    inset-inline-start: 11px;
+    top: 0px;
+    color: var(--textLabel);
+    padding: 0 0.3rem;
+    margin: 0 0.5rem;
+  }
+
+  .formInputBox:focus {
+    border-color: var(--buttonPrimary);
+    border-color: #aaaaaa;
+  }
+
+  .formLabel {
+    position: absolute;
+    font-size: 0.8rem;
+    inset-inline-start: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #fff;
+    color: var(--textLabel);
+    padding: 0 0.3rem;
+    margin: 0 0.5rem;
+    transition: 0.1s ease-out;
+    transform-origin: left top;
+    pointer-events: none;
+    top: 0;
+    transform: translateY(-50%) scale(0.9);
+
+    .formReq {
+      color: #5c2e20;
+    }
+  }
+
+  .formInputBox:focus + .formLabel {
+    color: var(--buttonPrimary);
+  }
+}
+.formItemDiv:has(input[type="hidden"]) {
+  margin-bottom: 0;
+}
+.addressFormWrapper {
+  .formContainer {
+    display: flex;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+    width: 100%;
+    gap: 10px;
+
+    .labelClassName {
+      span {
+        color: #5c2e20;
+      }
+    }
+
+    .formItemDiv {
+      margin-inline-end: 0;
+    }
+  }
+
+  .formError {
+    color: #5c2e20;
+    width: max-content;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16.8px;
+    margin-top: 5px;
+  }
+
+  .customClass {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    position: relative;
+    min-width: 0;
+  }
+
+  .addressTypeContainer {
+    width: 100%;
+    // padding-top: 24px;
+
+    .typeWrap {
+      display: flex;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      row-gap: 16px;
+    }
+    .typeIcon {
+      margin-inline-end: 4px;
+    }
+    .typeBtn {
+      display: flex;
+      background: transparent;
+      align-items: center;
+      padding: 8px;
+      white-space: nowrap;
+      border-radius: 1px;
+      margin-inline-end: 16px;
+      border: 1px solid #eeeeee;
+      color: #171717;
+      font-size: 11px;
+      text-transform: uppercase;
+      font-family: "Archivo", sans-serif;
+      font-weight: 400;
+      line-height: 1.2;
+
+      svg {
+        path {
+          fill: #171717;
+        }
+      }
+
+      &.selected {
+        color: #171717;
+        border-width: 1px;
+        border-color: #aaaaaa;
+        svg {
+          path {
+            fill: #171717;
+          }
+        }
+      }
+    }
+    .addressTypeHeader {
+      font-size: 11px;
+      font-weight: 400;
+      margin-bottom: 16px;
+      margin-top: 0;
+      display: block;
+      color: #aaaaaa;
+      text-transform: uppercase;
+      font-family: "Archivo", sans-serif;
+      line-height: 1.2;
+    }
+
+    .addressType {
+      margin-top: 20px;
+      position: relative;
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      align-items: flex-end;
+
+      .addressTypes {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 4px 12px;
+        gap: 10px;
+        height: 40px;
+        border: 1px solid #e2e2e2;
+        border-radius: 4px;
+      }
+
+      .selectedDiv {
+        border: 1px solid var(--buttonPrimary);
+      }
+
+      input[type="radio"] {
+        margin-inline-start: 0;
+        margin-inline-end: 10px;
+      }
+
+      label {
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        gap: 5px;
+
+        &:hover {
+          font-weight: 400;
+        }
+      }
+    }
+  }
+}
+
+.formContainer2 {
+  display: flex;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+  width: 100%;
+  justify-content: space-between;
+  padding: 0;
+}
+
+.defaultAddressContainer {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
+  padding-top: 24px;
+
+  .checkbox {
+    appearance: none;
+    -webkit-appearance: none;
+    height: 8px;
+    width: 8px;
+    border: 0.5px solid #171717;
+    border-radius: 1px;
+    background-color: #ffffff;
+    cursor: pointer;
+    position: relative;
+    flex-shrink: 0;
+
+    &:checked {
+      background-color: #5c2e20;
+      border-color: #5c2e20;
+
+      &::after {
+        content: "";
+        display: block;
+        width: 4px;
+        height: 4px;
+        background-color: #5c2e20;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 1px;
+      }
+    }
+  }
+
+  .label {
+    color: #171717;
+    font-size: 11px;
+    line-height: 1.2;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-family: "Archivo", sans-serif;
+    font-weight: 400;
+    padding: 4px;
+  }
+}
+
+.deliverBtnDivEdit {
+  width: 100%;
+}
+
+.deliverBtn {
+  padding: 8px;
+  border-radius: 1px;
+  background: transparent;
+  border: none;
+  margin-top: 10px;
+  width: auto;
+  color: #171717;
+  cursor: pointer;
+  font-weight: 400;
+  font-size: 12px;
+  text-transform: none;
+  text-decoration: underline;
+  font-family: "Archivo", sans-serif;
+  line-height: 1.2;
+  text-align: right;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.contactInfo {
+  width: 100%;
+  margin-bottom: 25px;
+  display: flex;
+  align-items: center;
+}
+
+.deliveryInfo {
+  margin-inline-start: 24px;
+  font-weight: 600;
+  font-size: 12px;
+  margin-top: 24px;
+}
+
+.container {
+  position: relative;
+
+  .trigger {
+    cursor: pointer;
+    text-decoration: underline;
+    font-size: 12px;
+    font-weight: 400;
+  }
+
+  .dropdown {
+    margin: 5px 0;
+    width: 100%;
+    padding: 3px;
+  }
+
+  .saveButton {
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px;
+    width: 100%;
+  }
+  .dropdownInput {
+    position: relative;
+  }
+  .customDropdown {
+    position: relative;
+  }
+
+  .dropdownTrigger {
+    width: 100%;
+    border-bottom: 1px solid #dcdcdc;
+  }
+  .dropdownIcon {
+    margin-top: 10px;
+    position: absolute;
+    inset-inline-end: 2px;
+    top: 0;
+    width: 0;
+    height: 0;
+    border-inline-start: 5px solid transparent;
+    border-inline-end: 5px solid transparent;
+    border-top: 5px solid #333;
+    margin-inline-start: 5px;
+    transition: transform 0.2s ease;
+  }
+
+  .dropdownIcon.open {
+    transform: rotate(180deg);
+  }
+
+  .dropdownOptions {
+    z-index: 2;
+    width: 100%;
+    position: absolute;
+    top: 100%;
+    inset-inline-start: 0;
+    margin-top: 5px;
+    list-style: none;
+    padding: 0;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    overflow-y: auto;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .dropdownOptions li {
+    font-size: 12px;
+    font-weight: 400;
+    padding: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  .dropdownOptions li:hover {
+    background-color: #f0f0f0;
+  }
+}

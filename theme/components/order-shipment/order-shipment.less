@@ -1,0 +1,167 @@
+@import "../../styles/main.less";
+
+.orderItem {
+  color: @Mako;
+  background-color: @HighlightColor;
+  padding: 16px;
+  border-radius: 4px;
+
+  .orderHeader {
+    cursor: pointer;
+    position: relative;
+
+    .filter {
+      position: absolute;
+      inset-inline-end: 0px;
+    }
+    .filterArrowUp {
+      margin-inline-start: auto;
+      transform: rotate(180deg);
+    }
+    .filterArrowDown {
+      margin-inline-start: auto;
+    }
+
+    .orderId {
+      color: @TextHeading;
+      font-weight: 600;
+      line-height: 140%;
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    .orderTime {
+      color: @TextLabel;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 140%;
+      margin-top: 4px;
+    }
+  }
+
+  .shipmentData {
+    animation: fadeIn 0.5s ease;
+    border-top: none;
+    margin: 16px 0;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    gap: 16px;
+
+    .shipmentLeft {
+      display: table-cell;
+
+      img {
+        width: 80px;
+        height: 100px;
+        object-fit: cover;
+      }
+
+      #total-item {
+        text-align: center;
+        position: relative;
+        float: inline-end;
+        background: @Mako2;
+        color: white;
+        top: -40px;
+        inset-inline-start: -10px;
+        border-radius: 50%;
+        width: 35px;
+        height: 35px;
+        line-height: 13px;
+        font-size: 13px;
+        padding: 10px;
+      }
+    }
+    .bold {
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .light {
+      font-weight: 300;
+      font-size: 16px;
+      @media @tablet {
+        font-size: 14px;
+      }
+      @media @mobile {
+        font-size: 14px;
+      }
+    }
+
+    .shipmentRight {
+      display: table-cell;
+      vertical-align: top;
+
+      .shipmentId {
+        margin: 4px 0px;
+      }
+      .boldls {
+        font-weight: 600;
+      }
+      .uktLinks {
+        cursor: pointer;
+        text-decoration: none;
+        color: @TextHeading;
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 140%;
+      }
+      .shipmentStats {
+        margin: 4px 0px;
+        color: @TextLabel;
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 140%; /* 16.8px */
+      }
+      .status {
+        border-radius: 4px;
+        background: @SuccessBackground;
+        padding: 4px;
+        color: @SuccessText;
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 140%;
+        width: fit-content;
+      }
+      .shipmentBrands {
+        margin: 8px 0px;
+      }
+    }
+  }
+
+  .buttons {
+    display: flex;
+    .ordercheckout {
+      width: 100%;
+      height: 40px;
+      border-radius: @ButtonRadius;
+      font-weight: 700;
+      background-color: @TextHeading;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      text-align: center;
+      color: @ThemeAccentL5;
+      cursor: pointer;
+      .reorderIcon {
+        margin-inline-end: 10px;
+        position: relative;
+        top: -2px;
+      }
+    }
+  }
+
+  .showAccordionBody {
+    display: block;
+  }
+
+  .hideAccordionBody {
+    display: none;
+  }
+}
+
+.productCustomizationContainer{
+  margin-bottom: 16px;
+}

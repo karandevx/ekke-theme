@@ -1,0 +1,499 @@
+@import "../../../../styles/main.less";
+
+.cartItemsListContainer {
+  background-color: #fff;
+  // padding: 8px;
+  @media @mobile {
+    border-width: 0 0 1px;
+  }
+
+  .eachItemContainer {
+    display: flex;
+    // grid-template-columns: calc(23% - 12px) calc(77% - 12px);
+    column-gap: 11px;
+    padding: 8px;
+    gap: 8px;
+    // grid-template-rows: auto auto;
+    // grid-template-areas:
+    // "item_image item_details"
+    // "item_image free_gift";
+    @media (max-width: 768px) {
+      // grid-template-columns: calc(25% - 12px) calc(75% - 12px);
+      padding: 0px;
+    }
+    @media @mobile {
+      // grid-template-areas:
+      //   "item_image item_details"
+      //   "free_gift free_gift";
+    }
+    .itemImageContainer {
+      flex: 0 0 23.6%;
+      // grid-area: item_image;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      gap: 8px;
+      // aspect-ratio: calc(163 / 188);
+      @media (max-width: 768px) {
+        flex: 0 0 175px;
+        // aspect-ratio: calc(175 / 201);
+        gap: 0px;
+      }
+      .itemImage {
+        width: 100%;
+        height: 100%;
+        img {
+          object-fit: cover !important;
+        }
+      }
+    }
+    .eachItemDetailsContainer {
+      // flex: 0 0 77%;
+      // grid-area: item_details;
+      position: relative;
+      line-height: 140%;
+      box-sizing: border-box;
+      width: 100%;
+      .removeItemSvgContainer {
+        position: absolute;
+        top: 0;
+        inset-inline-end: 0;
+      }
+      .itemBrand {
+        color: @ekkeBlack;
+        font-size: 11px;
+        font-weight: 600;
+        font-family: "Archivo";
+        line-height: 120%;
+        letter-spacing: 0;
+      }
+      .itemName {
+        color: @NeutralLight;
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 120%;
+        letter-spacing: 0;
+        font-family: "Archivo";
+      }
+      .itemSellerName {
+        color: @TextLabel;
+        padding-inline-end: 90px;
+        font-size: 11px;
+        font-weight: 400;
+        line-height: 120%;
+        letter-spacing: 0;
+        font-family: "Archivo", sans-serif;
+        @media @mobile {
+          padding-inline-end: 30px;
+        }
+      }
+      .itemSizeQuantityContainer {
+        display: flex;
+        align-items: center;
+        // margin-top: 16px;
+        position: relative;
+        flex-wrap: wrap;
+        column-gap: 12px;
+        .itemSizeQuantitySubContainer {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          min-width: 0;
+          .sizeContainer {
+            display: flex;
+            justify-content: space-between;
+            cursor: pointer;
+            align-items: center;
+            padding: 0 16px;
+            min-width: 80px;
+            max-width: 160px;
+            height: 36px;
+            border: 1px solid @DividerStokes;
+            border-radius: 4px;
+            line-height: 140%;
+            @media @mobile {
+              padding: 0 10px;
+              max-width: unset;
+            }
+            .sizeName {
+              font-size: 12px;
+              font-weight: 600;
+              color: @TextBody;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              max-width: 90%;
+              margin-inline-end: 3px;
+            }
+            .itemSvg {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              cursor: pointer;
+            }
+          }
+        }
+        .limitedQtyBox {
+          font-size: 10px;
+          font-weight: 500;
+          padding: 4px 12px;
+          border-radius: 4px;
+          line-height: 140%;
+          color: @ErrorText;
+          background-color: @ErrorBackground;
+          @media @mobile {
+            margin-top: 12px;
+          }
+        }
+      }
+      .itemTotalContainer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        // margin-top: 16px;
+
+        @media @tablet {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .itemPrice {
+          display: flex;
+          flex-wrap: wrap;
+          align-items: center;
+          color: @ekkeBlack;
+          font-size: 11px;
+          font-weight: 400;
+          line-height: 120%;
+          gap: 8px;
+          font-family: "Archivo";
+
+          .effectivePrice {
+            color: @ekkeBlack;
+            font-size: 12px;
+            font-weight: 400;
+            // margin-inline-end: 12px;
+            line-height: 120%;
+          }
+          .markedPrice {
+            font-size: 12px;
+            text-decoration: line-through;
+            color: @neutral-light;
+            line-height: 120%;
+            // margin-inline-end: 12px;
+          }
+          .discount {
+            font-size: 12px;
+            font-weight: 400;
+            line-height: 120%;
+            // margin-inline-end: 12px;
+            color: @neutral-light;
+          }
+        }
+        .deliveryDateWrapper {
+          display: flex;
+          height: 20px;
+          align-self: center;
+          @media @mobile {
+            align-self: flex-start;
+            margin-top: 12px;
+          }
+
+          .shippingLogo {
+            color: @SuccessText;
+          }
+
+          .deliveryDate {
+            font-weight: 500;
+            font-size: 12px;
+            text-align: right;
+            color: @SuccessText;
+            align-self: center;
+            margin-inline-start: 8px;
+            line-height: 140%;
+          }
+        }
+      }
+    }
+  }
+}
+
+.appliedCouponRibbon {
+  display: flex;
+  align-items: center;
+  margin-bottom: 6px;
+  padding: 4px 10px;
+  color: @ekkeBlack;
+  line-height: 140%;
+  background: @ekkeLightGray;
+  width: fit-content;
+  .couponText {
+    font-family: "Archivo";
+    margin-inline-start: 6px;
+    font-weight: 600;
+    font-size: 10px;
+  }
+}
+.appliedOfferRibbon {
+  font-family: "Archivo";
+  font-size: 12px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  margin-top: 12px;
+  cursor: pointer;
+  background-color: @SuccessBackground;
+  border-radius: 4px;
+  color: @SuccessText;
+  width: max-content;
+  padding: 4px 8px;
+
+  @media @mobile {
+    margin-top: 12px;
+    margin-inline-start: 0;
+  }
+
+  svg {
+    path {
+      fill: @ButtonPrimary;
+    }
+  }
+
+  .ml6 {
+    margin-inline-start: 6px;
+  }
+}
+
+.out-of-stock-chip {
+  font-family: "Archivo";
+  font-size: 11px;
+  font-weight: 600;
+  padding: 16px 24px;
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--errorBackground);
+  border-radius: 4px;
+  margin-bottom: 8px;
+  @media @mobile {
+    font-size: 10px;
+  }
+  .removeAction {
+    color: @ButtonLink;
+    cursor: pointer;
+  }
+}
+.new-cart-red-color {
+  color: @ErrorText;
+}
+
+.outOfStock {
+  opacity: 0.4;
+}
+.sModalContainer {
+  min-height: 100px;
+  max-height: 720px;
+  overflow: auto;
+  @media @desktop {
+    min-width: 500px !important;
+    max-width: 500px !important;
+  }
+  .sizeModalHeader {
+    background-color: #f8f8f8;
+    padding: 16px;
+    align-items: flex-start;
+  }
+  .sizeModalTitle {
+    position: relative;
+    display: flex;
+    align-items: center;
+    .sizeModalDiv {
+      display: flex;
+      gap: 16px;
+      .sizeModalImage {
+        flex: 0 0 18%;
+        img {
+          width: 100%;
+          border-radius: 4px;
+        }
+      }
+      .sizeModalContent {
+        color: #1f1f1f;
+        line-height: 140%;
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        div {
+          .sizeModalBrand {
+            margin-inline-end: 20px;
+            margin-bottom: 8px;
+            font-size: 16px;
+            font-weight: 600;
+          }
+          .sizeModalName {
+            margin-inline-end: 20px;
+            font-size: 16px;
+            font-weight: 400;
+          }
+        }
+        .sizeDiscount {
+          margin-top: 8px;
+          font-size: 14px;
+          font-weight: 600;
+        }
+      }
+    }
+    .modalCloseIcon {
+      position: absolute;
+      top: 24px;
+      inset-inline-end: 24px;
+      cursor: pointer;
+      span {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
+  .sizeModalBody {
+    padding: 16px;
+    .sizeSelectHeading {
+      font-size: 14px;
+      font-weight: 600;
+    }
+  }
+  .sizeModalErrCls {
+    padding: 0 0 4px 24px;
+    margin-top: -12px;
+    height: 22px;
+    font-weight: 600;
+    font-size: 12px;
+    color: @ErrorText;
+    line-height: 140%;
+  }
+  .sizeModalFooter {
+    border-top: 1px solid #f0f0f0;
+    padding: 16px 16px 24px;
+    width: 100%;
+    .updateSizeButton {
+      border-radius: @ButtonRadius;
+      text-transform: capitalize;
+      color: #fff;
+      background-color: var(--buttonPrimary);
+      padding: 14px 0;
+      text-align: center;
+    }
+  }
+  .disableBtn {
+    opacity: 0.5;
+  }
+}
+.selected {
+  display: flex;
+}
+.itemRemoveIcon,
+.itemRemoveIcon path {
+  color: var(--textHeading);
+  fill: var(--textHeading);
+}
+.outOfStockChip {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 6px 16px 8px;
+  display: flex;
+  align-items: center;
+  color: @ErrorText;
+  background: @ErrorBackground;
+  border: 1px solid @ErrorText;
+  border-radius: 4px;
+  line-height: 140%;
+  height: 36px;
+  box-sizing: border-box;
+  @media @mobile {
+    font-size: 8px;
+  }
+}
+.promoBody {
+  padding: 24px;
+  .promotionWrapper {
+    display: flex;
+    background: @DialogBackground;
+    flex-direction: column;
+    .promoOffer {
+      display: flex;
+      font-size: 12px;
+      font-weight: 600;
+
+      .labelTextWrapper {
+        display: flex;
+        margin-inline-start: 14px;
+        flex-direction: column;
+        .promoLabel {
+          font-weight: 600;
+          font-size: 12px;
+          line-height: 140%;
+          margin-bottom: 4px;
+          color: @TextHeading;
+        }
+
+        .textToggleWrapper {
+          display: flex;
+          .promoText {
+            font-weight: 400;
+            font-size: 12px;
+            line-height: 140%;
+            color: @TextBody;
+          }
+          .termCondition {
+            margin-inline-start: 5px;
+            font-weight: 600;
+            font-size: 12px;
+            color: @SuccessText;
+            cursor: pointer;
+            align-self: center;
+          }
+        }
+      }
+    }
+  }
+  .promotionWrapper:not(:first-child) {
+    margin-top: 24px;
+  }
+
+  .htmlContent {
+    margin-top: 16px;
+    max-height: 200px;
+    overflow-y: scroll;
+    padding: 16px 30px;
+    border-radius: 4px;
+    max-width: 350px;
+  }
+}
+.chipModal {
+  transform: none !important;
+}
+
+.sizeHorizontalList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  // margin-top: 12px;
+
+  svg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    inset-inline-start: 0;
+
+    line {
+      stroke: @DividerStokes;
+      stroke-width: 1;
+    }
+  }
+}
+
+.sizeHorizontalListMobile {
+  display: none;
+}

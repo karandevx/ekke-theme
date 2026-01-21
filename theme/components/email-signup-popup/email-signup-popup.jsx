@@ -1,0 +1,257 @@
+import React, { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
+import styles from "./email-signup-popup.less";
+
+// Standard email validation function
+function validateEmail(email) {
+  if (!email) return false;
+
+  const trimmed = email.trim();
+  if (!trimmed) return false;
+
+  // Standard email validation pattern (same as used in contact-form and newsletter-form)
+  const emailPattern =
+    /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+(\.[a-zA-Z]{2,6}){1,2}$/;
+  return emailPattern.test(trimmed);
+}
+
+export default function EmailSignupPopup({
+  isVisible = false,
+  open = false,
+  onClose,
+  onSubmit,
+  storageKey = "ekke:emailSignupSeen",
+  autoShow = false,
+  showDelay = 10000,
+  showOnRefresh = true,
+  introOverlayDuration = 550,
+}) {
+  const [visible, setVisible] = useState(isVisible || open);
+  const [email, setEmail] = useState("");
+  const [touched, setTouched] = useState(false); // track user interaction
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null); // 'success', 'error', null
+  const formId = window?.newsletter_form_id || "6926b4c480c42657b6c613b5";
+
+  useEffect(() => {
+    if (autoShow) {
+      // If showOnRefresh is true, always show the popup regardless of sessionStorage (like IntroOverlay)
+      if (showOnRefresh) {
+        // Add randomness: 10-13 seconds (10000ms + 0-3000ms random)
+        const randomDelay = Math.floor(Math.random() * 3000); // 0-3000ms
+        const totalDelay = showDelay + introOverlayDuration + randomDelay;
+
+        const timer = setTimeout(() => {
+          setVisible(true);
+        }, totalDelay);
+
+        return () => clearTimeout(timer);
+      } else {
+        // Original behavior - check sessionStorage
+        const alreadySeen = sessionStorage.getItem(storageKey) === "1";
+        if (!alreadySeen) {
+          const randomDelay = Math.floor(Math.random() * 3000); // 0-3000ms
+          const timer = setTimeout(() => {
+            setVisible(true);
+          }, showDelay + randomDelay);
+
+          return () => clearTimeout(timer);
+        }
+      }
+    } else {
+      setVisible(isVisible || open);
+    }
+  }, [
+    autoShow,
+    isVisible,
+    open,
+    storageKey,
+    showDelay,
+    showOnRefresh,
+    introOverlayDuration,
+  ]);
+
+  const handleClose = () => {
+    setVisible(false);
+    if (onClose) onClose();
+
+    // Only mark as seen in sessionStorage if not showing on refresh
+    if (!showOnRefresh) {
+      try {
+        sessionStorage.setItem(storageKey, "1");
+      } catch (error) {
+        console.warn("Could not save to sessionStorage:", error);
+      }
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setTouched(true);
+
+    const ok = validateEmail(email);
+    if (!ok) {
+      setSubmitStatus("error");
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+    try {
+      // If custom onSubmit is provided, use it
+      if (onSubmit) {
+        await onSubmit(email.trim());
+      } else {
+        // Otherwise, call newsletter API
+        const baseUrl = window.location.origin;
+        const response = await fetch(
+          `${baseUrl}/ext/newsletter/application/send`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              email: email.trim(),
+              form_id: formId, // Commented for testing
+              platform: "web",
+            }),
+          }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || "Failed to subscribe");
+        }
+      }
+
+      setSubmitStatus("success");
+      setEmail("");
+      // Auto close after success
+      setTimeout(() => {
+        handleClose();
+      }, 2000);
+    } catch (error) {
+      if (process.env.NODE_ENV === "development") {
+        console.error("Email signup error:", error);
+      }
+      setSubmitStatus("error");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleEmailChange = (e) => {
+    const val = e.target.value;
+    setEmail(val);
+    if (submitStatus) setSubmitStatus(null);
+  };
+
+  if (!visible) return null;
+
+  const emailIsValid = validateEmail(email);
+  const showInlineError = touched && email.length > 0 && !emailIsValid;
+  const disableSubmit = isSubmitting || !emailIsValid;
+
+  const popupContent = (
+    <div className={styles.emailSignupOverlay} onClick={handleClose}>
+      <div
+        className={styles.emailSignupPopup}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          className={styles.closeButton}
+          onClick={handleClose}
+          aria-label="Close popup"
+        >
+          CLOSE
+        </button>
+
+        <div className={styles.popupContent}>
+          {/* EKKE Logo */}
+          <div className={styles.logoContainer}>
+            <svg
+              width="148"
+              height="224"
+              viewBox="0 0 148 224"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                opacity="0.4"
+                d="M2.72187 221.643C1.60476 220.505 0.756577 217.96 0.673828 216.367V8.17032C1.0462 2.37787 3.38387 0.453952 9.07288 0.040206C51.0681 -0.166667 92.8565 0.516014 134.769 0.040206C140.437 -0.0218559 146.706 -0.0839176 147.326 7.07389V215.54C146.892 222.243 143.251 223.422 137.272 223.67C116.502 224.539 94.6977 223.422 73.8655 223.38C53.5506 223.339 33.0288 223.422 12.6725 223.67C9.73487 223.711 4.89404 223.836 2.70118 221.622M73.1208 3.16399C69.1488 3.53636 68.5696 6.4119 68.1972 9.8253V214.154C68.4455 217.733 69.9556 220.526 73.8655 220.629C78.3961 220.753 79.7407 216.864 79.7821 213.057V9.53568C79.6166 5.35684 77.5272 2.72956 73.1001 3.1433M128.211 15.9281C131.356 12.9905 143.127 3.84667 131.769 3.06055C117.516 2.08825 102.104 3.76392 87.726 3.1433C86.3607 3.39155 85.2229 3.90873 84.3333 5.00516C83.8575 5.60509 82.9473 7.50833 82.8438 8.19101C82.4715 10.3425 82.4921 21.9894 82.8438 24.1616C84.4368 33.7398 94.077 41.2493 103.593 36.9464C109.613 34.2363 122.667 21.0792 128.19 15.9281M58.1846 43.2146C71.9209 27.3475 60.8739 4.75691 40.5383 3.61911C30.3394 3.03987 19.6234 4.07423 9.38319 3.61911C7.47995 3.86736 5.82497 4.48798 4.70785 6.12228C3.61143 7.7152 3.52868 10.6114 3.44593 12.5767C2.99081 21.8239 2.97012 33.6985 3.44593 42.925C3.52868 44.3317 3.69418 47.0625 4.1493 48.283C4.60442 49.5036 5.70084 50.3724 6.96277 50.8482C7.93507 51.2413 9.01081 51.3241 10.0452 51.2413C25.2297 50.0001 47.1375 55.958 58.1846 43.2146ZM132.886 89.4921C134.728 91.4988 137.314 95.0984 139.899 95.8638C141.803 96.4224 142.816 95.7811 143.52 94.5398C144.099 93.5469 144.327 92.3884 144.306 91.2299C143.996 67.3774 145.713 42.6354 144.595 18.907C144.533 17.7899 144.43 15.204 144.244 14.2938C144.182 14.0662 143.209 11.7906 143.065 11.6044C140.706 8.43925 136.01 14.1696 134.376 15.866C125.811 24.7409 117.764 34.257 109.613 43.4836C103.51 53.3307 106.903 60.7781 113.854 68.6807C120.04 75.7144 126.597 82.5826 132.907 89.4715M61.2463 91.4988C70.6176 75.1765 57.9777 56.9303 40.2487 55.7511C30.4842 55.0891 20.0578 56.1856 10.19 55.7718C9.44525 55.7304 8.67982 55.7718 7.93507 55.9787C5.68016 56.5373 4.10792 58.0267 3.75624 60.6127C3.61143 61.647 3.4873 63.3434 3.44593 64.4398C2.97012 73.7284 2.97012 85.7891 3.44593 95.057C3.52868 96.4845 3.69418 99.1738 4.1493 100.415C4.54236 101.47 5.47328 102.277 6.56971 102.794C7.66614 103.311 8.88669 103.456 10.0866 103.373C27.2363 101.967 51.0061 109.373 61.267 91.5195M111.372 75.9833C105.538 70.8736 100.635 66.8809 92.2772 70.315C78.5822 75.9213 83.5886 96.0707 83.0093 108.649C82.9473 110.117 83.0507 111.586 83.4231 112.993C83.5886 113.655 83.7954 114.317 84.2092 114.813C85.0781 115.889 87.1054 116.634 88.4708 116.696H138.927C141.12 116.51 142.692 115.744 143.602 113.655C144.802 110.904 144.327 108.276 143.044 105.649C141.141 101.718 130.859 93.9813 127.197 90.6299C121.922 85.8305 116.771 80.7 111.372 75.9833ZM59.2189 150.954C62.5082 148.327 64.5149 144.934 64.9079 140.528C65.6734 131.839 64.4114 122.095 64.8666 113.22C64.9079 112.496 64.8666 111.772 64.7011 111.069C63.8736 107.718 61.2049 107.221 57.6467 107.014C42.2346 106.145 26.0572 107.635 10.5417 107.035C9.73487 106.994 8.90738 107.056 8.12126 107.263C2.32881 108.814 2.61844 115.579 6.36284 119.965C11.4726 125.964 20.2647 132.604 26.2433 137.983C35.4285 146.237 46.1032 161.401 59.2396 150.933M106.117 120.151C78.5822 122.737 75.8722 160.16 102.186 167.132C103.448 167.463 104.772 167.607 106.096 167.607C116.626 167.732 128.335 168.787 138.658 167.959C140.872 167.773 141.989 167.401 143.147 165.58C143.954 164.297 144.389 162.829 144.471 161.339C145.071 151.988 145.133 138.542 144.595 128.653C144.43 125.736 143.996 122.116 141.017 120.647C140.665 120.461 140.292 120.358 139.899 120.254C139.01 120.047 138.079 119.985 137.148 120.027C126.991 120.42 116.109 119.199 106.117 120.13M15.4032 134.487C14.1413 133.122 11.8243 130.225 10.6037 129.232C8.32813 127.371 5.6181 126.853 4.27342 129.212C3.88036 129.894 3.73555 130.681 3.73555 131.467C3.9838 155.65 2.37019 180.702 3.42524 204.803C3.4873 206.334 3.61143 209.21 4.04586 210.513C4.66648 212.416 5.94909 212.954 7.91439 212.582C9.63143 212.251 12.2173 209.313 13.5206 207.968C17.865 203.438 21.9404 198.307 26.1606 193.611C31.6014 187.55 40.89 179.958 41.4692 171.414C42.0485 162.622 36.4836 157.636 31.1462 151.699C25.933 145.906 20.6578 140.197 15.4032 134.487ZM141.472 219.45C141.616 219.367 143.313 217.216 143.478 216.926C144.327 215.436 144.492 212.892 144.575 211.134C145.051 202.031 145.051 190.157 144.575 181.054C144.43 178.137 144.202 174.558 141.348 172.986C140.168 172.345 138.886 172.179 137.562 172.097C129.059 171.517 117.185 171.683 108.6 172.097C93.8908 172.821 81.6026 184.695 84.023 200.024C85.6987 210.637 95.4631 219.326 106.138 220.091C116.192 220.794 126.991 219.657 137.189 220.029C138.472 220.07 139.755 219.967 140.996 219.636C141.244 219.574 141.41 219.512 141.492 219.471M59.2189 189.102C47.1168 178.551 36.1939 193.094 27.7121 200.645C25.271 202.817 22.6231 204.824 20.2647 206.975C18.1546 208.879 11.9898 213.968 11.514 216.429C10.9347 219.491 12.7345 220.319 15.4446 220.65C29.6154 219.719 45.2964 221.85 59.281 220.65C62.26 220.401 64.5149 218.54 64.8872 215.499C65.5079 210.43 65.363 197.811 63.1081 193.363C62.1772 191.522 60.6257 190.343 59.2189 189.102Z"
+                fill="#CCCCCC"
+              />
+            </svg>
+          </div>
+
+          {/* Email Signup Form */}
+          <div className={styles.signupFormContainer}>
+            <h2 className={styles.signupTitle}>
+              Join our mailing list for first looks, special prices, and the
+              stories informing our curations.
+            </h2>
+
+            <form
+              onSubmit={handleSubmit}
+              className={styles.signupForm}
+              noValidate
+            >
+              <div className={styles.inputContainer}>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={handleEmailChange}
+                  onBlur={() => setTouched(true)}
+                  placeholder=""
+                  className={`${styles.emailInput} ${
+                    showInlineError || submitStatus === "error"
+                      ? styles.error
+                      : ""
+                  }`}
+                  disabled={isSubmitting}
+                  aria-invalid={showInlineError || submitStatus === "error"}
+                  aria-describedby="email-error"
+                  autoComplete="email"
+                  inputMode="email"
+                  required
+                />
+              </div>
+
+              <button
+                type="submit"
+                className={`${styles.submitButton} ${isSubmitting ? styles.submitting : ""} ${
+                  submitStatus ? styles[submitStatus] : ""
+                }`}
+                disabled={disableSubmit}
+              >
+                {isSubmitting
+                  ? "SUBMITTING..."
+                  : submitStatus === "success"
+                    ? "SUCCESS!"
+                    : "SUBMIT"}
+              </button>
+
+              {(showInlineError || submitStatus === "error") && (
+                <p id="email-error" className={styles.errorMessage}>
+                  Please enter a valid email address
+                </p>
+              )}
+
+              {submitStatus === "success" && (
+                <p className={styles.successMessage}>
+                  Thank you for subscribing!
+                </p>
+              )}
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  return typeof document !== "undefined"
+    ? createPortal(popupContent, document.body)
+    : popupContent;
+}

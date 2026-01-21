@@ -1,0 +1,212 @@
+import React, { useEffect, useState } from "react";
+import SvgWrapper from "../../../components/core/svgWrapper/SvgWrapper";
+import CheckoutPaymentContent from "./checkout-payment-content";
+import styles from "./checkout-payment.less";
+// import CheckoutPaymentContent from "@gofynd/theme-template/page-layouts/single-checkout/payment/checkout-payment-content";
+// import styles from "@gofynd/theme-template/page-layouts/single-checkout/payment/checkout-payment.less";
+import CheckoutPaymentFailure from "./checkout-payment-failure";
+import CreditNote from "./credit-note/credit-note";
+import { useMobile } from "../../../helper/hooks/useMobile";
+import { useGlobalTranslation } from "fdk-core/utils";
+import { useToast } from "../../../components/custom-toaster";
+
+function CheckoutPayment({
+  loader,
+  payment,
+  showPayment,
+  showPaymentOptions,
+  breakUpValues,
+  onPriceDetailsClick,
+  setCancelQrPayment = () => {},
+  onFailedGetCartShipmentDetails = () => {},
+  customClassName,
+  isCouponApplied,
+  redirectPaymentOptions,
+  setMopPayload,
+  isCouponValid,
+  setIsCouponValid,
+  inValidCouponData,
+}) {
+  const { t } = useGlobalTranslation("translation");
+  const toast = useToast();
+  const [showFailedMessage, setShowFailedMessage] = useState(false);
+  const [paymentErrHeading, setPaymentErrHeading] = useState("");
+  const [paymentErrMsg, setPaymentErrMsg] = useState("");
+  const [juspayErrorMessage, setJuspayErrorMessage] = useState(false);
+  const [timerId, setTimerId] = useState(null);
+  const {
+    errorMessage,
+    setErrorMessage,
+    enableLinkPaymentOption,
+    getTotalValue,
+  } = payment;
+  const isMobile = useMobile();
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (errorMessage?.length > 0) {
+      handleShowFailedMessage({
+        failed: true,
+        paymentErrHeading: t("resource.checkout.please_try_again_later"),
+        paymentErrMsg: errorMessage,
+      });
+      // Show toast notification
+      toast.error(errorMessage);
+      onFailedGetCartShipmentDetails();
+    } else if (urlParams.get("failed") === "true") {
+      redirectPaymentOptions();
+      // Decode the error message from URL
+      const errorMsg = decodeURIComponent(urlParams?.get("error") || "");
+      handleShowFailedMessage({
+        failed: true,
+        paymentErrMsg: errorMsg,
+      });
+      // Show toast notification for URL errors
+      toast.error(errorMsg || t("resource.checkout.payment_failed"));
+      onFailedGetCartShipmentDetails();
+      setJuspayErrorMessage(true);
+    }
+  }, [errorMessage]);
+
+  const scrollToTop = () => {
+    if (isMobile) {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const handleShowFailedMessage = (errObj) => {
+    if (errObj?.failed) {
+      scrollToTop();
+      setShowFailedMessage(true);
+      setPaymentErrHeading(errObj?.paymentErrHeading || "");
+      setPaymentErrMsg(errObj?.paymentErrMsg || "");
+
+      const id = setTimeout(() => {
+        setShowFailedMessage(false);
+        setPaymentErrHeading("");
+        setPaymentErrMsg("");
+        // Remove 'failed' and 'error' params from URL
+        const newUrlParams = new URLSearchParams(window.location.search);
+        newUrlParams.delete("failed");
+        newUrlParams.delete("error");
+
+        window.history.replaceState(
+          {},
+          "",
+          `${window.location.pathname}?${newUrlParams}`
+        );
+      }, 30000);
+      setTimerId(id);
+    }
+  };
+  const hideFailedMessage = () => {
+    setShowFailedMessage(false);
+    setPaymentErrHeading("");
+    setPaymentErrMsg("");
+    setErrorMessage("");
+
+    const newUrlParams = new URLSearchParams(window.location.search);
+    newUrlParams.delete("failed");
+    newUrlParams.delete("error");
+    window.history.replaceState(
+      {},
+      "",
+      `${window.location.pathname}?${newUrlParams}`
+    );
+
+    if (timerId) {
+      clearTimeout(timerId);
+      setTimerId(null);
+    }
+  };
+
+  // Check if store credits are zero
+  const hasZeroStoreCredits = () => {
+    const creditData = payment?.partialPaymentOption;
+    if (!creditData?.list) return false;
+
+    return creditData.list.some((option) => {
+      const amount = option?.balance?.account?.redeemable_balance?.amount;
+      return option.partial_payment_allowed && amount === 0;
+    });
+  };
+
+  const showCODUnavailableToast = () => {
+    toast.info(
+      "Cash on Delivery is currently unavailable. Your Store Credits balance is ₹0. Please select another payment method.",
+      { duration: 5000 }
+    );
+  };
+
+  return (
+    <>
+      <div
+        className={`${styles.paymentContainer} ${!showPayment ? styles.hidePayment : ""} ${enableLinkPaymentOption ? styles.unsetMarginTop : ""} ${getTotalValue?.() === 0 ? styles.disabledPayment : ""}`}
+      >
+        {showPayment ? (
+          <>
+            <div className={styles.creditNote}>
+              <CreditNote
+                data={payment?.partialPaymentOption}
+                updateStoreCredits={payment?.updateStoreCredits}
+              />
+            </div>
+            {/* <div
+              className={`${styles.paymentHeaderSelect} ${customClassName} ${enableLinkPaymentOption ? styles.unsetBorder : ""}`}
+            >
+              {!enableLinkPaymentOption && (
+                <div className={`${styles.icon} ${styles["view-mobile-up"]}`}>
+                  <SvgWrapper svgSrc={"three-number"}></SvgWrapper>
+                </div>
+              )}
+              <div
+                className={`${styles.title} ${enableLinkPaymentOption ? styles.unsetPaddingLeft : ""}`}
+              >
+                {t("resource.checkout.select_payment_method")}
+              </div>
+            </div> */}
+            <div className={`subheading-3`}>Payment method</div>
+            {/* {showFailedMessage && (
+              <div className={styles.paymentFailedHeader}>
+                <div className={styles.redSplit}></div>
+                <CheckoutPaymentFailure
+                  paymentErrHeading={paymentErrHeading}
+                  paymentErrMsg={paymentErrMsg}
+                ></CheckoutPaymentFailure>
+              </div>
+            )} */}
+            <CheckoutPaymentContent
+              payment={payment}
+              loader={loader}
+              handleShowFailedMessage={handleShowFailedMessage}
+              onPriceDetailsClick={onPriceDetailsClick}
+              breakUpValues={breakUpValues}
+              removeDialogueError={hideFailedMessage}
+              setCancelQrPayment={setCancelQrPayment}
+              juspayErrorMessage={juspayErrorMessage}
+              isCouponApplied={isCouponApplied}
+              setMopPayload={setMopPayload}
+              isCouponValid={isCouponValid}
+              setIsCouponValid={setIsCouponValid}
+              inValidCouponData={inValidCouponData}
+              hasZeroStoreCredits={hasZeroStoreCredits}
+              showCODUnavailableToast={showCODUnavailableToast}
+            ></CheckoutPaymentContent>
+          </>
+        ) : (
+          <div className={styles.reviewHeaderUnselect}>
+            <SvgWrapper svgSrc={"three-number"}></SvgWrapper>
+            <div className={styles.title}>
+              {t("resource.checkout.select_payment_method")}
+            </div>
+          </div>
+        )}
+      </div>
+    </>
+  );
+}
+
+export default CheckoutPayment;

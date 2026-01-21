@@ -1,0 +1,336 @@
+@import "../main.less";
+
+// Mobile full height section styles
+section {
+  @media @mobile {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    overflow: hidden;
+  }
+}
+
+.video_heading {
+  text-align: center;
+  margin-top: 16px;
+  margin-bottom: 16px;
+  word-wrap: break-word;
+}
+.error_message {
+  color: red;
+  align-items: center;
+  justify-content: center;
+}
+
+.video_container {
+  background-color: @LightGray;
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  z-index: 0;
+  margin: 0;
+  padding: 0;
+  
+  // Mobile full height styles
+  @media @mobile {
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+  }
+      
+  video {
+    width: 100%;
+    height: auto;
+    display: block;
+    // iOS-optimized rendering properties
+    image-rendering: auto;
+    -webkit-image-rendering: auto;
+    // Hardware acceleration for smooth playback
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    -webkit-perspective: 1000;
+    perspective: 1000;
+    // Prevent flickering on iOS
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    // Smooth video rendering
+    -webkit-filter: blur(0);
+    filter: blur(0);
+    // Ensure proper scaling
+    object-fit: cover;
+    object-position: center;
+    // Prevent video refresh/reload issues
+    -webkit-appearance: none;
+    appearance: none;
+    
+    // Mobile full height video with iOS optimizations
+    @media @mobile {
+      height: 100vh;
+      object-fit: cover;
+      // Additional iOS-specific fixes
+      -webkit-overflow-scrolling: touch;
+      // Prevent zoom on double tap
+      touch-action: manipulation;
+      // Stabilize video on iOS
+      -webkit-transform: translateZ(0) scale(1.0001);
+      transform: translateZ(0) scale(1.0001);
+    }
+    
+    @media @tablet {
+      &::-webkit-media-controls {
+        display: none ;/* Hides controls */
+      }
+
+      &::-moz-media-controls {
+        display: none ; /* For Firefox */
+      }
+    }
+  }
+
+  &:hover {
+    @media @desktop {
+      .pauseButton {
+        display: block;
+      }
+    }
+  }
+}
+
+.youtube_wrapper {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 56.25%; // 16:9 aspect ratio
+  // iOS-optimized hardware acceleration
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transform: translate3d(0, 0, 0);
+  transform: translate3d(0, 0, 0);
+  -webkit-perspective: 1000;
+  perspective: 1000;
+  // Prevent flickering
+  -webkit-transform-style: preserve-3d;
+  transform-style: preserve-3d;
+  
+  // Mobile full height YouTube wrapper with iOS fixes
+  @media @mobile {
+    height: 100vh;
+    padding-bottom: 0;
+    // iOS-specific optimizations
+    -webkit-overflow-scrolling: touch;
+    touch-action: manipulation;
+  }
+}
+
+.yt_video {
+  position: absolute;
+  top: 0;
+  inset-inline-start: 0;
+  width: 100%;
+  height: 100%;
+  // Ensure crisp rendering for YouTube iframe
+  image-rendering: crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: optimize-contrast;
+  
+  iframe {
+    width: 100% ;
+    height: 100% ;
+    border: none;
+    // iOS-optimized hardware acceleration
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-perspective: 1000;
+    perspective: 1000;
+    // Prevent iframe flickering on iOS
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    // Smooth rendering
+    -webkit-filter: blur(0);
+    filter: blur(0);
+  }
+}
+
+
+// ... (rest of the CSS remains the same)
+.center-overlay {
+  text-align: center;
+  inset: 50% auto auto 50%;
+  transform: translate(-50%, -50%);
+  [dir="rtl"] & {
+    transform: translate(50%, -50%);
+  }
+}
+.overlay_noimage {
+  margin: 50px 0;
+  &.youtube_noimage {
+    display: none;
+  }
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1000;
+  
+  &__image,
+  &__color {
+    position: absolute;
+    inset: 0;
+  }
+  &__content {
+    position: absolute;
+    top: 50%;
+    inset-inline-start: 50%;
+    transform: translate(-50%, -50%);
+    [dir="rtl"] & {
+      transform: translate(50%, -50%);
+    }
+  }
+  &__playButton {
+    // #play {
+    width: 80px;
+    height: 80px;
+    opacity: 0.5;
+    cursor: pointer;
+    //   }
+  }
+  .btn {
+    padding: 15px;
+    border-radius: 5px;
+    border: none;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+}
+.pauseButton {
+  width: 80px;
+  height: 80px;
+  opacity: 0.5;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  [dir="rtl"] & {
+    transform: translate(50%, -50%);
+  }
+  top: 50%;
+  inset-inline-start: 50%;
+  cursor: pointer;
+  display: none;
+}
+.deafult-backround {
+  background: @Gray;
+}
+
+.bottom_left_text,
+.bottom_right_text {
+  font-family: 'Archivo';
+  position: absolute;
+  bottom: 17px;
+  color: @HeaderNav;
+  font-weight: 500;
+  z-index: 1002;
+  text-transform: uppercase;
+  white-space: nowrap;
+  
+  a{
+        color: @HeaderNav;
+    text-decoration: none;
+    pointer-events: auto;
+    &:hover {
+      text-decoration: underline;
+      color: #ffffff;
+      transition: color 0.3s ease;
+    }
+  }
+  
+  
+}
+
+.bottom_left_text {
+  left: 30px;
+  font-weight: 400;
+  font-size: 11px;
+  [dir="rtl"] & {
+    right: 30px;
+    left: auto;
+  }
+  @media screen and (max-width: 768px) {
+    font-size: 11px;
+    bottom: 17px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    width: auto;
+    display: block;
+  }
+}
+
+.bottom_right_text {
+  right: 30px;
+  font-weight: 400;
+  font-size: 11px;
+  pointer-events: auto;
+  color: inherit;
+  text-decoration: none;
+  &:hover {
+    color: #ffffff;
+    transition: color 0.3s ease;
+  }
+  [dir="rtl"] & {
+    left: 30px;
+    right: auto;
+  }
+  @media screen and (max-width: 768px) {
+    font-size: 11px;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    width: auto;
+    display: block;
+    right: auto;
+  }
+}
+
+.cta_button_container {
+  position: absolute;
+  bottom: 86px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1002;
+  border-radius: 0px;
+  @media @mobile {
+    bottom: 87px;
+  }
+}
+
+.cta_button {
+  background: @HeaderBackground;
+  color: @HeaderNav;
+  padding: 8px;
+  font-size: 11px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: 0px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  white-space: nowrap;
+  font-family: 'Archivo';
+  font-style: normal;
+  
+  &:hover {
+    background: rgba(255, 255, 255, 1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+
+}

@@ -1,0 +1,49 @@
+@import "../../../styles/main.less";
+
+.inputGroupContainer {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
+  .error {
+    color: #5c2e20;
+    font-weight: 400;
+    font-size: 12px;
+    padding-top: 5px;
+  }
+}
+
+.label {
+  color: @TextLabel;
+  font-size: 12px;
+  line-height: 21px;
+}
+.required {
+  color: #5c2e20;
+}
+
+.fyInput {
+  accent-color: @ButtonPrimary;
+  height: 16px;
+  aspect-ratio: 1;
+}
+
+.fyInputGroup {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.inputContainer {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.inputLabel {
+  font-size: 14px;
+  color: @TextBody;
+}

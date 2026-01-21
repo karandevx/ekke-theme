@@ -1,0 +1,215 @@
+@import "../../../styles/main.less";
+
+.mainContainer {
+  display: flex;
+  // max-width: 1440px;
+  // margin: auto;
+  align-items: flex-start;
+  // min-height: 100vh;
+  margin-bottom: 34px;
+
+  @media @tablet-range {
+    justify-content: center;
+  }
+  @media @tablet {
+    display: block;
+    padding: 0px;
+    margin-bottom: 20px;
+  }
+}
+.leftContainer {
+  width: 51%;
+  padding: 0 20px 0 10px;
+  // position: sticky;
+  // top: 182px;
+  // max-height: calc(100vh - 182px);
+
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 0;
+  }
+  // margin-inline-end: 2%;
+  // @media @tablet-range {
+  //   width: 64.3%;
+  //   margin-inline-end: 1.7%;
+  // }
+  // @media @tablet {
+  //   width: 100%;
+  //   margin-inline-end: 0;
+  // }
+}
+.rightContainer {
+  width: 51%;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 0 10px 10px 10px;
+  // Enable scrolling for right container only for its own content
+  overflow-y: auto;
+  // Stick to top while scrolling, but allow overall page scroll
+  position: sticky;
+  top: 20px;
+  align-self: flex-start;
+  // Max height allows internal scrolling without blocking page scroll
+  max-height: calc(100vh - 40px);
+
+  @media @tablet {
+    display: none;
+  }
+}
+
+.orderSummaryBtn {
+  display: none;
+
+  @media @tablet {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+    padding: 16px !important;
+    font-family: "Archivo";
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 1.2;
+    text-transform: uppercase;
+    color: #171717;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    border-bottom: 1px solid #eeeeee;
+
+    &:hover {
+      opacity: 0.7;
+    }
+  }
+}
+.orderSummaryModalContainer {
+  @media @tablet {
+    position: fixed !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+    // animation: slideInFromRight 0.3s ease-out forwards;
+    // transform: translateX(100%);
+    display: flex !important;
+    flex-direction: column !important;
+  }
+}
+
+.orderSummaryModalContainerWithAnnouncement {
+  @media @tablet {
+    top: 181px !important;
+    // height: 100vh !important;
+    height: calc(100vh - 181px) !important;
+    // max-height: 100vh !important;
+    max-height: calc(100vh - 181px) !important;
+    // Fallback for browsers that don't support dvh
+    // height: calc(var(--vh, 1vh) * 100 - 181px) !important;
+    // max-height: calc(var(--vh, 1vh) * 100 - 181px) !important;
+  }
+}
+
+.orderSummaryModalContainerWithoutAnnouncement {
+  @media @tablet {
+    top: 155px !important;
+    // height: 100vh !important;
+    height: calc(100vh - 155px) !important;
+    // max-height: 100vh !important;
+    max-height: calc(100vh - 155px) !important;
+    // Fallback for browsers that don't support dvh
+    // height: calc(var(--vh, 1vh) * 100 - 155px) !important;
+    // max-height: calc(var(--vh, 1vh) * 100 - 155px) !important;
+  }
+}
+.orderSummaryModalBody {
+  @media @tablet {
+    flex: 1 !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    padding: 0 !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+}
+.modalHeader {
+  background: #ffffff;
+  border-bottom: 1px solid #eeeeee;
+  padding: 16px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.closeBtn {
+  font-family: "Archivo", sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: 1.2;
+  text-transform: uppercase;
+  color: #171717;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+.orderSummaryModal {
+  background: #f7f7f5;
+}
+.orderSummaryModalCustom {
+  &:before {
+    content: "";
+    background-color: transparent !important;
+    opacity: 0 !important;
+    transition: opacity 0.3s ease;
+  }
+}
+
+.orderSummaryModalContainer {
+  // animation: slideInFromRight 0.3s ease-out forwards;
+  // transform: translateX(100%);
+}
+
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+.customStyles {
+  @media @tablet {
+    padding-inline-start: 16px !important;
+    padding-inline-end: 16px !important;
+  }
+}
+.customStylesShipment {
+  @media @tablet {
+    border-radius: 0;
+  }
+
+  .placeOrderBtn {
+    font-weight: 600;
+    font-size: 12px;
+    padding: 12px 16px;
+    border-radius: 5px;
+    border: 1px solid var(--buttonPrimary);
+    background-color: var(--buttonPrimary);
+    color: var(--buttonSecondary);
+    line-height: 140%;
+    height: auto;
+  }
+}

@@ -1,0 +1,231 @@
+@import "../../../styles/main.less";
+
+.addressHeaderContainer {
+  padding: 8px 0 24px 0;
+
+  @media (min-width: 481px) and (max-width: 1024px) {
+    padding: 20px 16px;
+  }
+  // @media @desktop {
+  //   border-radius: 8px 8px 0 0;
+  // }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &__mobile {
+    display: none;
+
+    @media @mobile {
+      display: flex;
+    }
+  }
+
+  &__desktop {
+    display: flex;
+  }
+
+  @media @mobile {
+    padding: 20px 16px;
+    border-width: 1px 0;
+  }
+  .selectedAddressSection {
+    display: flex;
+    padding: 6px 16px;
+    justify-content: space-between;
+    width: 100%;
+    @media @mobile {
+      padding: 6px;
+    }
+    .deliverTo {
+      display: flex;
+      flex-direction: column;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 140%;
+      align-self: center;
+      margin-inline-end: 5px;
+
+      .deliverToName {
+        font-weight: 600;
+        margin-bottom: 5px;
+        line-height: 140%;
+      }
+    }
+
+    .changeButton {
+      align-self: center;
+
+      button {
+        padding: 12px 16px;
+        @media @mobile {
+          padding: 6px;
+        }
+        background: white;
+        border: 1px solid var(--primaryColor);
+        color: var(--primaryColor);
+        border-radius: 4px;
+      }
+    }
+  }
+
+  .wrapper {
+    display: flex;
+    @media @mobile {
+      display: none;
+    }
+
+    .checkMark {
+      align-self: center;
+    }
+
+    .one {
+      align-self: center;
+    }
+
+    .headerWrapper {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+    }
+
+    .addressHeading {
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 140%;
+    }
+
+    .addressString {
+      font-size: 12px;
+      color: var(--textBody);
+      font-weight: 400;
+      line-height: 140%;
+    }
+  }
+
+  .buttonWrapper {
+    display: flex;
+    align-items: center;
+
+    .addBtn {
+      font-weight: 600;
+      font-size: 12px;
+      padding: 4px 6px;
+      color: #171717;
+      background-color: transparent;
+      border: 1px solid #171717;
+      text-transform: uppercase;
+      text-align: center;
+      line-height: 140%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .addBtn.headerEdit {
+      padding: 8px 10px;
+    }
+  }
+}
+
+.addressSelectedHeaderContainer {
+  padding: 24px;
+  display: flex;
+  border-radius: 8px;
+  @media @tablet {
+    border-radius: unset;
+  }
+  @media @tablet-range {
+    padding: 16px;
+  }
+  justify-content: space-between;
+  border: 1px solid var(--dividerStokes);
+  align-items: center;
+  gap: 8px;
+  @media @mobile {
+    padding: 16px;
+    border-width: 1px 0;
+  }
+  .leftSelected {
+    display: flex;
+    gap: 16px;
+    min-width: 0;
+    .icon {
+      @media @mobile {
+        display: none;
+      }
+    }
+  }
+
+  .deliverAdd {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 4px;
+    min-width: 0;
+    .title {
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 140%;
+    }
+  }
+
+  .address {
+    font-size: 12px;
+    color: var(--textBody);
+    font-weight: 400;
+    line-height: 140%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .rightSelected {
+    font-weight: 600;
+    font-size: 12px;
+    padding: 12px 16px;
+    border-radius: @ButtonRadius;
+    color: var(--buttonPrimary);
+    border: 1px solid var(--buttonPrimary);
+    text-transform: uppercase;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+}
+.addressWrapper {
+  max-width: 432px;
+  padding: 16px;
+}
+
+.hideAddress {
+  @media @mobile {
+    display: none;
+  }
+}
+
+.addressModalContainer {
+  display: block;
+  border-radius: 0px !important;
+  border: 1px solid @ekkeLightGray !important;
+  background: @ekkeLightGray !important;
+}
+
+.addressModalBody {
+  display: grid;
+  grid-template-columns: 450px;
+  grid-template-rows: 1fr;
+  min-height: 84.26vh;
+  overflow: hidden;
+
+  @media @tablet {
+    grid-template-columns: 1fr;
+    max-height: unset;
+    height: 100dvh;
+  }
+}
+
+.addressModalContainer {
+  margin: 24px;
+}

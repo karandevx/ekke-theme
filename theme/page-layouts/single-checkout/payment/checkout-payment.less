@@ -1,0 +1,133 @@
+@import "../../../styles/main.less";
+
+.paymentContainer {
+  margin-top: 20px;
+
+  @media @tablet {
+    padding: 12px 10px;
+    margin-top: 0;
+  }
+  &.disabledPayment {
+    pointer-events: none; /* Prevents clicks */
+    opacity: 0.5;
+    display: none;
+  }
+  @media @desktop {
+    border-radius: 8px;
+  }
+  &.unsetMarginTop {
+    margin-top: unset !important;
+  }
+
+  @media @mobile-up {
+    // margin-top: 20px;
+  }
+
+  @media @mobile {
+    // margin-top: 12px;
+
+    &.hidePayment {
+      display: none;
+    }
+  }
+
+  .creditNote {
+    margin-bottom: 12px;
+
+    @media @mobile-up {
+      display: none;
+    }
+  }
+  .reviewHeaderUnselect {
+    padding: 24px;
+    @media @desktop {
+      border-radius: 8px;
+    }
+    @media @tablet-range {
+      padding: 16px;
+    }
+    display: flex;
+    border: 1px solid var(--dividerStokes);
+
+    opacity: 0.5;
+    @media @mobile {
+      display: none;
+    }
+
+    .title {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      padding-inline-start: 15px;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 140%;
+      color: var(--textHeading);
+    }
+    .unsetPaddingLeft {
+      padding-inline-start: 0 !important;
+    }
+  }
+  .paymentHeaderSelect {
+    display: flex;
+    align-items: center;
+    padding: 24px;
+    border-radius: 8px 8px 0 0;
+    @media @tablet-range {
+      padding: 16px;
+    }
+    border: 1px solid var(--dividerStokes);
+    background-color: @PageBackground;
+    &.unsetBorder {
+      border: unset !important;
+      @media @desktop {
+        padding-bottom: 16px !important;
+      }
+      @media @mobile {
+        border-bottom: 1px solid var(--dividerStokes) !important;
+      }
+    }
+    @media @tablet {
+      padding: 16px;
+      border-radius: 0;
+    }
+    @media @mobile {
+      padding: 16px;
+      border: 1px solid var(--dividerStokes);
+      border-width: 1px 0;
+      border-radius: 0;
+    }
+    .title {
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 140%;
+      color: var(--textHeading);
+      @media @mobile-up {
+        padding-inline-start: 15px;
+      }
+    }
+    .unsetPaddingLeft {
+      padding-inline-start: 0 !important;
+    }
+  }
+  .paymentFailedHeader {
+    padding: 24px;
+    border-width: 0 1px 1px 1px;
+    border-color: var(--dividerStokes);
+    border-style: solid;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    padding: 24px;
+    flex-direction: row;
+    @media @mobile {
+      padding: 20px;
+    }
+
+    .redSplit {
+      width: 8px;
+      background: @ErrorText;
+      border-radius: 8px 0px 0px 8px;
+    }
+  }
+}

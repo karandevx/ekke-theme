@@ -1,0 +1,284 @@
+@import "../main.less";
+
+.newsletterSection {
+  width: 100%;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  height: 100%;
+  background-color: @primary-background;
+}
+
+.container {
+  width: 100%;
+  max-width: 680px;
+  margin: 0 auto;
+}
+
+.content {
+  text-align: center;
+}
+.messageHeading {
+  text-align: center;
+
+  /* Text/Highlight */
+  font-family: Archivo;
+  font-size: var(--Text-Sizes-Highlight, 32px);
+  font-style: normal;
+  font-weight: 200;
+  line-height: 120%; /* 38.4px */
+}
+.messageDescription {
+  font-family: Archivo;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 120%; /* 13.2px */
+  text-transform: uppercase;
+}
+
+.heading {
+  margin: 0 0 48px 0;
+  font-weight: 200;
+}
+
+.description {
+  margin: 0 0 48px 0;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  font-weight: 200;
+  line-height: 120%;
+}
+
+.form {
+  width: 100%;
+}
+
+.inputWrapper {
+  display: flex;
+  // align-items: stretch; // Changed from center to stretch for uniform height
+  justify-content: center;
+  gap: 0;
+  position: relative;
+  border: 1px solid transparent; // Default border color instead of transparent
+  background: @color-white;
+  position: relative;
+  transition: width 0.7s ease-in-out;
+
+  @media (max-width: 780px) {
+    height: 32px;
+  }
+
+  input {
+    height: 24px;
+    @media (max-width: 780px) {
+      height: 32px;
+    }
+  }
+  &.widthDefault {
+    // max-width: 306px;
+    // margin: 0 auto;
+  }
+
+  // Width for interactive state (hover, focus, typing, etc.)
+  &.widthInteractive {
+    max-width: 446px;
+    margin: 0 auto;
+  }
+
+  // State-specific wrapper styling (unified border around input + button)
+  &.disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    background-color: #f5f5f5;
+    border-color: #e0e0e0;
+  }
+
+  &.error {
+    border-color: @color-brown;
+  }
+
+  &.confirmed {
+    border-color: #28a745;
+  }
+
+  &.typing {
+    border-color: #007bff;
+  }
+
+  &.entered {
+    border-color: #6c757d;
+  }
+
+  &.focused {
+    border-color: #495057;
+    outline: none;
+  }
+
+  &.hover {
+    border-color: #6c757d;
+  }
+
+  &.blurred {
+    border: none !important; // Completely remove border
+    border-color: transparent !important; // No border when blurred with content - use !important to override other states
+  }
+}
+
+.emailInput {
+  flex: 1;
+  padding: 8px;
+  background: transparent;
+  font-size: 11px;
+  font-family: Archivo !important;
+  font-weight: 400;
+  font-style: normal;
+  // letter-spacing: 1.2px;
+  text-transform: uppercase;
+  border: none !important; // Force remove all borders
+  color: @TextHeading;
+  outline: none !important; // Force remove outline
+  height: 100%;
+  box-shadow: none !important; // Remove any box-shadow
+  -webkit-appearance: none; // Remove webkit styling
+  -moz-appearance: none; // Remove firefox styling
+
+  // iOS Safari specific fixes for placeholder
+  &::placeholder {
+    letter-spacing: 0.8px;
+    opacity: 1;
+    color: #aaaaaa; // Default no interaction color
+    -webkit-text-fill-color: #aaaaaa;
+  }
+
+  // Placeholder color when there's interaction
+  &.hasInteraction::placeholder {
+    color: #171717;
+    -webkit-text-fill-color: #171717;
+  }
+
+  // Additional iOS fixes
+  @supports (-webkit-touch-callout: none) {
+    &::placeholder {
+      letter-spacing: 1.2px !important;
+      -webkit-appearance: none;
+    }
+
+    &.hasInteraction::placeholder {
+      color: #171717 !important;
+      -webkit-text-fill-color: #171717 !important;
+    }
+  }
+
+  // Force remove all focus styling
+  &:focus {
+    outline: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+  }
+
+  // Remove any active/focus states
+  &:active {
+    outline: none !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+}
+
+.submitButton {
+  padding: 8px 12px;
+  color: @neutral-light;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  background-color: transparent;
+  border: none !important; // Force remove all borders
+  outline: none !important; // Force remove outline
+  height: 100%;
+  display: flex;
+  align-items: center;
+  box-shadow: none !important; // Remove any box-shadow
+
+  // Hover state - make text slightly darker when button is active (not disabled)
+  &:hover:not(:disabled) {
+    color: #000000;
+    opacity: 1;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    color: @neutral-light;
+  }
+
+  &:focus {
+    outline: none !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  &:active {
+    outline: none !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+}
+
+.message {
+  margin-top: 20px;
+  padding: 10px;
+  border-radius: 4px;
+  font-size: 14px;
+
+  &.success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+  }
+
+  &.error {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+  }
+}
+
+// Mobile Responsive Design
+@media (max-width: 768px) {
+  .newsletterSection {
+    padding: 60px 20px;
+  }
+
+  .heading {
+    margin-bottom: 20px;
+  }
+
+  .description {
+    margin-bottom: 40px;
+    padding: 0 10px;
+  }
+
+  .emailInput {
+    width: 100%;
+    padding: 12px 0 12px 8px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .newsletterSection {
+    padding: 50px 15px;
+  }
+
+  .submitButton {
+    padding: 12px 8px 12px 0 !important;
+  }
+}

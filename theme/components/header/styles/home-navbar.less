@@ -1,0 +1,862 @@
+@import "../../../styles/main.less";
+
+// Container for navbar and dropdown
+.navbarContainer {
+  position: relative;
+  width: 100%;
+}
+
+.homeNavbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 56px;
+  background-color: #f7f7f5;
+  border-bottom: 1px solid #e5e5e5;
+  padding: 0 16px 0 20px;
+
+  // DESKTOP LAYOUT
+  .desktopLayout {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    position: relative;
+
+    .leftNav {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      flex: 1;
+
+      .navItem {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        position: relative;
+
+        .hoverBullet {
+          width: 4px;
+          height: 4px;
+          background-color: @color-black;
+          position: absolute;
+          left: -8px;
+          opacity: 0;
+          transition: opacity 0.3s ease;
+          top: 50%;
+          transform: translateY(-50%);
+          border-radius: 1px;
+        }
+
+        &:hover .hoverBullet {
+          opacity: 1;
+        }
+
+        &.activeNavItem .hoverBullet {
+          opacity: 1;
+        }
+
+        .bullet {
+          color: #000000;
+          font-size: 12px;
+          font-weight: 400;
+          line-height: 1;
+        }
+
+        .navLink {
+          text-decoration: none;
+
+          .navText {
+            color: @TextHeading;
+            font-family: "Archivo";
+            font-size: 11px;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            line-height: 120%;
+            transition: color 0.3s ease;
+
+            &:hover {
+              color: #666666;
+            }
+          }
+        }
+
+        .navButton {
+          background: none;
+          border: none;
+          cursor: pointer;
+          padding: 0;
+          text-decoration: none;
+
+          .navText {
+            color: @color-black;
+            font-family: "Archivo";
+            font-size: @text-1;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            line-height: 120%;
+            transition: color 0.3s ease;
+
+            &:hover {
+              color: #666666;
+            }
+          }
+        }
+      }
+    }
+
+    .rightNav {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      flex: 1;
+      justify-content: flex-end;
+
+      .navItem {
+        display: flex;
+        align-items: center;
+        position: relative;
+
+        .hoverBullet {
+          width: 4px;
+          height: 4px;
+          background-color: #000000;
+          position: absolute;
+          left: -8px;
+          opacity: 0;
+          transition: opacity 0.3s ease;
+          top: 50%;
+          border-radius: 1px;
+        }
+
+        &:hover .hoverBullet {
+          opacity: 1;
+        }
+
+        .navLink {
+          text-decoration: none;
+
+          .navText {
+            color: @color-black;
+            font-family: "Archivo";
+            font-size: @text-1;
+            font-weight: 400;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            line-height: 120%;
+            transition: color 0.3s ease;
+
+            &:hover {
+              color: #666666;
+            }
+          }
+        }
+      }
+
+      .navAction {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        padding-top: 5px;
+        position: relative;
+
+        .hoverBullet {
+          width: 4px;
+          height: 4px;
+          background-color: #000000;
+          position: absolute;
+          left: -8px;
+          border-radius: 1px;
+          opacity: 0;
+          transition: opacity 0.3s ease;
+          top: 50%;
+        }
+
+        &:hover .hoverBullet {
+          opacity: 1;
+        }
+
+        .actionIcon {
+          width: 16px;
+          height: 16px;
+        }
+
+        .actionText {
+          color: @color-black;
+          font-family: "Archivo";
+          font-size: @text-1;
+          font-weight: 400;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          line-height: 120%;
+          transition: color 0.3s ease;
+        }
+
+        &:hover {
+          .actionText {
+            color: #666666;
+          }
+        }
+        .cartCount {
+          color: @neutral-light;
+          font-family: "Archivo";
+          font-size: @text-1;
+          font-weight: 400;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          line-height: 120%;
+        }
+        /* 🔥 New: keep bullet visible when search modal is open */
+        &.activeNavAction {
+          .hoverBullet {
+            opacity: 1;
+          }
+        }
+      }
+    }
+
+    // Center logo styling
+    .logoLink {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      text-decoration: none;
+      z-index: 10;
+
+      .logoImage {
+        width: auto;
+        height: 16px;
+      }
+    }
+  }
+
+  // MOBILE LAYOUT
+  .mobileLayout {
+    display: none;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    position: relative;
+
+    .mobileLeft {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+
+      .mobileMenuButton {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+
+        .mobileMenuBullet {
+          width: 4px;
+          height: 4px;
+          background-color: #000000;
+          border-radius: 1px;
+        }
+
+        .menuText {
+          color: #000000;
+          font-family: "Archivo";
+          font-size: 11px;
+          font-weight: 400;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+      }
+
+      .mobileIcon {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        display: flex;
+        align-items: center;
+
+        .mobileSearchIcon {
+          width: 16px;
+          height: 16px;
+        }
+      }
+    }
+
+    // Center logo styling for mobile
+    .mobileLogoLink {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      text-decoration: none;
+      z-index: 10;
+
+      .mobileLogoImage {
+        height: 20px;
+        width: auto;
+      }
+    }
+
+    .mobileRight {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+
+      .mobileIcon {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        display: flex;
+        align-items: center;
+
+        .mobileUserIcon {
+          width: 16px;
+          height: 16px;
+        }
+      }
+
+      .mobileCartButton {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        color: @color-black !important;
+
+        .mobileCartText {
+          font-size: 11px !important;
+        }
+      }
+    }
+  }
+
+  // MEDIA QUERIES
+  @media (max-width: 900px) {
+    padding: 0 16px;
+
+    .desktopLayout {
+      display: none;
+    }
+
+    .mobileLayout {
+      display: flex;
+    }
+  }
+}
+
+// DROPDOWN STYLES
+.dropdownContainer {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  z-index: 50;
+  background-color: white;
+  border-top: 1px solid #aaaaaa;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  max-height: 548px;
+
+  .dropdownContent {
+    display: flex;
+    width: 100%;
+    height: 548px;
+  }
+
+  .leftSection {
+    width: 50%;
+    display: flex;
+    border-right: 1px solid #aaaaaa;
+    height: 100%;
+  }
+
+  .rightSection {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .navigationColumn {
+    flex: 1;
+    border-right: 1px solid #aaaaaa;
+
+    &:last-child {
+      border-right: none;
+    }
+
+    .columnHeader {
+      background-color: #f7f7f5;
+      display: flex;
+      align-items: center;
+      height: 24px;
+      padding-left: 8px;
+
+      .headerText {
+        color: #aaaaaa;
+        font-size: 11px;
+        font-family: "Archivo";
+        font-weight: 400;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+    }
+
+    .columnContent {
+      padding: 20px 10px;
+
+      // Highlight first menu item (text + bullet/indicator)
+      .dropdownMenuItem:first-child:not(
+          .sectionSpacer .dropdownMenuItem:first-child
+        )
+        .menuItemText {
+        color: #5c2e20;
+      }
+
+      .dropdownMenuItem:first-child:not(
+          .sectionSpacer .dropdownMenuItem
+        ):hover {
+        color: @color-white;
+        .menuItemText {
+          color: @color-white;
+        }
+      }
+    }
+
+    .columnScrollContent {
+      padding: 20px 10px 10px 10px;
+      height: 243px;
+      overflow-y: auto;
+      scrollbar-width: auto;
+
+      &::-webkit-scrollbar {
+        width: 2px;
+        height: 20px;
+      }
+      &::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: @color-black;
+      }
+
+      &::-webkit-scrollbar-thumb:hover {
+        background: @color-black;
+      }
+
+      .dropdownMenuItem:first-child {
+        margin-bottom: 40px;
+        padding-bottom: 8px;
+      }
+    }
+
+    .sectionSpacer {
+      margin-top: 40px;
+    }
+  }
+
+  .dropdownMenuItem {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 0;
+    width: 100%;
+    max-height: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+
+    &:hover {
+      background-color: @color-brown;
+      color: @color-white;
+      .menuItemText {
+        color: @color-white;
+      }
+    }
+
+    .menuItemBullet {
+      width: 8px;
+      height: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .menuItemText {
+      font-family: "Archivo";
+      font-size: 11px;
+      font-weight: 400;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+      text-align: left;
+      line-height: 8px;
+      transition: color 0.2s ease;
+      color: @color-black;
+
+      &.activeMenuItem {
+        color: @color-brown;
+      }
+    }
+    :hover {
+      .menuItemText {
+        color: @color-white;
+      }
+    }
+  }
+
+  .imageContainer {
+    display: flex;
+    width: 100%;
+    height: 548px;
+    gap: 0;
+  }
+
+  .categoryImageContainer {
+    width: 230px;
+    height: 548px;
+    flex-shrink: 0;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .categoryImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+
+    img {
+      width: 100%;
+      height: 274px;
+    }
+
+    .categoryImagePlaceholder {
+      color: #aaaaaa;
+      font-size: 12px;
+      font-family: "Archivo";
+      font-weight: 400;
+      text-align: center;
+      padding: 20px;
+    }
+  }
+
+  .imageButtonContainer {
+    padding: 20px 10px 10px 10px;
+  }
+
+  .imageButton {
+    color: @color-black;
+    font-size: 12px;
+    font-family: "Archivo";
+    font-weight: 400;
+    text-decoration: underline;
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: text-decoration 0.2s ease;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  .subcategoryImageContainer {
+    flex: 1;
+    height: 548px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .subcategoryImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .subcategoryImagePlaceholder {
+      color: #aaaaaa;
+      font-size: 12px;
+      font-family: "Archivo";
+      font-weight: 400;
+      text-align: center;
+      padding: 20px;
+    }
+  }
+}
+
+// MOBILE DROPDOWN STYLES
+.mobileDropdownContainer {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  height: calc(100vh - 80px); // 80px announcement bar + 56px header
+  max-height: calc(100vh - 80px);
+  z-index: 50;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  .mobileFiltersSection {
+    width: 100%;
+    flex-shrink: 0;
+
+    .mobileFiltersNav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 20px;
+      background-color: white;
+      border-bottom: 1px solid #e5e5e5;
+
+      .mobileFiltersContent {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+
+        .mobileFilterButton {
+          display: flex;
+          align-items: center;
+          background: none;
+          border: none;
+          cursor: pointer;
+
+          .mobileFilterBullet {
+            width: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+
+            .mobileFilterIndicator {
+              width: 4px;
+              height: 4px;
+              background-color: #000000;
+              border-radius: 1px;
+            }
+          }
+
+          .mobileFilterText {
+            font-family: "Archivo";
+            font-size: 11px;
+            font-weight: 400;
+            color: #000000;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            line-height: 13.2px;
+            white-space: nowrap;
+          }
+        }
+      }
+    }
+  }
+
+  .mobileMenuContent {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    position: relative;
+    padding-bottom: 60px; // Extra padding to ensure last items are scrollable
+
+    &::-webkit-scrollbar {
+      width: 8px;
+      -webkit-appearance: none;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: @color-black;
+      border-radius: 3px;
+    }
+
+    scrollbar-width: thin;
+    scrollbar-color: #000000 transparent;
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 8px;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.1);
+      pointer-events: none;
+    }
+
+    @media screen and (-webkit-min-device-pixel-ratio: 1) {
+      &::-webkit-scrollbar {
+        width: 8px !important;
+        -webkit-appearance: none !important;
+        display: block !important;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: rgba(0, 0, 0, 0.1) !important;
+        -webkit-appearance: none !important;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: #000000 !important;
+        border-radius: 3px !important;
+        -webkit-appearance: none !important;
+        min-height: 20px !important;
+      }
+
+      overflow-y: scroll !important;
+      -webkit-overflow-scrolling: auto !important;
+    }
+
+    @supports (-webkit-touch-callout: none) {
+      scrollbar-width: auto !important;
+
+      &::-webkit-scrollbar {
+        width: 8px !important;
+        background: rgba(0, 0, 0, 0.1) !important;
+        -webkit-appearance: none !important;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: #000000 !important;
+        border-radius: 3px !important;
+        -webkit-appearance: none !important;
+      }
+    }
+
+    .mobileMenuSection {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      flex-shrink: 0;
+
+      .mobileMenuHeader {
+        display: flex;
+        align-items: center;
+        padding: 0 0 0 8px;
+        background-color: #f7f7f5;
+        height: 32px;
+
+        .mobileMenuHeaderText {
+          font-family: "Archivo";
+          font-size: 11px;
+          font-weight: 400;
+          color: #aaaaaa;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          line-height: 13.2px;
+          white-space: nowrap;
+        }
+      }
+
+      .mobileMenuItems {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        background-color: white;
+
+        .mobileMenuItem {
+          display: flex;
+          align-items: center;
+          padding: 12px 0 12px 22px;
+          width: 100%;
+          flex-shrink: 0;
+          color: #171717;
+
+          &.active {
+            color: white;
+            background-color: #5c2e20;
+          }
+
+          .mobileMenuItemBullet {
+            width: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+
+            .mobileMenuIndicator {
+              width: 4px;
+              height: 4px;
+              background-color: #000000;
+              border-radius: 1px;
+            }
+          }
+
+          .mobileMenuItemText {
+            font-family: "Archivo";
+            font-size: 11px;
+            font-weight: 400;
+            color: #171717;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            line-height: 8px;
+            white-space: nowrap;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            text-align: left;
+            width: 100%;
+
+            &.active {
+              color: white;
+            }
+          }
+        }
+
+        // Highlight first mobile menu item text (match desktop)
+        .mobileMenuItem:first-child {
+          .mobileMenuItemText {
+            color: #5c2e20;
+          }
+          &:hover {
+            background-color: @color-brown;
+            .mobileMenuItemText {
+              color: @color-white;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .dropdownContainer {
+    display: none;
+  }
+
+  .mobileDropdownContainer {
+    display: flex;
+  }
+}
+
+@media screen and (min-width: 900px) {
+  .mobileDropdownContainer {
+    display: none;
+  }
+}

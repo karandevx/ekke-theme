@@ -1,0 +1,213 @@
+@import "../../../styles/main.less";
+
+.addressContentConitainer {
+  @media @desktop {
+    border-radius: 0 0 8px 8px;
+  }
+
+  .shimmer {
+    @media @mobile {
+      border-top: 1px solid @DividerStokes;
+      border-bottom: 1px solid @DividerStokes;
+    }
+
+    .defaultAddressLabel {
+      margin: 12px 0;
+
+      @media @mobile {
+        margin: 0;
+        padding: 16px 16px 0;
+      }
+    }
+
+    .addressCard {
+      border-radius: 8px;
+      border: 1px solid @DividerStokes;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+
+      @media @mobile {
+        border: none;
+      }
+      .addressActionBtn {
+        display: flex;
+        justify-content: flex-end;
+        span {
+          width: fit-content;
+        }
+      }
+
+      .addressDeliverBtn {
+        margin-top: 16px;
+      }
+    }
+  }
+
+  &.fontSize {
+    font-size: 14px;
+    @media @tablet {
+      font-size: 12px;
+    }
+  }
+  display: flex;
+  flex-direction: column;
+  @media @tablet-range {
+    padding: 16px;
+  }
+  border: 1px solid var(--dividerStokes);
+  border-top: none;
+  @media @mobile {
+    padding: 0;
+    border-width: 0;
+    gap: 12px;
+
+    .customAddressItem + .heading {
+      margin-top: 0px;
+    }
+  }
+
+  .address {
+    @media @mobile {
+      border: 1px solid var(--dividerStokes);
+      border-width: 1px 0;
+    }
+
+    .addressActions {
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      padding-top: 16px;
+    }
+  }
+  .heading {
+    font-weight: 600;
+    font-size: 12px;
+    color: var(--textBody);
+    margin: 12px 0px;
+    line-height: 140%;
+
+    @media @mobile {
+      padding: 16px 16px 0;
+      margin: 0;
+    }
+  }
+
+  .customAddressItem {
+    @media @mobile {
+      padding: 16px;
+      margin-bottom: 0;
+      border-width: 1px 0 !important;
+      border-top: none !important;
+    }
+  }
+
+  .customAddressItem:last-child {
+    @media @mobile {
+      border-bottom: none !important;
+    }
+  }
+
+  .contentTopRight {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    .edit,
+    .remove {
+      border: none;
+      color: var(--buttonLink);
+      font-style: normal;
+      font-weight: 600;
+      font-size: 12px;
+      text-align: center;
+      text-transform: uppercase;
+      line-height: 140%;
+      background: var(--pageBackground);
+      cursor: pointer;
+    }
+  }
+
+  .actionContainer {
+    margin-top: 24px;
+
+    @media @mobile {
+      position: fixed;
+      bottom: 0;
+      inset-inline-start: 0;
+      inset-inline-end: 0;
+      padding: 16px;
+      background: @PageBackground;
+      z-index: 2;
+      box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.12);
+      border-top: 1px solid var(--dividerStokes);
+    }
+
+    .deliverToThis {
+      padding: 10px;
+      border-radius: @ButtonRadius;
+      background-color: var(--buttonPrimary);
+      border: none;
+      width: 100%;
+      font-weight: 600;
+      font-size: 14px;
+      text-transform: uppercase;
+      text-align: center;
+      color: var(--buttonSecondary);
+      cursor: pointer;
+
+      @media @mobile {
+        padding: 20px 24px;
+      }
+    }
+  }
+}
+
+.invalidAddError {
+  margin-top: 24px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  gap: 4px;
+  isolation: isolate;
+  background: @ButtonSecondary;
+  border-radius: 8px;
+  .invalidAddErrorLeft {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+
+    .warningIcon {
+      flex: 0 0 20px;
+    }
+
+    .invalidAddErrorData {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      .invalidAddErrorMsg {
+        font-weight: 600;
+        font-size: 12px;
+        line-height: 140%;
+        color: @ErrorText;
+      }
+      .invalidAddErrorSuggestion {
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 140%;
+        color: @TextHeading;
+      }
+    }
+  }
+  .invalidEditCart {
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 140%;
+    text-align: center;
+    text-transform: uppercase;
+    color: @ErrorText;
+    cursor: pointer;
+  }
+}

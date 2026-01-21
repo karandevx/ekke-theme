@@ -1,0 +1,92 @@
+@import "../../../styles/main.less";
+
+.mobileInputWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  
+  .errorText {
+    color: @ErrorText;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16.8px;
+    margin-top: -8px;
+  }
+  &.errorInput {
+    label {
+      color: @ErrorText;
+      font-size: 12px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 16.8px;
+    }
+
+    .mobileNumberInput {
+      border: 1px solid @ErrorText;
+    }
+  }
+
+  .mobileInputContainer {
+    width: 100%;
+    height: auto;
+    // min-height: 32px;
+    max-height: 24px;
+
+    .dialCodePreview {
+      border-inline: none;
+      padding-inline-end: 4px;
+      font-size: 11px;
+      color: #171717;
+      font-family: 'Archivo', sans-serif;
+      font-weight: 400;
+    }
+
+    .mobileNumberInput {
+      width: 100%;
+      font-weight: 400;
+      display: flex;
+      border-inline-start: none;
+      padding-inline-start: 4px;
+      font-size: 12px;
+      color: #171717;
+      font-family: 'Archivo', sans-serif;
+
+      &:focus-visible {
+        outline: none;
+      }
+
+      &::placeholder {
+        color: #aaaaaa;
+        opacity: 1;
+        font-size: 12px;
+        font-family: 'Archivo', sans-serif;
+        font-weight: 400;
+      }
+    }
+  }
+}
+
+ .required {
+   color: @ErrorText;
+ }
+
+.countryDropdown {
+  background-color: #ffffff;
+}
+
+.inputTitle {
+  position: relative;
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+  z-index: 1;
+  transform: none;
+  color: #aaaaaa;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.2;
+  text-transform: uppercase;
+  font-family: 'Archivo', sans-serif;
+}

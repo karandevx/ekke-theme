@@ -1,0 +1,58 @@
+@import "../../styles/main.less";
+
+.addressContent {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  margin-bottom: 12px;
+  border: 1px solid var(--dividerStokes);
+  @media @desktop {
+    border-radius: 8px;
+  }
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  @media @mobile {
+    border-width: 1px 0 !important;
+  }
+  .addressContentTop {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    .addressContentTopLeft {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      .addressName {
+        color: var(--textHeading);
+        font-style: normal;
+        font-weight: 600;
+        font-size: 14px;
+        align-self: center;
+        line-height: 140%;
+      }
+
+      .addressType {
+        padding: 4px 12px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 500;
+        line-height: 140%;
+        color: @TextHeading;
+        background-color: @HighlightColor;
+      }
+    }
+  }
+
+  .addressMid,
+  .phEnd {
+    font-weight: 400;
+    font-size: 12px;
+    margin-top: 8px;
+    line-height: 140%;
+    color: @TextBody;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+}

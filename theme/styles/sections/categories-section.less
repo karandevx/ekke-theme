@@ -1,0 +1,809 @@
+@import "../main.less";
+
+.categoriesSectionContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.categoriesSection {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  position: relative;
+  --categories-per-row: 3;
+  background-color: @primary-background;
+
+  // Dynamic spacing variables with defaults
+  --heading-top-spacing: 40px;
+  --heading-bottom-spacing: 24px;
+}
+
+// ✅ FIXED: Hero Image Container - Now uses CSS variables for responsive height
+.heroImageContainer {
+  width: 100%;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  line-height: 0;
+  font-size: 0;
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+
+  // ✅ CORRECT: Apply platform heights here, not to entire section
+  // height: var(--hero-section-height-desktop, 720px);
+
+  @media @mobile {
+    height: var(--hero-section-height-mobile, 600px);
+    isolation: unset;
+  }
+
+  @media @tablet {
+    height: var(--hero-section-height-mobile, 600px);
+  }
+}
+
+// ✅ NEW: Mobile-specific container that adapts to content height
+.heroImageContainerMobile {
+  @media @mobile {
+    height: auto !important;
+    min-height: 0;
+    isolation: unset;
+  }
+
+  @media @tablet {
+    height: auto !important;
+    min-height: 0;
+  }
+}
+
+// ✅ UPDATED: Banner containers inherit height from parent
+.imageBannerContainer {
+  position: relative;
+  width: 100%;
+  height: 100%; // ✅ INHERIT from heroImageContainer
+  overflow: hidden;
+
+  // ✅ MOBILE: Allow container to adapt to image height
+  @media @mobile {
+    height: auto;
+    min-height: 0;
+  }
+
+  @media @tablet {
+    height: auto;
+    min-height: 0;
+  }
+}
+
+.videoBannerContainer {
+  position: relative;
+  width: 100%;
+  height: auto; // ✅ INHERIT from heroImageContainer
+
+  // ✅ MOBILE: Allow container to adapt to video height
+  @media @mobile {
+    height: auto;
+    min-height: 0;
+  }
+
+  @media @tablet {
+    height: auto;
+    min-height: 0;
+  }
+
+  video {
+    width: 100%;
+    height: auto;
+
+    display: block;
+    object-fit: cover;
+
+    // ✅ MOBILE: Maintain aspect ratio, no gaps
+    @media @mobile {
+      height: auto;
+      max-width: 100%;
+      object-fit: contain;
+      min-height: 0;
+    }
+
+    @media @tablet {
+      height: auto;
+      max-width: 100%;
+      object-fit: contain;
+      min-height: 0;
+    }
+  }
+}
+
+.bannerImage {
+  width: 100%;
+  height: 100%;
+  display: block;
+
+  .bannerImg {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  // ✅ TABLET & MOBILE: Override with max-height and contain
+  // @media @tablet, @mobile {
+  //   .bannerImg {
+  //     max-height: 600px !important;
+  //     object-fit: cover !important;
+  //     object-position: center !important;
+  //   }
+  // }
+}
+
+.imageBannerContainer {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+// ✅ NEW: Hero CTA styling (desktop + mobile)
+.heroCta {
+  position: absolute;
+  left: 50%;
+  bottom: 32px;
+  transform: translateX(-50%);
+  color: @primary-background;
+  text-decoration: none;
+  font-size: 11px;
+  line-height: 1;
+  letter-spacing: 0.5px;
+  border-radius: 2px;
+  backdrop-filter: blur(2px);
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 220ms ease,
+    transform 220ms ease;
+  transform: translate(-50%, 8px);
+  text-transform: uppercase;
+}
+
+// Show CTA on hover for desktop only
+.heroImageContainer:hover .heroCta {
+  opacity: 1;
+  visibility: visible;
+  transform: translate(-50%, 0);
+}
+
+@media @tablet {
+  .heroCta {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: translate(-50%, 0) !important;
+    bottom: 20px;
+  }
+}
+
+// ✅ NEW: Image wrapper for proper mobile handling
+.imageWrapper {
+  width: 100%;
+  height: 100%;
+  display: block;
+
+  @media @mobile {
+    height: auto;
+  }
+
+  @media @tablet {
+    height: auto;
+  }
+}
+
+.bannerImage {
+  width: 100%;
+  height: 100%;
+  display: block;
+
+  img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+
+    // ✅ MOBILE: Maintain aspect ratio, no cropping
+    @media @mobile {
+      height: auto;
+      max-width: 100%;
+      object-fit: contain;
+      object-position: center;
+    }
+
+    @media @tablet {
+      height: auto;
+      max-width: 100%;
+      object-fit: contain;
+      object-position: center;
+    }
+  }
+}
+
+// ✅ REMOVED: Duplicate video container definition (consolidated above)
+
+.youtubeWrapper {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  height: 0;
+
+  .ytVideo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.videoOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  z-index: 5;
+
+  .coverImage {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .playButton {
+    position: relative;
+    z-index: 6;
+    width: 80px;
+    height: 80px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: scale(1.1);
+    }
+
+    svg {
+      width: 30px;
+      height: 30px;
+    }
+  }
+}
+
+.pauseButton {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  background-color: rgba(0, 0, 0, 0.7);
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.9);
+  }
+
+  svg {
+    width: 20px;
+    height: 20px;
+    fill: #ffffff;
+  }
+}
+
+.iconLink {
+  display: inline-block;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
+
+  &:hover {
+    // transform: scale(1.05);
+    // opacity: 0.9;
+  }
+}
+
+// ✅ IMPROVED: Global Floating Icon - Centered and sticky in all viewports
+.globalFloatingIcon {
+  position: sticky;
+  z-index: 3;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  background-color: transparent;
+  visibility: visible;
+  width: 0;
+  bottom: calc(
+    50% - 110px
+  ); // 56px navbar + 30px bottom margin + 30px announcement bar
+  /* height: 0; */
+
+  a {
+    position: absolute;
+    bottom: 30px;
+  }
+
+  // Enable pointer events only on the link
+  .iconLink {
+    pointer-events: all;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+    display: block;
+  }
+
+  // ✅ MOBILE: Override top positioning for mobile Safari to account for navbar
+  // Use viewport height (vh) instead of percentage to properly center in visible area
+  @media @mobile {
+    // Top value is set inline via JSX for mobile-specific calculation
+    // This ensures logo is centered accounting for 56px navbar
+    // Ensure proper horizontal centering with transform
+    transform: translateX(-50%);
+    // Override bottom when top is set inline
+  }
+}
+
+// ✅ NEW: Responsive logo wrapper
+.responsiveLogo {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.ekkoIcon {
+  width: 446px; // Default floating size
+  height: auto;
+  display: block;
+  object-fit: contain;
+  background-color: transparent !important;
+  // filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.15));
+  // transition: filter 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  // ✅ IMPROVED: Mobile-specific sizing to match Figma
+
+  @media @tablet {
+    width: auto;
+  }
+  // Target any nested elements that FyImage might generate
+  * {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+    background-color: transparent !important;
+  }
+}
+
+// ✅ IMPROVED: Mobile banner proportions
+.imageBannerContainer {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+// ✅ REMOVED: Duplicate video container definition (consolidated above)
+
+// ✅ IMPROVED: Mobile-specific slider adjustments
+.imageSlider {
+  width: 100%;
+  height: 100%;
+
+  .slick-slide {
+    position: relative;
+    height: 100%;
+
+    > div {
+      height: 100%;
+    }
+  }
+
+  .slick-list {
+    height: 100%;
+  }
+
+  .slick-track {
+    height: 100%;
+  }
+
+  // ✅ MOBILE: Ensure proper aspect ratio
+  @media @mobile {
+    .slick-slide img {
+      object-fit: cover !important;
+      object-position: center !important;
+    }
+  }
+}
+
+// ✅ IMPROVED: Mobile dots positioning
+.slickDots {
+  position: absolute !important;
+  bottom: 15px !important; // Closer to bottom on mobile
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  display: flex !important;
+  justify-content: center !important;
+  gap: 6px !important; // Smaller gap on mobile
+  z-index: 10 !important;
+
+  @media @mobile {
+    bottom: 10px !important;
+    gap: 4px !important;
+  }
+
+  li {
+    width: 10px !important; // Smaller dots on mobile
+    height: 10px !important;
+    margin: 0 !important;
+
+    @media @mobile {
+      width: 8px !important;
+      height: 8px !important;
+    }
+
+    button {
+      width: 10px !important;
+      height: 10px !important;
+      border-radius: 50% !important;
+      background-color: rgba(255, 255, 255, 0.6) !important;
+      border: none !important;
+      cursor: pointer !important;
+      transition: all 0.3s ease !important;
+      font-size: 0 !important;
+      line-height: 0 !important;
+
+      @media @mobile {
+        width: 8px !important;
+        height: 8px !important;
+        background-color: rgba(255, 255, 255, 0.7) !important;
+      }
+
+      &:before {
+        display: none !important;
+      }
+    }
+
+    &.slick-active button {
+      background-color: #ffffff !important;
+      transform: scale(1.2) !important;
+
+      @media @mobile {
+        transform: scale(1.1) !important;
+      }
+    }
+
+    &:hover button {
+      background-color: rgba(255, 255, 255, 0.9) !important;
+      transform: scale(1.1) !important;
+    }
+  }
+}
+
+.categoriesContainer {
+  width: 100%;
+}
+
+.sectionHeader {
+  width: 100%;
+  text-align: center;
+  padding-top: var(--heading-top-spacing); // 🔥 Dynamic top spacing
+  padding-bottom: var(--heading-bottom-spacing); // 🔥 Dynamic bottom spacing
+
+  // When hero image is present, reduce top spacing
+  .heroImageContainer + & {
+    padding-top: calc(var(--heading-top-spacing) * 0.5);
+
+    @media @mobile {
+      padding-top: 24px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    padding-top: 32px;
+    padding-bottom: 32px;
+  }
+
+  .sectionTitle {
+    color: #aaaaaa;
+  }
+}
+
+.categoriesRow {
+  display: grid;
+  grid-template-columns: repeat(var(--categories-per-row), 1fr);
+  gap: 0;
+  width: 100%;
+  --card-height: 720px; // Default height, will be overridden per row
+
+  // For incomplete rows (last row with fewer cards), make them span full width
+  &.incompleteRow {
+    grid-template-columns: repeat(var(--row-cards-count), 1fr);
+
+    @media @tablet-extend {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  // Tablet & below lg (up to 1024px): Single column layout
+  @media @tablet-extend {
+    grid-template-columns: 1fr;
+  }
+}
+
+.categoryCard {
+  position: relative;
+  height: var(--card-height);
+  overflow: hidden;
+  transition: transform 0.3s ease;
+
+  .categoryOverlay {
+    width: calc(100% - 56px);
+    padding: 0;
+
+    @media @tablet {
+      width: calc(100% - 24px);
+    }
+  }
+
+  &:hover {
+    .categoryOverlay {
+      background-color: #ffffff;
+      color: #000000;
+      padding: 0;
+      width: calc(100% - 56px);
+      // padding-left: 10px;
+
+      @media @tablet {
+        width: calc(100% - 24px);
+      }
+    }
+
+    // ✅ Ensure the title gets white background when hovering anywhere on card
+    .categoryName {
+      background-color: #ffffff;
+      display: inline-block;
+      padding: 0 4px;
+      width: 100%;
+      color: var(--EKKE-01---Dark, #171717);
+      leading-trim: both;
+      text-edge: cap;
+      font-family: Archivo;
+      font-size: 11px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 120%; /* 13.2px */
+      text-transform: uppercase;
+    }
+  }
+
+  // ✅ Add active state for mobile/tablet (on click/tap)
+  &:active,
+  &:focus-visible {
+    @media @mobile, @tablet {
+      .categoryOverlay {
+        color: var(--EKKE-01---Dark, #171717);
+        padding: 0;
+        width: calc(100% - 24px);
+      }
+
+      .categoryName {
+        background-color: #ffffff;
+        padding: 0 4px;
+      }
+    }
+  }
+}
+
+.categoryLink {
+  display: block;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+  color: inherit;
+
+  // ✅ Add active state for mobile/tablet touch interactions
+  &:active,
+  &:focus-visible {
+    @media @mobile, @tablet {
+      .categoryName {
+        background-color: #ffffff;
+        //  padding: 0 4px;
+      }
+    }
+  }
+}
+
+.categoryImageWrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.categoryImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+
+  // Target any nested elements that FyImage might generate
+  * {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+}
+
+.categoryOverlay {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  z-index: 2;
+  width: 100%;
+  right: 24px;
+  margin-bottom: 40px;
+  transition:
+    background-color 0.3s ease,
+    padding 0.3s ease;
+  background-color: transparent;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  // background: white;
+  // padding: 0;
+  // &:hover {
+  //   background-color: #ffffff;
+  //   // padding: 0;
+  // }
+}
+
+.categoryName {
+  font-size: 11px;
+  font-weight: 400;
+  margin: 0;
+  text-transform: uppercase;
+  transition:
+    background-color 0.3s ease,
+    padding 0.3s ease;
+  letter-spacing: 1px;
+  color: #171717;
+}
+
+.categoryDescription {
+  color: #000;
+  font-size: 72px;
+  font-weight: 200;
+  position: absolute;
+  bottom: 32px;
+  left: 24px;
+
+  @media @tablet {
+    bottom: 20px;
+  }
+}
+
+// ✅ NEW: Video and Image Banner Responsive Adjustments
+@media @mobile {
+  .imageIndicators {
+    bottom: 15px;
+
+    .indicator {
+      width: 10px;
+      height: 10px;
+    }
+  }
+
+  .videoOverlay .playButton {
+    width: 60px;
+    height: 60px;
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
+  .pauseButton {
+    top: 15px;
+    right: 15px;
+    width: 40px;
+    height: 40px;
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+  }
+}
+
+// ✅ EXISTING: Responsive typography for description
+@media (max-width: 1280px) and (min-width: 1025px) {
+  .categoryDescription {
+    font-size: 72px;
+  }
+}
+
+@media (max-width: 1024px) and (min-width: 769px) {
+  .categoryDescription {
+    font-size: 72px;
+  }
+}
+
+@media (max-width: 768px) {
+  .categoryDescription {
+    font-size: 40px;
+  }
+}
+
+@media (max-width: 576px) {
+  .categoryDescription {
+    font-size: 40px;
+    margin-top: 8px;
+  }
+  .categoriesSection {
+    padding-top: 0;
+  }
+}
+
+// ✅ EXISTING: Mobile styles for categories
+@media (max-width: 767px) {
+  .categoriesRow {
+    grid-template-columns: 1fr;
+
+    &.incompleteRow {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .categoryCard {
+    height: 667px;
+  }
+
+  .categoryOverlay {
+    top: 12px;
+    left: 12px !important;
+  }
+}
+
+// ✅ EXISTING: Tablet styles - responsive height adjustments
+@media (max-width: 1280px) and (min-width: 768px) {
+  .categoriesRow {
+    --card-height: calc(var(--card-height) * 0.8);
+  }
+}
+
+@media (max-width: 1120px) and (min-width: 768px) {
+  .categoriesRow {
+    --card-height: calc(var(--card-height) * 0.7);
+  }
+}

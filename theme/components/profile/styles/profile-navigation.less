@@ -1,0 +1,138 @@
+@import "../../../styles/main.less";
+
+.profilePageContainer {
+  color: @Mako;
+  @media @desktop {
+    padding-inline: 40px;
+  }
+
+  .mainView {
+    display: flex;
+    // padding: 24px;
+    background-color: @PageBackground;
+    gap: 24px;
+    @media @desktop {
+      margin-top: 40px;
+    }
+    .profileContent {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .navContainer {
+      border-inline-start: 1px solid @DividerStokes;
+      padding: 16px;
+      width: 25%;
+
+      .userData {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+
+        .defaultImage {
+          height: 50px;
+          aspect-ratio: 1;
+          border-radius: 50%;
+
+          .accountIcon {
+            height: 100%;
+            aspect-ratio: 1;
+          }
+        }
+        .nameContainer {
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          flex: 1;
+          min-width: 0;
+          .name {
+            font-weight: 700;
+            color: @TextHeading;
+            .text-line-clamp(1);
+            min-height: 16px;
+          }
+
+          .editLink {
+            font-size: 14px;
+            line-height: 16px;
+            cursor: pointer;
+            color: @ButtonLink;
+          }
+        }
+      }
+
+      .accountHeader {
+        text-transform: uppercase;
+        padding: 24px 0 8px;
+        font-weight: 700;
+      }
+
+      .nav {
+        display: flex;
+        padding: 16px 0;
+        align-items: center;
+        border-bottom: 1px solid @DividerStokes;
+        cursor: pointer;
+
+        &.selected,
+        &:hover {
+          font-weight: 600;
+          color: @ButtonPrimary;
+
+          svg {
+            path {
+              fill: @ButtonPrimary;
+            }
+          }
+        }
+
+        .menuIcon {
+          height: 20px;
+          aspect-ratio: 1;
+          margin-inline-end: 12px;
+        }
+      }
+
+      .versionContainer {
+        display: flex;
+        justify-content: flex-end;
+        padding: 16px 0;
+
+        .signOut {
+          font-weight: 600;
+          cursor: pointer;
+          color: @ButtonLink;
+        }
+      }
+    }
+
+    @media @tablet {
+      .navContainer {
+        width: 100%;
+        border-inline-start: 0;
+
+        .userData {
+          .nameContainer {
+            .name {
+              font-size: 14px;
+            }
+          }
+        }
+      }
+
+      .accountHeader,
+      .nav {
+        font-size: 14px;
+        line-height: 1.5;
+      }
+
+      .accountHeader {
+        padding: 16px 0 4px;
+      }
+
+      .nav {
+        padding: 12px 0;
+      }
+    }
+  }
+}

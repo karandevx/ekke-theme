@@ -1,0 +1,114 @@
+@import "../../../styles/main.less";
+.deliveryMethodsForm {
+  background-color: #ffffff;
+  border-radius: 2px;
+
+  @media (max-width: 768px) {
+    padding: 10px;
+  }
+}
+
+.methodCard {
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  }
+}
+
+.deliveryMethodItem {
+  border: 1px solid #eeeeee;
+  background-color: #ffffff;
+
+  // &:last-child {
+  //   border-bottom: none;
+  // }
+
+  &:hover {
+    background-color: #f9f9f9;
+  }
+
+  &.selected {
+    border: 1px solid #aaaaaa;
+    background-color: #f7f7f7;
+  }
+}
+
+// Custom radio button styling
+.customRadio {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 8px;
+  height: 8px;
+  border: 0.5px solid @NeutralLight;
+  border-radius: 0;
+  background-color: #ffffff;
+  cursor: pointer;
+  position: relative;
+  outline: none;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:checked {
+    border-color: @ekkeBlack;
+    background-color: #ffffff;
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 4px;
+      height: 4px;
+      border-radius: 1px;
+      background-color: @ekkeBrown;
+    }
+  }
+
+  &:focus {
+    outline: none;
+  }
+
+  &:focus-visible {
+    box-shadow: 0 0 0 2px rgba(92, 46, 32, 0.2);
+  }
+}
+
+.newTag {
+  background-color: #8b4513;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 2px;
+  font-size: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-family: "RoadRadio", sans-serif;
+}
+
+.surpriseButton {
+  background-color: #8b4513;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 2px;
+  font-size: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-family: "RoadRadio", sans-serif;
+  border: none;
+  cursor: pointer;
+  margin-top: 8px;
+
+  &:hover {
+    background-color: #a0522d;
+  }
+}

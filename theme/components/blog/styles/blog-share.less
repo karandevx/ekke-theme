@@ -1,0 +1,62 @@
+@import "../../../styles/main.less";
+
+.blogShare {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-family: Archivo;
+  text-transform: uppercase;
+  margin: 24px 16px 16px;
+
+  .shareLabel {
+    color: var(--EKKE-01---Dark, #171717);
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 120%;
+    text-transform: uppercase;
+  }
+
+  .shareOptions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .shareOption {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    color: var(--Color-Neutral-Light, #aaa);
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 120%;
+    text-transform: uppercase;
+    cursor: pointer;
+
+    /* Hide separator by default */
+    .separator {
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    /* Hover state */
+    &:hover {
+      color: #171717;
+
+      .separator {
+        opacity: 1;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    margin: 40px 20px 0;
+    gap: 6px;
+
+    .shareLabel,
+    .shareOption {
+      font-size: 12px;
+    }
+  }
+}
