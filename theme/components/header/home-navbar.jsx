@@ -18,7 +18,7 @@ const transformNavigationData = (navigationList) => {
     const category = navigationList.find(
       (item) =>
         item.active &&
-        item.display?.toUpperCase() === categoryName.toUpperCase()
+        item.display?.toUpperCase() === categoryName.toUpperCase(),
     );
     return category?.sub_navigation || [];
   };
@@ -55,7 +55,7 @@ const transformNavigationData = (navigationList) => {
           displayName: section.display, // Store original display name
           items: transformSubNavigation(
             section.sub_navigation,
-            section.display?.toLowerCase().replace(/\s+/g, "-")
+            section.display?.toLowerCase().replace(/\s+/g, "-"),
           ),
         };
       }
@@ -105,7 +105,7 @@ function HomeNavbar({
   }, [navigationList]);
 
   const [selectedMobileFilter, setSelectedMobileFilter] = useState(
-    categoriesWithDropdowns[0] || "WOMEN"
+    categoriesWithDropdowns[0] || "WOMEN",
   );
 
   console.log("selectedMobileFilter", navigationList);
@@ -141,7 +141,7 @@ function HomeNavbar({
     const category = navigationList.find(
       (item) =>
         item.active &&
-        item.display?.toUpperCase() === categoryName?.toUpperCase()
+        item.display?.toUpperCase() === categoryName?.toUpperCase(),
     );
 
     if (!category?.sub_navigation) {
@@ -206,11 +206,11 @@ function HomeNavbar({
       // Only handle clicks when desktop dropdown is open (desktop only)
       if (isDropdownOpen && !isMobileMenuOpen) {
         const dropdownContainer = document.querySelector(
-          `.${styles.dropdownContainer}`
+          `.${styles.dropdownContainer}`,
         );
         const navbar = document.querySelector(`.${styles.homeNavbar}`);
         const desktopLayout = document.querySelector(
-          `.${styles.desktopLayout}`
+          `.${styles.desktopLayout}`,
         );
 
         // Check if click is outside both navbar and dropdown
@@ -388,7 +388,7 @@ function HomeNavbar({
     item,
     index,
     sectionKey,
-    hasIndicator = false
+    hasIndicator = false,
   ) => {
     const uniqueItemId = `${sectionKey}-${item.text}-${index}`;
 
@@ -488,7 +488,7 @@ function HomeNavbar({
     const category = navigationList.find(
       (item) =>
         item.active &&
-        item.display?.toUpperCase() === activeDropdown.toUpperCase()
+        item.display?.toUpperCase() === activeDropdown.toUpperCase(),
     );
     const categoryImage = category?.image;
 
@@ -511,10 +511,10 @@ function HomeNavbar({
 
     // Find the item with matching image identifier
     for (const [sectionKey, sectionData] of Object.entries(
-      currentDropdownData
+      currentDropdownData,
     )) {
       const item = sectionData.items.find(
-        (item) => item.image === currentImage
+        (item) => item.image === currentImage,
       );
       if (item) {
         // Return platform image if exists and not empty, otherwise null
@@ -685,12 +685,10 @@ function HomeNavbar({
 
             {/* Cart Button */}
             {!globalConfig?.disable_cart && (
-              <button
-                type="button"
+              <FDKLink
                 className={styles.navAction}
                 onClick={() => {
                   checkLogin("cart");
-                  // Close dropdown when clicking cart
                   if (isDropdownOpen) {
                     setIsDropdownOpen(false);
                     setActiveDropdown(null);
@@ -706,7 +704,7 @@ function HomeNavbar({
                      `}
                   </span>
                 </span>
-              </button>
+              </FDKLink>
             )}
           </div>
           {/* )} */}
@@ -715,14 +713,14 @@ function HomeNavbar({
         {/* MOBILE LAYOUT */}
         <div className={styles.mobileLayout}>
           <div className={styles.mobileLeft}>
-            <button
+            <FDKLink
               className={styles.mobileMenuButton}
               onClick={handleMobileMenuClick}
             >
               {isMobileMenuOpen && <div className={styles.mobileMenuBullet} />}
               <span className={styles.menuText}>MENU</span>
-            </button>
-            <button
+            </FDKLink>
+            <FDKLink
               className={styles.mobileIcon}
               onClick={() => {
                 setIsSearchModalOpen(!isSearchModalOpen);
@@ -733,7 +731,7 @@ function HomeNavbar({
               }}
             >
               <SearchIcon className={styles.mobileSearchIcon} />
-            </button>
+            </FDKLink>
           </div>
           {!isHomePage && (
             <FDKLink to="/" className={styles.logoLink}>
@@ -746,6 +744,7 @@ function HomeNavbar({
 
           <div className={styles.mobileRight}>
             <button
+              type="button"
               className={styles.mobileIcon}
               onClick={() => {
                 checkLogin("profile");
@@ -758,7 +757,7 @@ function HomeNavbar({
               <UserIcon className={styles.mobileUserIcon} />
             </button>
 
-            <button
+            <FDKLink
               className={styles.mobileCartButton}
               onClick={() => {
                 checkLogin("cart");
@@ -774,7 +773,7 @@ function HomeNavbar({
                   {`${String(cartItemCount).padStart(2, "0")}`}
                 </span>
               </span>
-            </button>
+            </FDKLink>
           </div>
         </div>
       </nav>
@@ -813,7 +812,7 @@ function HomeNavbar({
                           ].map(renderMenuItem)}
                         </div>
                       </div>
-                    </div>
+                    </div>,
                   );
                 }
 
@@ -833,7 +832,7 @@ function HomeNavbar({
                         <div className={styles.columnScrollContent}>
                           {secondSection[1].items.map(renderMenuItem)}
                         </div>
-                      </div>
+                      </div>,
                     );
                   }
 
@@ -859,7 +858,7 @@ function HomeNavbar({
                         <div className={styles.columnScrollContent}>
                           {thirdSection[1].items.map(renderMenuItem)}
                         </div>
-                      </div>
+                      </div>,
                     );
                   }
 
@@ -889,7 +888,7 @@ function HomeNavbar({
                             </div>
                           </>
                         )}
-                      </div>
+                      </div>,
                     );
                   }
                 }
@@ -919,7 +918,7 @@ function HomeNavbar({
                       <div className={styles.columnScrollContent}>
                         {fourthSection[1].items.map(renderMenuItem)}
                       </div>
-                    </div>
+                    </div>,
                   );
                 }
 
@@ -951,7 +950,7 @@ function HomeNavbar({
                           </div>
                         </>
                       )}
-                    </div>
+                    </div>,
                   );
                 }
 
@@ -1049,7 +1048,7 @@ function HomeNavbar({
             <nav className={styles.mobileFiltersNav}>
               <div className={styles.mobileFiltersContent}>
                 {categoriesWithDropdowns.map((filter) => (
-                  <button
+                  <FDKLink
                     key={filter}
                     className={styles.mobileFilterButton}
                     onClick={() => handleMobileFilterClick(filter)}
@@ -1060,7 +1059,7 @@ function HomeNavbar({
                       )}
                     </div>
                     <span className={styles.mobileFilterText}>{filter}</span>
-                  </button>
+                  </FDKLink>
                 ))}
               </div>
             </nav>
@@ -1083,11 +1082,11 @@ function HomeNavbar({
                     </div>
                     <div className={styles.mobileMenuItems}>
                       {sectionData.items.map((item, itemIndex) =>
-                        renderMobileMenuItem(item, itemIndex, sectionKey)
+                        renderMobileMenuItem(item, itemIndex, sectionKey),
                       )}
                     </div>
                   </div>
-                )
+                ),
               );
             })()}
 
@@ -1107,7 +1106,7 @@ function HomeNavbar({
                         { text: "EDITORIAL HUB", image: "editorial-hub" },
                         // { text: "RADIO", image: "radio" },
                       ].map((item, index) =>
-                        renderMobileMenuItem(item, index, "about")
+                        renderMobileMenuItem(item, index, "about"),
                       )}
                     </div>
                   </div>

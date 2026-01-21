@@ -27,6 +27,7 @@ import { useGlobalStore, useFPI } from "fdk-core/utils";
 
 import { useViewport } from "../helper/hooks";
 import FyAccordion from "../components/core/fy-accordion/fy-accordion";
+import { lockBodyScroll, unlockBodyScroll } from "../helper/utils";
 import SvgWrapper from "../components/core/svgWrapper/SvgWrapper";
 import useWishlistPage from "../page-layouts/wishlist/useWishlist";
 import { useWishlist } from "../helper/hooks/useWishlist";
@@ -133,7 +134,7 @@ export function Component({ blocks, handleClose, isOnCheckoutPage = false }) {
 
       // Get first available size
       const firstAvailableSize = productDetails?.sizes?.sizes?.find(
-        (s) => s.is_available
+        (s) => s.is_available,
       );
 
       if (!firstAvailableSize?.value) {
@@ -251,7 +252,12 @@ export function Component({ blocks, handleClose, isOnCheckoutPage = false }) {
   const [showAssistance, setShowAssistance] = useState(false);
 
   const redirectToLogin = () => {
-    navigate("/auth/login?redirectUrl=/");
+    // Build checkout URL with cart ID
+    const checkoutUrl = cartData?.id 
+      ? `/cart/checkout?id=${cartData.id}` 
+      : "/cart/bag";
+    const encodedRedirectUrl = encodeURIComponent(checkoutUrl);
+    navigate(`/auth/login?redirectUrl=${encodedRedirectUrl}`);
   };
 
   const cartItemsArray = Object.keys(cartItems || {});
@@ -259,7 +265,7 @@ export function Component({ blocks, handleClose, isOnCheckoutPage = false }) {
 
   useEffect(() => {
     const isOtherCustomer = newBlocks?.some(
-      (block) => block?.type === "order_for_customer"
+      (block) => block?.type === "order_for_customer",
     );
     if (!isOtherCustomer && checkoutMode === "other") {
       updateCartCheckoutMode("self");
@@ -269,7 +275,7 @@ export function Component({ blocks, handleClose, isOnCheckoutPage = false }) {
   const totalPrice = useMemo(
     () => breakUpValues?.display?.find((val) => val.key === "subtotal")?.value,
 
-    [breakUpValues]
+    [breakUpValues],
   );
 
   console.log("breakUpValues", breakUpValues);
@@ -283,6 +289,7 @@ export function Component({ blocks, handleClose, isOnCheckoutPage = false }) {
   const handleWishlistButtonClick = (data) => {
     if (!isLoggedIn) {
       handleClose();
+      unlockBodyScroll();
     }
     onWishlistButtonClick(data);
   };
@@ -318,7 +325,10 @@ export function Component({ blocks, handleClose, isOnCheckoutPage = false }) {
           <div className="flex justify-end">
             <h3
               className="cursor-pointer text-[#171717] hover:text-black font-normal text-[11px] leading-[120%] font-archivo"
-              onClick={handleClose}
+              onClick={() => {
+                handleClose();
+                unlockBodyScroll();
+              }}
             >
               CLOSE
             </h3>
@@ -335,23 +345,32 @@ export function Component({ blocks, handleClose, isOnCheckoutPage = false }) {
             <div className="flex justify-between w-full">
               <h3 className="body-1 font-normal leading-[120%] tracking-[0] uppercase text-[#AAAAAA] flex justify-center items-center gap-[8px] font-archivo">
                 <span className="bg-[#171717] w-[4px] h-[4px] rounded-[1px] block"></span>
-                <span className="body-2 text-[#AAAAAA] uppercase">
-                  {!showWishlist ? "Cart" : "Wishlist"}&nbsp;
+                <span
+                  className="body-2 text-[#AAAAAA] uppercase cursor-pointer"
+                  onClick={() => {
+                    setShowWishlist(!showWishlist);
+                  }}
+                >
+                  Cart&nbsp;
                   <span className="font-[400] text-[#171717] font-archivo">
-                    {!showWishlist
-                      ? ` ${String(cartItemCount || 0).padStart(2, "0")} `
-                      : `${String(wishlistProducts?.length || 0).padStart(2, "0")} `}
+                    {!showWishlist &&
+                      ` ${String(cartItemCount || 0).padStart(2, "0")} `}
                   </span>
                 </span>
               </h3>
               {/* Right side - Wishlist */}
               <div
                 onClick={() => {
-                  setShowWishlist(!showWishlist);
+                  setShowWishlist(true);
                 }}
                 className="body-1 cursor-pointer text-ekke-black font-archivo hover:text-ekke-gray"
               >
-                {!showWishlist ? "Wishlist" : "Cart"}
+                
+                Wishlist &nbsp;
+                <span className="font-[400] text-[#171717] font-archivo">
+                  {showWishlist &&
+                    `${String(wishlistProducts?.length || 0).padStart(2, "0")} `}
+                </span>
               </div>
             </div>
             {(cartItemsArray?.length > 0 || wishlistProducts?.length > 0) && (
@@ -449,13 +468,13 @@ export function Component({ blocks, handleClose, isOnCheckoutPage = false }) {
                       const singleItemDetails = cartItems[singleItem];
                       console.log(
                         "singleItemDetails in cart-landing",
-                        cartData
+                        cartData,
                       );
                       const productImage =
                         singleItemDetails?.product?.images?.length > 0 &&
                         singleItemDetails?.product?.images[0]?.url?.replace(
                           "original",
-                          "resize-w:250"
+                          "resize-w:250",
                         );
 
                       const currentSize = singleItem?.split("_")[1];
@@ -670,8 +689,12 @@ export function Component({ blocks, handleClose, isOnCheckoutPage = false }) {
                         arrange the best we can.
                       </p>
                       <ul className="list-disc list-inside space-y-[2px] ml-4 font-archivo text-[11px] ">
-                        <li>+91 8490823230</li>
-                        <li>hello@ekke.co</li>
+                        <li>
+                          <a href="tel:+918490823230">+91 8490823230</a>
+                        </li>
+                        <li>
+                          <a href="mailto:hello@ekke.co">hello@ekke.co</a>
+                        </li>
                       </ul>
                     </div>
                   </div>

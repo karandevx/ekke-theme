@@ -32,9 +32,7 @@ function ProfileDetails({ userData, handleSave, signOut, fpi }) {
       const day = String(date.getDate()).padStart(2, "0");
       return `${year}-${month}-${day}`;
     } catch (error) {
-      if (process.env.NODE_ENV === "development") {
-        console.error("Error formatting date:", error);
-      }
+      console.error("Error formatting date:", error);
       return "";
     }
   };
@@ -154,31 +152,59 @@ function ProfileDetails({ userData, handleSave, signOut, fpi }) {
     [handleSave, fetchUserDetails]
   );
 
+  // Watch all form values
   const firstNameValue = watch("firstName");
   const lastNameValue = watch("lastName");
   const genderValue = watch("gender");
+  const emailValue = watch("email");
+  const birthDateValue = watch("birthDate");
 
-  const disableSave = useMemo(
+  // Create original values object for comparison
+  const originalValues = useMemo(() => {
+    const formattedDob = formatDateForInput(userDetails?.dob);
+    const originalEmail = (userDetails?.emails?.[0]?.email || "").trim().toLowerCase();
+    return {
+      firstName: (firstName || "").trim(),
+      lastName: (lastName || "").trim(),
+      gender: (gender || "").trim(),
+      email: originalEmail,
+      birthDate: formattedDob || "",
+    };
+  }, [firstName, lastName, gender, userDetails]);
+
+  // Check if form has changes
+  const hasChanges = useMemo(() => {
+    const currentValues = {
+      firstName: (firstNameValue || "").trim(),
+      lastName: (lastNameValue || "").trim(),
+      gender: (genderValue || "").trim(),
+      email: (emailValue || "").trim().toLowerCase(), // Case-insensitive email comparison
+      birthDate: (birthDateValue || "").trim(),
+    };
+    return !deepEqual(currentValues, originalValues);
+  }, [
+    firstNameValue,
+    lastNameValue,
+    genderValue,
+    emailValue,
+    birthDateValue,
+    originalValues,
+  ]);
+
+  // Check if form has validation errors
+  const hasErrors = useMemo(
     () =>
-      deepEqual(
-        {
-          firstName: firstNameValue?.trim(),
-          lastName: lastNameValue?.trim(),
-          gender: genderValue?.trim(),
-        },
-        userData
-      ) ||
-      errors?.firstName ||
-      errors?.lastName,
-    [
-      userData,
-      firstNameValue,
-      lastNameValue,
-      genderValue,
-      errors?.firstName,
-      errors?.lastName,
-    ]
+      !!(
+        errors?.firstName ||
+        errors?.lastName ||
+        errors?.email ||
+        errors?.birthDate
+      ),
+    [errors?.firstName, errors?.lastName, errors?.email, errors?.birthDate]
   );
+
+  // Disable save if no changes or has errors
+  const disableSave = !hasChanges || hasErrors;
 
   const handleKeyDown = (event) => {
     /** Allow specific keys */
@@ -297,7 +323,7 @@ function ProfileDetails({ userData, handleSave, signOut, fpi }) {
                               <input
                                 {...register("lastName", formSchema.lastName)}
                                 placeholder="Last name"
-                                className={`body-2 p-1 w-full overflow-hidden border border-solid md:h-[24px] h-[32px] outline-none focus:outline-none   focus-visible:outline-none focus-visible:ring-0 ${
+                                className={`body-2 p-1 w-full overflow-hidden border border-solid md:h-[24px] h-[32px] outline-none focus:outline-none  uppercase focus-visible:outline-none focus-visible:ring-0 ${
                                   errors.lastName
                                     ? "border-[#5C2E20] focus:border-[#5C2E20]"
                                     : "border-[#EEEEEE] focus:border-[#AAAAAA]"
@@ -418,12 +444,14 @@ function ProfileDetails({ userData, handleSave, signOut, fpi }) {
                   {/* Manage and delete acccount */}
                   <div className="flex items-center gap-12">
                     <button
+                      type="button"
                       className="underline text-[11px] !!capitalize text-ekke-black font-normal font-archivo hover:no-underline"
                       onClick={signOut}
                     >
                       Sign out
                     </button>
                     <button
+                      type="button"
                       className="body-2 text-[#5c2e20] tracking-[var(--links-3-button-letter-spacing)] leading-[var(--links-3-button-line-height)] underline bg-transparent border-none p-0 cursor-pointer text-left hover:no-underline"
                       onClick={() => navigate("/c/delete-account")}
                     >
@@ -431,10 +459,15 @@ function ProfileDetails({ userData, handleSave, signOut, fpi }) {
                     </button>
                   </div>
                   <button
-                    className="body-1 bg-[#eeeeee] w-full h-6 pl-2 text-left hover:bg-[#171717] !text-[#aaaaaa] hover:!text-[#fff]"
+                    disabled={disableSave || isLoading}
+                    className={`body-1 w-full h-6 pl-2 text-left transition-colors ${
+                      disableSave || isLoading
+                        ? "bg-[#eeeeee] !text-[#aaaaaa] cursor-not-allowed"
+                        : "bg-[#171717] !text-white hover:bg-opacity-90 cursor-pointer"
+                    }`}
                     type="submit"
                   >
-                    <span>SUBMIT</span>
+                    <span>{isLoading ? "SAVING..." : "SAVE"}</span>
                   </button>
                 </div>
               </div>

@@ -23,6 +23,7 @@ import {
   useNavigate,
   useGlobalTranslation,
 } from "fdk-core/utils";
+import { useToast } from "../../components/custom-toaster";
 // import { loginUserInFb } from '../../helper/facebook.utils';
 // import { renderButton } from '../../helper/google.utils';
 
@@ -31,6 +32,7 @@ export const useAccounts = ({ fpi }) => {
   const { t } = useGlobalTranslation("translation");
   const navigate = useNavigate();
   const { showSnackbar } = useSnackbar();
+  const toast = useToast();
   const location = useLocation();
 
   const [facebookUser, setFacebookUser] = useState(null);
@@ -146,15 +148,17 @@ export const useAccounts = ({ fpi }) => {
           throw res?.errors?.[0];
         }
         if (res?.data?.user?.logout?.logout) {
-          const queryParams = isRunningOnClient()
-            ? new URLSearchParams(location.search)
-            : null;
-          const redirectUrl = queryParams?.get("redirectUrl") || "";
-          const finalUrl = getLocalizedRedirectUrl(
-            decodeURIComponent(redirectUrl),
-            locale
-          );
-          window.location.href = window.location.origin + finalUrl;
+          // Show success toast
+          toast.success("Sign out successfully.");
+            const queryParams = isRunningOnClient()
+              ? new URLSearchParams(location.search)
+              : null;
+            const redirectUrl = queryParams?.get("redirectUrl") || "";
+            const finalUrl = getLocalizedRedirectUrl(
+              decodeURIComponent(redirectUrl),
+              locale
+            );
+            window.location.href = window.location.origin + finalUrl;
           return res?.data;
         }
         return Promise.reject();
@@ -260,8 +264,8 @@ export const useAccounts = ({ fpi }) => {
 
   const signInWithOtp = ({ otp, requestId, isRedirection = true }) => {
     // return this.$store.dispatch(SIGNIN_USER_WITH_OTP, {
-    // 	is_redirection: true,
-    // 	...data,
+    //     is_redirection: true,
+    //     ...data,
     // });
 
     const id = window.APP_DATA.applicationID;
@@ -601,14 +605,14 @@ export const useAccounts = ({ fpi }) => {
   const facebookLogin = async () => {
     // const appId = this.platformData.social_tokens.facebook.app_id;
     // if (appId) {
-    // 	if (!this.facebookUser?.is_signed_in) {
-    // 		this.facebookUser = await loginUserInFb();
-    // 	}
-    // 	return this.$store.dispatch(FACEBOOK_LOGIN, {
-    // 		facebook_user: this.facebookUser,
-    // 	});
+    //     if (!this.facebookUser?.is_signed_in) {
+    //         this.facebookUser = await loginUserInFb();
+    //     }
+    //     return this.$store.dispatch(FACEBOOK_LOGIN, {
+    //         facebook_user: this.facebookUser,
+    //     });
     // } else {
-    // 	throw new Error('Facebook App ID not provided in platform');
+    //     throw new Error('Facebook App ID not provided in platform');
     // }
   };
 
@@ -621,8 +625,8 @@ export const useAccounts = ({ fpi }) => {
   const addEmail = (value) => {
     // const appName = platformData.name;
     // return this.$root.$apiSDK.user.addEmail({
-    // 	platform: appName,
-    // 	body: value,
+    //     platform: appName,
+    //     body: value,
     // });
   };
 
