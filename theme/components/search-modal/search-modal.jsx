@@ -111,7 +111,7 @@ export default function SearchModal({ isOpen, onClose }) {
       document.body.style.top = "";
       document.body.style.width = "";
       document.body.style.overflow = "";
-      window.scrollTo(0, parseInt(scrollY || "0") * -1);
+      // window.scrollTo(0, parseInt(scrollY || "0") * -1);
     };
   }, [isOpen, onClose]);
 

@@ -175,7 +175,7 @@ export const ProductDetailsZoom = ({
   useEffect(() => {
     imageRefs.current = imageRefs.current.slice(
       0,
-      productData?.media?.length || 0
+      productData?.media?.length || 0,
     );
   }, [productData?.media?.length]);
 
@@ -452,7 +452,7 @@ export const ProductDetailsZoom = ({
               `,
               }}
             />
-            <div className="zoom-thumbnail-scroll flex flex-col w-full lg:w-[361px] items-end absolute bottom-0 overflow-y-auto h-[400px] justify-end">
+            <div className="zoom-thumbnail-scroll flex flex-col w-full lg:w-[361px] items-end absolute bottom-0 overflow-y-auto h-[400px] ">
               {productData?.media?.map((image, index) => (
                 <div
                   key={index}

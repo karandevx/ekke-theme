@@ -86,7 +86,7 @@ const hasProductDetailsContent = (productData) => {
   // Check if highlights exist
   const highlights = productData?.highlights || [];
   const hasHighlights = highlights.some(
-    (highlight) => highlight && highlight.trim() !== ""
+    (highlight) => highlight && highlight.trim() !== "",
   );
 
   return hasValidAttributes || hasHighlights;
@@ -202,7 +202,7 @@ export const ProductSideDetails = ({
   const imageRefs = useRef([]); // Refs for each image in the gallery
   const isScrollingProgrammatically = useRef(false); // Flag to prevent scroll listener interference
   const [selectedColor, setSelectedColor] = useState(
-    getAvailableColors(productData)?.find((c) => c.selected)
+    getAvailableColors(productData)?.find((c) => c.selected),
   );
   const [selectedSize, setSelectedSize] = useState(null);
   const [showSizeDropdown, setShowSizeDropdown] = useState(false);
@@ -318,16 +318,16 @@ export const ProductSideDetails = ({
         productData,
         isSizeGuideAvailable,
         sizeBasedPrice,
-        returnConfig
+        returnConfig,
       ),
-    [productData, isSizeGuideAvailable, sizeBasedPrice, returnConfig]
+    [productData, isSizeGuideAvailable, sizeBasedPrice, returnConfig],
   );
 
   // Initialize image refs array
   useEffect(() => {
     imageRefs.current = imageRefs.current.slice(
       0,
-      productData?.media?.length || 0
+      productData?.media?.length || 0,
     );
   }, [productData?.media?.length]);
 
@@ -430,7 +430,7 @@ export const ProductSideDetails = ({
     if (sizeFromUrl && productData?.sizes?.sizes?.length > 0) {
       // Find matching size from available sizes
       const matchingSize = productData.sizes.sizes.find(
-        (size) => size.value === sizeFromUrl || size.display === sizeFromUrl
+        (size) => size.value === sizeFromUrl || size.display === sizeFromUrl,
       );
 
       if (matchingSize) {
@@ -574,7 +574,7 @@ export const ProductSideDetails = ({
         const fulfillmentOptions = await getFulfillmentOptions(
           slug,
           selectedSize.value,
-          pincodeToUse
+          pincodeToUse,
         );
 
         // Store the first fulfillment option for Add to Cart
@@ -588,7 +588,7 @@ export const ProductSideDetails = ({
         if (pincodeToUse) {
           const deliveryDate = calculateGetItByDate(
             productData,
-            fulfillmentOptions
+            fulfillmentOptions,
           );
           setEstimatedDeliveryDate(deliveryDate);
         } else {
@@ -964,7 +964,7 @@ export const ProductSideDetails = ({
                       setShowSizeGuide(true);
                     } else {
                       setOpenAccordionId(
-                        openAccordionId === accordion.id ? null : accordion.id
+                        openAccordionId === accordion.id ? null : accordion.id,
                       );
                     }
                   }}
@@ -1096,7 +1096,7 @@ export const ProductSideDetails = ({
                               >
                                 {tag}
                               </p>
-                            )
+                            ),
                           )}
                         </div>
                       )}
@@ -1338,7 +1338,7 @@ export const ProductSideDetails = ({
                     onChange={(e) => {
                       const numericValue = e.target.value.replace(
                         /[^0-9]/g,
-                        ""
+                        "",
                       );
                       e.target.value = numericValue;
                       setPinCode(numericValue);
@@ -1560,9 +1560,9 @@ export const ProductSideDetails = ({
                           selectedSize.quantity === 0;
                       return isSelectedSizeOutOfStock
                         ? "NOTIFY ME"
-                        : "ADD TO CART";
+                        : "ADD TO BAG";
                     }
-                    return "ADD TO CART";
+                    return "ADD TO BAG";
                   })()}
                 </span>
               </button>
@@ -2047,7 +2047,7 @@ export const ProductSideDetails = ({
                     setShowSizeGuide(true);
                   } else {
                     setOpenAccordionId(
-                      openAccordionId === accordion.id ? null : accordion.id
+                      openAccordionId === accordion.id ? null : accordion.id,
                     );
                   }
                 }}
@@ -2163,13 +2163,11 @@ export const ProductSideDetails = ({
                   {errors.pincode.message}
                 </div>
               )}
-              {
-                !pinCode && (
-                  <span className="body-2 !text-[8px] pt-2">
+              {!pinCode && (
+                <span className="body-2 !text-[8px] pt-2">
                   Enter your pincode to view delivery details.
                 </span>
-                )
-              }
+              )}
             </div>
 
             <div className="pt-3" style={{ minHeight: "24px" }}>

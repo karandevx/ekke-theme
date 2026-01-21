@@ -36,7 +36,7 @@ function ContactForm({
 
         { key: "other", display: "OTHER" },
       ],
-    [categoryOptionsProp]
+    [categoryOptionsProp],
   );
 
   const [subjectText, setSubjectText] = useState("");
@@ -193,7 +193,9 @@ function ContactForm({
         via the details below, or fill out the form and we’ll get back to you.
       </p>
       <div className="pt-6 flex justify-center flex-col sm:items-center md:items-start">
-        <p className="body-2 text-[#171717] pl-2 ">Phone: +91 8490823230</p>
+        <p className="body-2 text-[#171717] pl-2 ">
+          Phone: <a href="tel:+918490823230">+91 8490823230</a>
+        </p>
         <p className="body-2 text-[#171717] pl-2 ">
           Email: <a href="mailto:hello@ekke.co">hello@ekke.co</a>
         </p>
@@ -210,12 +212,12 @@ function ContactForm({
                   control={control}
                   rules={{
                     required: t(
-                      "resource.contact_us.please_enter_your_phone_number"
+                      "resource.contact_us.please_enter_your_phone_number",
                     ),
                     pattern: {
                       value: /^[0-9]{10}$/,
                       message: t(
-                        "resource.contact_us.please_enter_a_valid_phone_number"
+                        "resource.contact_us.please_enter_a_valid_phone_number",
                       ),
                     },
                   }}
@@ -253,13 +255,13 @@ function ContactForm({
                   control={control}
                   rules={{
                     required: t(
-                      "resource.contact_us.please_enter_your_email_address"
+                      "resource.contact_us.please_enter_your_email_address",
                     ),
                     pattern: {
                       value:
                         /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+(\.[a-zA-Z]{2,6}){1,2}$/,
                       message: t(
-                        "resource.contact_us.please_enter_a_valid_email_address"
+                        "resource.contact_us.please_enter_a_valid_email_address",
                       ),
                     },
                   }}
@@ -498,9 +500,12 @@ function ContactForm({
                       htmlFor="terms"
                       class={styles.customCheckBox}
                     ></label>
-                    <label htmlFor="terms" className={styles.checkboxLabel}>
+                    <a
+                      href="/terms-and-conditions"
+                      className={styles.checkboxLabel}
+                    >
                       Terms and conditions
-                    </label>
+                    </a>
                   </>
                 )}
               />

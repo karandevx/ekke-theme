@@ -27,7 +27,8 @@ function BlogDetails({ fpi }) {
     <>
       {getHelmet({ seo: blogDetails?.seo })}
       {isBlogNotFound ? (
-        <EmptyState title={t("resource.blog.no_blog_found")} />
+        // <EmptyState title={t("resource.blog.no_blog_found")} />
+        <PageNotFound />
       ) : (
         <BlogPage
           contactInfo={contactInfo}

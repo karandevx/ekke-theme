@@ -403,7 +403,7 @@ function ProfileShipmentUpdatePage({ fpi }) {
     setConfirmReturn(false);
     setUpdateError(true);
     setInProgress(false);
-    window.scrollTo(0, 0);
+    // window.scrollTo(0, 0);
     if (text) {
       showSnackbar(text.toString(), "error");
     } else {

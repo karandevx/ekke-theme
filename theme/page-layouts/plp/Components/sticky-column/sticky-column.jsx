@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, forwardRef } from "react";
-import { isRunningOnClient } from "../../../../helper/utils";
+import { isRunningOnClient, isBodyScrollLocked } from "../../../../helper/utils";
 
 const StickyColumn = forwardRef(({ className, topOffset = 0, children }, forwardedRef) => {
   const elementRef = useRef(null);
@@ -41,9 +41,22 @@ const StickyColumn = forwardRef(({ className, topOffset = 0, children }, forward
   };
 
   const checkPosition = () => {
+    // Skip position calculations when body scroll is locked (e.g., modal/drawer open)
+    // This prevents sticky elements from jumping when overflow:hidden is applied
+    if (isBodyScrollLocked()) {
+      pendingRaf.current = false;
+      return;
+    }
+    
     if (pendingRaf.current) return;
     pendingRaf.current = true;
     requestAnimationFrame(() => {
+      // Double-check scroll lock state inside RAF as it may have changed
+      if (isBodyScrollLocked()) {
+        pendingRaf.current = false;
+        return;
+      }
+      
       if (elementRef?.current) {
         const { top } = elementRef?.current.getBoundingClientRect();
         const maxTop =

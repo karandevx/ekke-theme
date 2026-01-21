@@ -10,6 +10,7 @@ import { FDKLink } from "fdk-core/components";
 import styles from "./styles/blog-listing.less";
 import SvgWrapper from "../../components/core/svgWrapper/SvgWrapper";
 import FyImage from "../../components/core/fy-image/fy-image";
+import Loader from "../../components/loader/loader";
 
 import EmptyState from "../../components/empty-state/empty-state";
 import InfiniteLoader from "../../components/core/infinite-loader/infinite-loader";
@@ -28,6 +29,7 @@ import useLocaleDirection from "../../helper/hooks/useLocaleDirection";
 
 import BlogSortDrawer from "./blog-sort-modal";
 import MediaDisplay from "../media-display";
+import PageNotFound from "../page-not-found/page-not-found";
 
 function BlogList({
   blogs,
@@ -53,7 +55,7 @@ function BlogList({
   const [blogFilter, setBlogFilter] = useState(ssrFilters || []);
   const [searchText, setSearchText] = useState(ssrSearch || "");
   const [blogCount, setBlogCount] = useState(
-    totalBlogsList?.page?.item_total || 0
+    totalBlogsList?.page?.item_total || 0,
   );
   const {
     show_top_blog,
@@ -68,9 +70,9 @@ function BlogList({
   const hasActiveCategoryFilters = useMemo(
     () =>
       (blogFilter || []).some((f) =>
-        f.display?.toLowerCase()?.startsWith("categories-")
+        f.display?.toLowerCase()?.startsWith("categories-"),
       ),
-    [blogFilter]
+    [blogFilter],
   );
 
   const isCategoryActive = useCallback(
@@ -80,10 +82,10 @@ function BlogList({
       return (blogFilter || []).some(
         (f) =>
           f.pretext === "tag" &&
-          f.display?.toLowerCase() === cat.display?.toLowerCase()
+          f.display?.toLowerCase() === cat.display?.toLowerCase(),
       );
     },
-    [blogFilter]
+    [blogFilter],
   );
   // responsive position: right (>=768), bottom (<768)
   const drawerPosition = windowWidth >= 768 ? "right" : "bottom";
@@ -208,7 +210,7 @@ function BlogList({
 
         return acc;
       },
-      { categoryTags: {}, normalTags: {}, authorTags: {} }
+      { categoryTags: {}, normalTags: {}, authorTags: {} },
     );
   };
   const { categoryTags, normalTags, authorTags } = getSeparatedTags();
@@ -265,7 +267,7 @@ function BlogList({
                     {(blog?.tags ?? [])
                       .flat()
                       .find(
-                        (t) => typeof t === "string" && /^categories/i.test(t)
+                        (t) => typeof t === "string" && /^categories/i.test(t),
                       )
                       ?.replace(/^categories[-:\s]*/i, "")
                       .trim() ?? ""}
@@ -293,99 +295,82 @@ function BlogList({
       </div>
     );
   };
-  // const searchTextUpdate = (value) => {
-  //   if (value.length > 90) {
-  //     value = value.substring(0, 80);
-  //   }
-  //   setSearchText(value);
-
-  //   const searchParams = isRunningOnClient()
-  //     ? new URLSearchParams(location?.search)
-  //     : null;
-  //   searchParams?.delete("page_no");
-  //   if (value) {
-  //     searchParams?.set("search", value);
-  //   } else {
-  //     searchParams?.delete("search");
-  //   }
-  //   navigate?.({
-  //     pathname: location?.pathname,
-  //     search: searchParams?.toString(),
-  //   });
-  // };
 
   const isViewAllActive = !hasActiveCategoryFilters;
   if (isBlogPageLoading) {
-    return <Shimmer />;
+    return <Loader />;
   }
-  // const showSearch =
-  //   typeof sliderProps?.show_search === "boolean" ||
-  //   sliderProps?.show_search === ""
-  //     ? sliderProps?.show_search
-  //     : true;
+  const hasResults = (blogs?.items?.length ?? 0) > 0;
+  const shouldShowEditorialHeader = !isBlogPageLoading && hasResults;
   return (
     <div className="bg-ekke-bg">
-      <div className={styles.editorialHeaderContainer}>
-        <div className={styles.editorialHeader}>
-          <div className={styles.titleContainer}>
-            <div className={styles.title}>
-              EDITORIAL
-              <br />
-              HUB
-            </div>
-          </div>
-          <div className={styles.contentContainer}>
-            <div className={styles.categories}>
-              <p>Categories</p>
-              <div className="flex flex-col items-start justify-start gap-2">
-                <button
-                  className={`${styles.listItem} ${isViewAllActive ? styles.active : ""}`}
-                  onClick={resetFilters}
-                >
-                  View All
-                </button>
-                {Object.values(categoryTags)?.map((cat) => (
-                  <button
-                    key={cat.key}
-                    className={`${styles.listItem} ${isCategoryActive(cat) ? styles.active : ""}`}
-                    onClick={() => toggleCategoriesTagFilter(cat)}
-                  >
-                    {cat.displaytext}
-                  </button>
-                ))}
+      {shouldShowEditorialHeader && (
+        <>
+          <div className={styles.editorialHeaderContainer}>
+            <div className={styles.editorialHeader}>
+              <div className={styles.titleContainer}>
+                <div className={styles.title}>
+                  EDITORIAL
+                  <br />
+                  HUB
+                </div>
+              </div>
+              <div className={styles.contentContainer}>
+                <div className={styles.categories}>
+                  <p>Categories</p>
+                  <div className="flex flex-col items-start justify-start gap-2">
+                    <button
+                      className={`${styles.listItem} ${isViewAllActive ? styles.active : ""}`}
+                      onClick={resetFilters}
+                    >
+                      View All
+                    </button>
+                    {Object.values(categoryTags)?.map((cat) => (
+                      <button
+                        key={cat.key}
+                        className={`${styles.listItem} ${isCategoryActive(cat) ? styles.active : ""}`}
+                        onClick={() => toggleCategoriesTagFilter(cat)}
+                      >
+                        {cat.displaytext}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div className={styles.breadcrumbwrapper}>
+                  <span className={styles.breadcrumb}>JOURNAL</span>
+                  <span className={styles.slash}>/</span>
+                </div>
               </div>
             </div>
-            <div className={styles.breadcrumbwrapper}>
-              <span className={styles.breadcrumb}>JOURNAL</span>
-              <span className={styles.slash}>/</span>
-            </div>
           </div>
-        </div>
-      </div>
-      <div className={styles.sortBy}>
-        <button
-          type="button"
-          onClick={() => setIsSortOpen(true)}
-          aria-expanded={isSortOpen}
-        >
-          <p>sort by</p>
-        </button>
-      </div>
+          <div className={styles.sortBy}>
+            <button
+              type="button"
+              onClick={() => setIsSortOpen(true)}
+              aria-expanded={isSortOpen}
+            >
+              <p>sort by</p>
+            </button>
+          </div>
+        </>
+      )}
 
       <div className={styles.blogContainer}>
         {blogFilter?.length === 0 &&
           blogs?.page?.item_total === 0 &&
           !searchText && (
-            <EmptyState title={t("resource.blog.no_blogs_found")}></EmptyState>
+            // <EmptyState title={t("resource.blog.no_blogs_found")}></EmptyState>
+            <PageNotFound />
           )}
         <div className={`${styles.blog__content} ${styles.blog__contentFull}`}>
           <div className={`${styles.blog__contentLeft}`}>
             {(blogFilter?.length > 0 || searchText) &&
               blogs?.page?.item_total === 0 && (
-                <EmptyState
-                  title={t("resource.blog.no_blogs_found")}
-                  customClassName={styles.emptyBlog}
-                ></EmptyState>
+                // <EmptyState
+                //   title={t("resource.blog.no_blogs_found")}
+                //   customClassName={styles.emptyBlog}
+                // ></EmptyState>
+                <PageNotFound />
               )}
 
             <div className={`${styles.blogContainer__grid}`}>

@@ -1,5 +1,5 @@
 import React, { useMemo, useEffect, useState } from "react";
-import { FDKLink } from "fdk-core/components";
+import { button } from "fdk-core/components";
 import { convertActionToUrl } from "@gofynd/fdk-client-javascript/sdk/common/Utility";
 import styles from "./styles/home-navbar.less";
 import UserIcon from "../../assets/images/logo/user-logo.svg";
@@ -186,6 +186,11 @@ function HomeNavbar({
       e.preventDefault(); // Prevent navigation redirect
       const category = navItem.display?.toUpperCase();
 
+      // Close search modal when opening nav dropdown
+      if (isSearchModalOpen) {
+        setIsSearchModalOpen(false);
+      }
+
       if (activeDropdown === category && isDropdownOpen) {
         // Close if clicking same category
         setIsDropdownOpen(false);
@@ -303,6 +308,10 @@ function HomeNavbar({
     setIsDropdownOpen(false);
     setActiveDropdown(null);
     setCurrentImage(null);
+    // Also close search modal when navigating
+    if (isSearchModalOpen) {
+      setIsSearchModalOpen(false);
+    }
   };
 
   // Render menu item with dynamic action handling
@@ -365,13 +374,13 @@ function HomeNavbar({
             {item.text}
           </a>
         ) : (
-          <FDKLink
+          <button
             action={item.action}
             className={styles.menuItemText}
             onClick={handleCloseDropdown}
           >
             {item.text}
-          </FDKLink>
+          </button>
         )}
       </div>
     );
@@ -467,7 +476,7 @@ function HomeNavbar({
             {item.text}
           </a>
         ) : (
-          <FDKLink
+          <button
             action={item.action}
             className={`${styles.mobileMenuItemText} ${activeMobileMenuItem === uniqueItemId ? styles.active : ""}`}
             onClick={() => {
@@ -476,7 +485,7 @@ function HomeNavbar({
             }}
           >
             {item.text}
-          </FDKLink>
+          </button>
         )}
       </div>
     );
@@ -594,7 +603,7 @@ function HomeNavbar({
                         </span>
                       </a>
                     ) : (
-                      <FDKLink
+                      <button
                         action={navItem?.action}
                         className={styles.navLink}
                         onClick={handleCloseDropdown}
@@ -602,7 +611,7 @@ function HomeNavbar({
                         <span className={styles.navText}>
                           {navItem.display}
                         </span>
-                      </FDKLink>
+                      </button>
                     );
                   })()
                 )}
@@ -611,12 +620,12 @@ function HomeNavbar({
           </div>
 
           {!isHomePage && (
-            <FDKLink to="/" className={`h-4 ${styles.logoLink}`}>
+            <button to="/" className={`h-4 ${styles.logoLink}`}>
               <SvgWrapper
                 svgSrc="ekke-header-logo"
                 className={styles.logoImage}
               />
-            </FDKLink>
+            </button>
           )}
 
           {/* RIGHT SIDE */}
@@ -646,10 +655,16 @@ function HomeNavbar({
 
               const handleClick = () => {
                 // Close dropdown when clicking on right-side nav items (e.g., ACCOUNTS)
+
+                checkLogin("profile");
                 if (isDropdownOpen) {
                   setIsDropdownOpen(false);
                   setActiveDropdown(null);
                   setCurrentImage(null);
+                }
+                // Close search modal when clicking on other header items
+                if (isSearchModalOpen) {
+                  setIsSearchModalOpen(false);
                 }
               };
 
@@ -662,7 +677,7 @@ function HomeNavbar({
                     </span>
                   ) : isExternal ? (
                     <a
-                      href={url}
+                      // href={url}
                       target="_self"
                       rel="noopener noreferrer"
                       className={styles.navLink}
@@ -671,13 +686,13 @@ function HomeNavbar({
                       <span className={styles.navText}>{navItem.display}</span>
                     </a>
                   ) : (
-                    <FDKLink
-                      action={navItem?.action}
+                    <button
+                      // action={navItem?.action}
                       className={styles.navLink}
                       onClick={handleClick}
                     >
                       <span className={styles.navText}>{navItem.display}</span>
-                    </FDKLink>
+                    </button>
                   )}
                 </div>
               );
@@ -685,7 +700,8 @@ function HomeNavbar({
 
             {/* Cart Button */}
             {!globalConfig?.disable_cart && (
-              <FDKLink
+              <button
+                type="button"
                 className={styles.navAction}
                 onClick={() => {
                   checkLogin("cart");
@@ -693,6 +709,10 @@ function HomeNavbar({
                     setIsDropdownOpen(false);
                     setActiveDropdown(null);
                     setCurrentImage(null);
+                  }
+                  // Close search modal when clicking cart
+                  if (isSearchModalOpen) {
+                    setIsSearchModalOpen(false);
                   }
                 }}
               >
@@ -704,7 +724,7 @@ function HomeNavbar({
                      `}
                   </span>
                 </span>
-              </FDKLink>
+              </button>
             )}
           </div>
           {/* )} */}
@@ -713,14 +733,20 @@ function HomeNavbar({
         {/* MOBILE LAYOUT */}
         <div className={styles.mobileLayout}>
           <div className={styles.mobileLeft}>
-            <FDKLink
+            <button
               className={styles.mobileMenuButton}
-              onClick={handleMobileMenuClick}
+              onClick={() => {
+                handleMobileMenuClick();
+                // Close search modal when opening mobile menu
+                if (isSearchModalOpen) {
+                  setIsSearchModalOpen(false);
+                }
+              }}
             >
               {isMobileMenuOpen && <div className={styles.mobileMenuBullet} />}
               <span className={styles.menuText}>MENU</span>
-            </FDKLink>
-            <FDKLink
+            </button>
+            <button
               className={styles.mobileIcon}
               onClick={() => {
                 setIsSearchModalOpen(!isSearchModalOpen);
@@ -731,15 +757,15 @@ function HomeNavbar({
               }}
             >
               <SearchIcon className={styles.mobileSearchIcon} />
-            </FDKLink>
+            </button>
           </div>
           {!isHomePage && (
-            <FDKLink to="/" className={styles.logoLink}>
+            <button to="/" className={styles.logoLink}>
               <SvgWrapper
                 svgSrc="ekke-header-logo"
                 className={styles.logoImage}
               />
-            </FDKLink>
+            </button>
           )}
 
           <div className={styles.mobileRight}>
@@ -752,18 +778,27 @@ function HomeNavbar({
                 if (isMobileMenuOpen) {
                   setIsMobileMenuOpen(false);
                 }
+                // Close search modal when clicking profile
+                if (isSearchModalOpen) {
+                  setIsSearchModalOpen(false);
+                }
               }}
             >
               <UserIcon className={styles.mobileUserIcon} />
             </button>
 
-            <FDKLink
+            <button
+              type="button"
               className={styles.mobileCartButton}
               onClick={() => {
                 checkLogin("cart");
                 // Close mobile menu when clicking cart
                 if (isMobileMenuOpen) {
                   setIsMobileMenuOpen(false);
+                }
+                // Close search modal when clicking cart
+                if (isSearchModalOpen) {
+                  setIsSearchModalOpen(false);
                 }
               }}
             >
@@ -773,7 +808,7 @@ function HomeNavbar({
                   {`${String(cartItemCount).padStart(2, "0")}`}
                 </span>
               </span>
-            </FDKLink>
+            </button>
           </div>
         </div>
       </nav>
@@ -999,21 +1034,21 @@ function HomeNavbar({
                             {brandsData.display}
                           </a>
                         ) : brandsData.action ? (
-                          <FDKLink
+                          <button
                             action={brandsData.action}
                             className={styles.imageButton}
                             onClick={handleBrandsClick}
                           >
                             {brandsData.display}
-                          </FDKLink>
+                          </button>
                         ) : (
-                          <FDKLink
+                          <button
                             to={brandsData.url}
                             className={styles.imageButton}
                             onClick={handleBrandsClick}
                           >
                             {brandsData.display}
-                          </FDKLink>
+                          </button>
                         );
                       })()}
                     </div>
@@ -1048,7 +1083,7 @@ function HomeNavbar({
             <nav className={styles.mobileFiltersNav}>
               <div className={styles.mobileFiltersContent}>
                 {categoriesWithDropdowns.map((filter) => (
-                  <FDKLink
+                  <button
                     key={filter}
                     className={styles.mobileFilterButton}
                     onClick={() => handleMobileFilterClick(filter)}
@@ -1059,7 +1094,7 @@ function HomeNavbar({
                       )}
                     </div>
                     <span className={styles.mobileFilterText}>{filter}</span>
-                  </FDKLink>
+                  </button>
                 ))}
               </div>
             </nav>

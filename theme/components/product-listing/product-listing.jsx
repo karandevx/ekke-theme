@@ -92,7 +92,12 @@ const ProductListing = ({
     const cameFromPDP = sessionStorage.getItem("plp:fromPDP") === "true";
     const savedScroll = sessionStorage.getItem("plp:scroll");
     // If we're returning from PDP and have a scroll position to restore, start hidden
-    return cameFromPDP && savedUrl === currentUrl && savedScroll && Number(savedScroll) > 100;
+    return (
+      cameFromPDP &&
+      savedUrl === currentUrl &&
+      savedScroll &&
+      Number(savedScroll) > 100
+    );
   });
 
   // // Safety timeout to ensure content becomes visible even if scroll restore fails
@@ -469,11 +474,11 @@ const ProductListing = ({
   ]);
 
   return (
-    <div 
+    <div
       className={styles.plpWrapper}
       style={{
         opacity: isRestoringScroll ? 0 : 1,
-        transition: 'opacity 0.2s ease-in-out',
+        transition: "opacity 0.2s ease-in-out",
       }}
     >
       {isRunningOnClient() && isPageLoading ? (
@@ -509,7 +514,11 @@ const ProductListing = ({
           </div>
           <div className={styles.contentWrapper}>
             {filterList?.length !== 0 && (
-              <div className={styles.left} ref={leftContainerRef}>
+              <div
+                className={styles.left}
+                ref={leftContainerRef}
+                style={{ top: topPosition }}
+              >
                 {filterList.slice(0, 4)?.map((filter, idx) => (
                   <FilterItem
                     isMobileView={false}
