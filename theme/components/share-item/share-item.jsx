@@ -26,7 +26,8 @@ function ShareItem({ setShowSocialLinks, description, handleShare }) {
   const handleCopyToClipboard = (e) => {
     e.stopPropagation();
     copyToClipboard(shareUrl);
-    toast.info(t("resource.common.copy_link"));
+   // toast.info(t("resource.common.copy_link"));
+   toast.info(t("resource.common.link_copied"), "success");
   };
 
   const shareOptions = [

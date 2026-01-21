@@ -1,28 +1,50 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
+import { useLocation } from "react-router-dom";
 import { lockBodyScroll, unlockBodyScroll } from "../../helper/utils";
 import CartLandingSection from "../../sections/cart-landing";
 
 const CartDrawer = ({ isOpen, onClose, fpi }) => {
   const [show, setShow] = useState(false);
-
-  // Animation control and body scroll lock
-  useEffect(() => {
-    if (isOpen) {
-      setTimeout(() => setShow(true), 100);
-      lockBodyScroll();
-    } else {
-      setShow(false);
-    }
-  }, [isOpen]);
+  const location = useLocation();
+  const previousPathname = useRef(location.pathname);
 
   // Handle close with animation
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setShow(false);
     setTimeout(() => {
       onClose();
       unlockBodyScroll();
     }, 300);
-  };
+  }, [onClose]);
+
+  // Animation control and body scroll lock
+  useEffect(() => {
+    if (isOpen) {
+      // Lock scroll first to prevent any scroll jumps
+      lockBodyScroll();
+      // Then trigger animation
+      requestAnimationFrame(() => {
+        setTimeout(() => setShow(true), 10);
+      });
+    } else {
+      setShow(false);
+      unlockBodyScroll();
+    }
+
+    // Cleanup: unlock scroll when component unmounts
+    return () => {
+      unlockBodyScroll();
+    };
+  }, [isOpen]);
+
+  // Close cart drawer when location changes (navigation)
+  useEffect(() => {
+    // Only close if pathname actually changed and drawer is open
+    if (previousPathname.current !== location.pathname && isOpen) {
+      handleClose();
+      previousPathname.current = location.pathname;
+    }
+  }, [location.pathname, isOpen, handleClose]);
 
   return (
     <>

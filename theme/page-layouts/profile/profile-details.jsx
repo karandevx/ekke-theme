@@ -199,6 +199,14 @@ function ProfileDetails({ userData, handleSave, signOut, fpi }) {
     }
   };
 
+  // Calculate max date (13 years ago from today)
+  const maxBirthDate = useMemo(() => {
+    const today = new Date();
+    const maxDate = new Date();
+    maxDate.setFullYear(today.getFullYear() - 13);
+    return maxDate.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+  }, []);
+
   return (
     <div className={`${styles.profileDetailsContainer} h-full overflow-auto`}>
       <div className={`${styles.formContainer} h-full`}>
@@ -289,7 +297,7 @@ function ProfileDetails({ userData, handleSave, signOut, fpi }) {
                               <input
                                 {...register("lastName", formSchema.lastName)}
                                 placeholder="Last name"
-                                className={`body-2 p-1 w-full overflow-hidden border border-solid md:h-[24px] h-[32px] outline-none focus:outline-none  uppercase focus-visible:outline-none focus-visible:ring-0 ${
+                                className={`body-2 p-1 w-full overflow-hidden border border-solid md:h-[24px] h-[32px] outline-none focus:outline-none   focus-visible:outline-none focus-visible:ring-0 ${
                                   errors.lastName
                                     ? "border-[#5C2E20] focus:border-[#5C2E20]"
                                     : "border-[#EEEEEE] focus:border-[#AAAAAA]"
@@ -359,6 +367,7 @@ function ProfileDetails({ userData, handleSave, signOut, fpi }) {
                               <input
                                 {...register("birthDate", formSchema.birthDate)}
                                 type="date"
+                                max={maxBirthDate}
                                 className={`body-2 p-1 !text-[#171717] w-full overflow-hidden border border-solid md:h-[24px] h-[32px] outline-none focus:outline-none focus-visible:outline-none focus-visible:ring-0 ${
                                   errors.birthDate
                                     ? "border-[#5C2E20] focus:border-[#5C2E20]"

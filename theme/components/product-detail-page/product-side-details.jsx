@@ -1389,7 +1389,7 @@ export const ProductSideDetails = ({
                 >
                   {isFetchingDelivery ? (
                     "CALCULATING DELIVERY DATE..."
-                  ) : estimatedDeliveryDate ? (
+                  ) : estimatedDeliveryDate && !errors.pincode ? (
                     <>
                       GET IT BY{" "}
                       <span className="font-medium">
@@ -2163,9 +2163,13 @@ export const ProductSideDetails = ({
                   {errors.pincode.message}
                 </div>
               )}
-              <span className="body-2 !text-[8px] pt-2">
-                Enter your pincode to view delivery details.
-              </span>
+              {
+                !pinCode && (
+                  <span className="body-2 !text-[8px] pt-2">
+                  Enter your pincode to view delivery details.
+                </span>
+                )
+              }
             </div>
 
             <div className="pt-3" style={{ minHeight: "24px" }}>
@@ -2181,7 +2185,7 @@ export const ProductSideDetails = ({
               >
                 {isFetchingDelivery ? (
                   "CALCULATING DELIVERY DATE..."
-                ) : estimatedDeliveryDate ? (
+                ) : estimatedDeliveryDate && !errors.pincode ? (
                   <>
                     GET IT BY{" "}
                     <span className="font-medium">

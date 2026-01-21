@@ -684,30 +684,52 @@ export const getUserAutofillData = (user, isGuestUser = false) => {
 };
 
 // Track the previous body scroll position
-let bodyScrollPrevTop = "0px";
+let bodyScrollPrevTop = 0;
 
 export const lockBodyScroll = () => {
-  if (!isRunningOnClient() || document.body.style.position === "fixed") return;
-  const { scrollY } = window;
-  bodyScrollPrevTop = `-${scrollY}px`;
+  if (!isRunningOnClient() || document.body.style.overflow === "hidden") return;
+  
+  // Store current scroll position
+  bodyScrollPrevTop = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
+  
+  // Lock body scroll without changing position
+  document.body.style.overflow = "hidden";
+  document.body.style.width = "100%";
+  
+  // Maintain scroll position by setting fixed position
   document.body.style.position = "fixed";
-  document.body.style.top = bodyScrollPrevTop;
+  document.body.style.top = `-${bodyScrollPrevTop}px`;
   document.body.style.left = "0";
   document.body.style.right = "0";
-  document.body.style.overflow = "hidden";
+  
+  const appElement = document.getElementById("app");
+  if (appElement) {
+    appElement.style.setProperty("position", "fixed");
+  }
 };
 
 export const unlockBodyScroll = () => {
-  if (!isRunningOnClient() || document.body.style.position !== "fixed") return;
-  const scrollYTop = document.body.style.top || bodyScrollPrevTop || "0px";
+  if (!isRunningOnClient()) return;
+  
+  // Restore body styles
   document.body.style.position = "";
   document.body.style.top = "";
   document.body.style.left = "";
   document.body.style.right = "";
   document.body.style.overflow = "";
-  const y = parseInt(scrollYTop || "0", 10) * -1;
-  window.scrollTo(0, y);
-  bodyScrollPrevTop = "0px";
+  document.body.style.width = "";
+  
+  const appElement = document.getElementById("app");
+  if (appElement) {
+    appElement.style.setProperty("position", "unset");
+  }
+  
+  // Restore scroll position without triggering scroll event
+  if (bodyScrollPrevTop !== 0) {
+    window.scrollTo(0, bodyScrollPrevTop);
+    bodyScrollPrevTop = 0;
+  }
+   
 };
 
 // utils/sizeSort.js

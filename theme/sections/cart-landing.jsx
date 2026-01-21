@@ -27,7 +27,6 @@ import { useGlobalStore, useFPI } from "fdk-core/utils";
 
 import { useViewport } from "../helper/hooks";
 import FyAccordion from "../components/core/fy-accordion/fy-accordion";
-import { lockBodyScroll, unlockBodyScroll } from "../helper/utils";
 import SvgWrapper from "../components/core/svgWrapper/SvgWrapper";
 import useWishlistPage from "../page-layouts/wishlist/useWishlist";
 import { useWishlist } from "../helper/hooks/useWishlist";
@@ -284,7 +283,6 @@ export function Component({ blocks, handleClose, isOnCheckoutPage = false }) {
   const handleWishlistButtonClick = (data) => {
     if (!isLoggedIn) {
       handleClose();
-      unlockBodyScroll();
     }
     onWishlistButtonClick(data);
   };
@@ -320,10 +318,7 @@ export function Component({ blocks, handleClose, isOnCheckoutPage = false }) {
           <div className="flex justify-end">
             <h3
               className="cursor-pointer text-[#171717] hover:text-black font-normal text-[11px] leading-[120%] font-archivo"
-              onClick={() => {
-                handleClose();
-                unlockBodyScroll();
-              }}
+              onClick={handleClose}
             >
               CLOSE
             </h3>

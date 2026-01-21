@@ -375,8 +375,9 @@ export default function ChipItem({
               <div className="flex flex-col gap-[11px] h-full justify-between md:w-[50%] w-full md:pt-[0px] pt-[8px] pr-[8px]">
                 <div className="flex flex-col gap-[8px]">
                   <div
-                    className={`${styles.itemBrand} font-archivo font-[400] text-[11px] leading-[120%] tracking-[0%] uppercase text-[#1F1F1F]`}
-                  >
+                    className={`${styles.itemBrand} font-archivo  text-[11px] leading-[120%] tracking-[0%] uppercase text-[#1F1F1F]`}
+                 style={{ fontWeight: 400 }}
+                 >
                     {singleItemDetails?.product?.brand?.name}
                   </div>
                   <div

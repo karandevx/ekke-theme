@@ -66,10 +66,12 @@ export function Component({ props, blocks }) {
   const toast = useToast();
   const { toggleWishlist, followedIdList } = useWishlist({ fpi });
   const { isLoggedIn, openLogin } = useAccounts({ fpi });
-  const { fetchProducts, productList } = useCollectionListing({
+  const { productList } = useCollectionListing({
     fpi,
     slug: props?.collection_name?.value,
-    props: {},
+    props: {
+      page_size: { value: numberOfProducts },
+    },
   });
 
   const finalProducts = useMemo(() => {
@@ -100,15 +102,6 @@ export function Component({ props, blocks }) {
       }))
       .filter(Boolean);
   }, [productList]);
-
-  useEffect(() => {
-    fetchProducts({
-      slug: props?.collection_name?.value,
-      ...(!props?.with_slider?.value && {
-        first: props?.number_of_products?.value,
-      }),
-    });
-  }, []);
 
   const handlePrev = () => sliderRef.current?.slickPrev();
   const handleNext = () => sliderRef.current?.slickNext();

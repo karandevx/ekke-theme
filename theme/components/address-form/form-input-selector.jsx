@@ -144,6 +144,16 @@ const FormInputSelector = ({
                 disabled={disabled}
                 readOnly={readOnly}
                 maxLength={maxLength}
+                onInput={(event) => {
+                  // For pincode field, enforce 6 digit limit and numeric only
+                  if (key === "area_code") {
+                    const value = event.target.value.replace(/\D/g, "").slice(0, 6);
+                    event.target.value = value;
+                  } else if (maxLength) {
+                    // For other fields with maxLength, enforce the limit
+                    event.target.value = event.target.value.slice(0, maxLength);
+                  }
+                }}
                 onChange={(event) => {
                   field?.onChange(event?.target?.value);
                   onChange(event?.target?.value, formMethods);

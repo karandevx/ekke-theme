@@ -54,7 +54,7 @@ function BlogShare({ blogTitle = "", blogSlug = "" }) {
     e.preventDefault();
     if (shareUrl) {
       copyToClipboard(shareUrl);
-      toast.info(t("resource.common.copy_link") || "Link copied to clipboard");
+      toast.info(t("resource.common.link_copied") || "Link copied to clipboard");
     }
   };
 
@@ -82,7 +82,7 @@ function BlogShare({ blogTitle = "", blogSlug = "" }) {
         <button
           className={`${styles.shareOption} ${styles.inactive}`}
           onClick={handleCopyLink}
-          aria-label="Copy link"
+          aria-label="Link copied to clipboard"
         >
           <span className={styles.separator}></span>
           LINK
