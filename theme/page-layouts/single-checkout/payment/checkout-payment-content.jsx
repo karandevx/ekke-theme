@@ -3,7 +3,12 @@ import styles from "./checkout-payment-content.less";
 import SvgWrapper from "../../../components/core/svgWrapper/SvgWrapper";
 import { useSearchParams } from "react-router-dom";
 import cardValidator from "card-validator";
-import Modal from "../../../components/core/modal/modal";
+// import Modal from "../../../components/core/modal/modal";
+
+import "@gofynd/theme-template/components/core/modal/modal.css";
+
+// import Modal from "gofynd/theme-template/components/core/modal/modal";
+// import "gofynd/theme-template/components/core/modal/modal.css";
 import { useMobile } from "../../../helper/hooks/useMobile";
 import { useViewport } from "../../../helper/hooks";
 // import UktModal from "./ukt-modal";
@@ -25,6 +30,9 @@ import FyButton from "../../../components/core/fy-button/fy-button";
 import { FDKLink } from "fdk-core/components";
 import Gst from "../../../components/gst/gst";
 import useCart from "../../cart/useCart";
+const Modal = React.lazy(
+  () => import("@gofynd/theme-template/components/core/modal/modal"),
+);
 
 const upiDisplayWrapperStyle = {
   padding: "24px",
@@ -2174,38 +2182,54 @@ function CheckoutPaymentContent({
               <Modal
                 containerClassName={styles.moreOptionContainer}
                 isOpen={openMoreWalletModal}
-                headerClassName={styles.modalHeader}
-                bodyClassName={`${styles.modalBody} ${styles.bodyContainer}`}
                 closeDialog={() => {
                   setOpenMoreWalletModal(false);
                   setWalletSearchText("");
                 }}
-                title={t("resource.checkout.select_wallet")}
                 modalType="center-modal"
                 position="bottom"
+                modalClassName={styles.modalPadding}
               >
-                <div className={styles.searchBox}>
-                  <SvgWrapper svgSrc="search" className={styles.searchIcon} />
-                  <input
-                    type="text"
-                    defaultValue={walletSearchText}
-                    onChange={(e) => setWalletSearchText(e?.target?.value)}
-                    placeholder={t("resource.checkout.search_for_wallets")}
-                  />
+                <div className={styles.modalHeader}>
+                  <div className={styles.modalTitle}>
+                    {t("resource.checkout.select_wallet")}
+                  </div>
+                  <span
+                    className={styles.closeButton}
+                    onClick={() => {
+                      setOpenMoreWalletModal(false);
+                      setWalletSearchText("");
+                    }}
+                  >
+                    close
+                  </span>
                 </div>
-                {filteredWallets?.length === 0 ? (
-                  <p className={styles.noResultFound}>
-                    {t("resource.common.empty_state")}
-                  </p>
-                ) : (
-                  filteredWallets.map((wlt, index) => (
-                    <WalletItem
-                      openMoreWalletModal={openMoreWalletModal}
-                      wlt={wlt}
-                      key={`mi-${index}`}
+                <div className={`${styles.modalBody} ${styles.bodyContainer}`}>
+                  <div className={styles.searchBox}>
+                    <SvgWrapper svgSrc="search" className={styles.searchIcon} />
+                    <input
+                      type="text"
+                      defaultValue={walletSearchText}
+                      onChange={(e) => setWalletSearchText(e?.target?.value)}
+                      placeholder={t("resource.checkout.search_for_wallets")}
                     />
-                  ))
-                )}
+                  </div>
+                  <div className="max-h-[400px] overflow-y-auto">
+                    {filteredWallets?.length === 0 ? (
+                      <p className={styles.noResultFound}>
+                        {t("resource.common.empty_state")}
+                      </p>
+                    ) : (
+                      filteredWallets.map((wlt, index) => (
+                        <WalletItem
+                          openMoreWalletModal={openMoreWalletModal}
+                          wlt={wlt}
+                          key={`mi-${index}`}
+                        />
+                      ))
+                    )}
+                  </div>
+                </div>
               </Modal>
             </div>
           </div>
@@ -2819,51 +2843,74 @@ function CheckoutPaymentContent({
                 </div>
               )}
 
-              <Modal
-                containerClassName={styles.moreOptionContainer}
-                isOpen={openMoreNbModal}
-                headerClassName={styles.modalHeader}
-                bodyClassName={`${styles.modalBody} ${styles.bodyContainer}`}
-                closeDialog={() => {
-                  setOpenMoreNbModal(false);
-                  setNbSearchText("");
-                }}
-                title={t("resource.checkout.select_bank")}
-                modalType="center-modal"
-              >
-                <div className={styles.searchBox}>
-                  <SvgWrapper svgSrc="search" className={styles.searchIcon} />
-                  <input
-                    type="text"
-                    defaultValue={nbSearchText}
-                    onChange={(e) => setNbSearchText(e?.target?.value)}
+              {openMoreNbModal && (
+                <div
+                  className={styles.customModalOverlay}
+                  onClick={() => {
+                    setOpenMoreNbModal(false);
+                    setNbSearchText("");
+                  }}
+                >
+                  <div
+                    className={styles.customModalContainer}
                     onClick={(e) => e.stopPropagation()}
-                    placeholder={t("resource.checkout.search_for_banks")}
-                    className="body-2 p-1 w-full overflow-hidden md:h-[24px] h-[32px] placeholder:text-[#AAAAAA]"
-                    style={{
-                      border: nbSearchText
-                        ? "1px solid #5C2E20"
-                        : "1px solid #EEEEEE",
-                      outline: "none",
-                    }}
-                  />
+                  >
+                    <div className={styles.modalHeader}>
+                      <div className={styles.modalTitle}>
+                        {t("resource.checkout.select_bank")}
+                      </div>
+                      <span
+                        className={styles.closeButton}
+                        onClick={() => {
+                          setOpenMoreNbModal(false);
+                          setNbSearchText("");
+                        }}
+                      >
+                        close
+                      </span>
+                    </div>
+                    <div
+                      className={`${styles.modalBody} ${styles.bodyContainer}`}
+                    >
+                      <div className={styles.searchBox}>
+                        <SvgWrapper
+                          svgSrc="search"
+                          className={styles.searchIcon}
+                        />
+                        <input
+                          type="text"
+                          defaultValue={nbSearchText}
+                          onChange={(e) => setNbSearchText(e?.target?.value)}
+                          onClick={(e) => e.stopPropagation()}
+                          placeholder={t("resource.checkout.search_for_banks")}
+                          className="body-2 p-1 w-full overflow-hidden md:h-[24px] h-[32px] placeholder:text-[#AAAAAA]"
+                          style={{
+                            border: nbSearchText
+                              ? "1px solid #5C2E20"
+                              : "1px solid #EEEEEE",
+                            outline: "none",
+                          }}
+                        />
+                      </div>
+                      <div className="max-h-[500px] overflow-y-auto">
+                        {filteredBanks?.length === 0 ? (
+                          <p className={styles.noResultFound}>
+                            {t("resource.common.empty_state")}
+                          </p>
+                        ) : (
+                          filteredBanks?.map((nb, index) => (
+                            <NbItem
+                              nb={nb}
+                              openMoreNbModal={openMoreNbModal}
+                              key={`mi-${index}`}
+                            />
+                          ))
+                        )}
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="max-h-[400px] overflow-y-auto">
-                  {filteredBanks?.length === 0 ? (
-                    <p className={styles.noResultFound}>
-                      {t("resource.common.empty_state")}
-                    </p>
-                  ) : (
-                    filteredBanks?.map((nb, index) => (
-                      <NbItem
-                        nb={nb}
-                        openMoreNbModal={openMoreNbModal}
-                        key={`mi-${index}`}
-                      />
-                    ))
-                  )}
-                </div>
-              </Modal>
+              )}
             </div>
           </div>
         );

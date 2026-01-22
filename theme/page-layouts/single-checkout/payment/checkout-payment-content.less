@@ -1026,7 +1026,38 @@
       }
     }
     .modalHeader {
+      display: flex !important;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid @DividerStokes;
       padding: 16px;
+    }
+    .modalTitle {
+      font-size: 16px;
+      font-weight: 600;
+      color: @TextHeading;
+      line-height: 140%;
+    }
+    .closeButton {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px 8px;
+      font-family: "Material Icons";
+      font-size: 24px;
+      color: @TextBody;
+      line-height: 1;
+      svg {
+        width: 20px;
+        height: 20px;
+        path {
+          fill: @TextBody;
+        }
+      }
+      &:hover {
+        opacity: 0.7;
+      }
     }
     .modalBody {
       padding: 0 16px;
@@ -1651,6 +1682,10 @@
 .couponValidityModal {
   z-index: 99 !important;
 }
+
+.modalPadding {
+  padding: 16px !important;
+}
 .codModal {
   padding: 24px;
   display: flex;
@@ -1809,10 +1844,42 @@
     height: 434px;
   }
 }
+
+.customModalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  @media @tablet {
+    align-items: flex-end;
+  }
+}
+
+.customModalContainer {
+  background: #fff;
+  width: 390px;
+  max-height: 90vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 4px;
+  @media @tablet {
+    width: 100%;
+    max-width: 100%;
+    // border-radius: 16px 16px 0 0;
+    max-height: 80vh;
+  }
+}
 .bodyContainer {
   min-width: unset !important;
   min-height: unset !important;
-  margin-bottom: 16px;
+  margin-bottom: 0px;
   max-height: unset !important;
   @media @tablet {
     .modeItemName {
@@ -1988,6 +2055,60 @@
     }
     .contact_us {
       margin-top: 12px;
+    }
+  }
+}
+
+.modalHeader {
+  display: flex !important;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid @DividerStokes;
+  padding: 2px;
+}
+.modalTitle {
+  font-size: 11px;
+  font-weight: 400;
+  color: #171717;
+  line-height: 1.2;
+}
+.closeButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 8px;
+  font-family: "Archivo";
+  font-size: 11px;
+  color: #171717;
+  line-height: 1;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.7;
+  }
+}
+.modalBody {
+  padding: 0;
+  max-height: 70vh;
+  min-height: 40vh;
+
+  @media @desktop {
+    max-height: 554px;
+    min-width: 420px;
+    & > div {
+      margin-bottom: 16px;
+    }
+  }
+
+  .searchBox {
+    margin-top: 4px;
+    height: 20px;
+    display: flex;
+    input {
+      width: 100%;
+      height: 100%;
+      border: none;
+      background: transparent;
     }
   }
 }

@@ -147,7 +147,7 @@ function Register({
 
   return (
     <div
-      className={`${styles.containerWrapper} overflow-y-auto lg:max-h-[calc(100vh-10vh)] max-h-[calc(100vh-10vh)] max-md:pb-2`}
+      className={`${styles.containerWrapper} overflow-y-auto lg:max-h-[calc(100vh-10vh)] max-h-[calc(100vh-10vh)] pb-[200px]`}
     >
       {!isFormSubmitSuccess ? (
         // default form

@@ -65,6 +65,20 @@ export const settings = {
       default:
         "<p>The collections are defined by Jonny Johansson's signature juxtaposing design and attention to detail, with an emphasis on tailoring and an eclectic use of materials and custom-developed fabrics.</p>",
       info: "Add your custom HTML code for main content. You can use the full screen icon to open a code editor and add your code",
+    },{
+      type:"text",
+      id:"title",
+      label:"Title",
+      default:"INFO TEXT",
+      info:"Title for the info text section"
+    },
+    {
+      type: "textarea",
+      id: "description",
+      label: "Description",
+      default:
+        "The collections are defined by Jonny Johansson's signature juxtaposing design and attention to detail, with an emphasis on tailoring and an eclectic use of materials and custom-developed fabrics.",
+      info: "Description for the info text section",
     },
     {
       type: "select",

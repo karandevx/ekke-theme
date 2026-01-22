@@ -14,6 +14,7 @@ function Modal({
   position = "center", // ✅ rename
   containerStyle,
   blogContainer = false,
+  modalClassName,
 }) {
   const modalRef = useRef(null);
   const modalContainerRef = useRef(null);
@@ -26,7 +27,7 @@ function Modal({
 
   useEffect(() => {
     if (!isCancelable || !closeDialog) return;
-    
+
     const handleClickOutside = (event) => {
       if (
         modalContainerRef.current &&
@@ -49,14 +50,14 @@ function Modal({
     isOpen && (
       <div
         role="button"
-        className={`${styles.modal} ${styles[modalType]} ${styles[position]}`} // ✅ uses the correct prop
+        className={`${styles.modal} ${styles[modalType]} ${styles[position]} ${modalClassName}`} // ✅ uses the correct prop
         ref={modalRef}
         tabIndex="0"
         onKeyDown={(e) => e.key === "Escape" && isCancelable && closeDialog()}
-        style={{ 
+        style={{
           top: topPosition,
-          outline: 'none',
-          WebkitTapHighlightColor: 'transparent'
+          outline: "none",
+          WebkitTapHighlightColor: "transparent",
         }}
       >
         <div

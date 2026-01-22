@@ -24,7 +24,7 @@ function TermPrivacy({ onChange, checked }) {
         />
         <label
           htmlFor="terms-privacy"
-          className="body-2 text-left text-[#171717] w-full whitespace-nowrap"
+          className=" body-2 text-left text-[#171717] w-full whitespace-nowrap flex flex-wrap"
         >
           {"I acknowledge that I have read and understood the"}&nbsp;
           <FDKLink

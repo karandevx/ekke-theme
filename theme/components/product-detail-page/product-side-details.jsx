@@ -858,11 +858,12 @@ export const ProductSideDetails = ({
     <>
       <section
         ref={sectionRef}
-        className=" hidden desktop:flex w-full justify-center"
+        className=" w-full justify-center"
         style={{
           height: viewportHeight,
           position: "fixed",
           top: hasAnnouncementBar ? "80px" : "56px",
+          display: window.innerWidth >= 1126 ? "flex" : "none",
         }}
       >
         {/* Left Section - Independently Scrollable */}
@@ -1622,7 +1623,8 @@ export const ProductSideDetails = ({
       </section>
       {/* -------------------------Mobile Layout - Visible only on mobile/tablet ----------------------------*/}
       <div
-        className="flex desktop:hidden flex-col w-full"
+        className="flex-col w-full"
+        style={{ display: window.innerWidth >= 1125 ? "none" : "flex" }}
         // onClick={() => setIsZoomOpen(true)}
       >
         {/* Mobile Main Image with Thumbnails on Right */}
