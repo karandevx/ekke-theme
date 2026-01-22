@@ -9,6 +9,17 @@
   min-height: 100vh;
   height: 100%;
   background-color: @primary-background;
+
+  // When NO image is present, apply max-height constraints
+  &[data-has-image="false"] {
+    min-height: 720px !important;
+    max-height: 720px !important;
+
+    @media (max-width: 768px) {
+      min-height: 500px !important;
+      max-height: 500px !important;
+    }
+  }
 }
 
 .container {

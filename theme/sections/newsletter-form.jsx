@@ -526,8 +526,18 @@ export function Component({ props, globalConfig }) {
   const shouldShowSubmitButton = () => {
     return state.email.trim().length > 0;
   };
+  // Check if image exists (check for truthy and non-empty string)
+  const desktopImage = section_image?.value;
+  const mobileImage = section_image_mobile?.value;
+  const primaryImage = isMobile ? mobileImage : desktopImage;
+  const hasImage = Boolean(primaryImage && primaryImage.trim && primaryImage.trim() !== "");
+
   return (
-    <section className={styles.newsletterSection} style={getBackgroundStyle()}>
+    <section 
+      className={styles.newsletterSection} 
+      style={getBackgroundStyle()}
+      data-has-image={hasImage ? "true" : "false"}
+    >
       <div className={styles.container}>
         <div className={styles.content}>
           {state.showThankYou ? (

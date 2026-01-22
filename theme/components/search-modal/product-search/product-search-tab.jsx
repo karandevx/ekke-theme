@@ -1,5 +1,5 @@
 // ProductSearchTab.jsx
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { debounce } from "../../../helper/utils";
 import { FDKLink } from "fdk-core/components";
 import { PRODUCTS_SEARCH } from "../../../queries/productQuery";
@@ -39,6 +39,9 @@ export default function ProductSearchTab({
 
   const toast = useToast();
   const [hoveredRecentTerm, setHoveredRecentTerm] = useState(null);
+  
+  // Ref to track the currently hovered term for race condition handling
+  const hoveredTermRef = useRef(null);
 
   // ==== RECENT SEARCHES ====
   // Check if localStorage is available
@@ -81,10 +84,10 @@ export default function ProductSearchTab({
   const getUserStorageKey = () => {
     try {
       const userId = auth?.user_id || getOrCreateAnonId();
-      return `recent_searches:${userId}`;
+      return `recent_product_searches:${userId}`;
     } catch (error) {
       console.warn("Error generating storage key:", error);
-      return "recent_searches:fallback";
+      return "recent_product_searches:fallback";
     }
   };
 
@@ -266,14 +269,21 @@ export default function ProductSearchTab({
 
     try {
       const items = await executeSearch(t);
-      if (Array.isArray(items) && items[0]) {
-        setHoveredProduct(items[0]);
-      } else {
-        setHoveredProduct(null);
+      // Only update hoveredProduct if the term is still the one being hovered
+      // This prevents race conditions where mouse leaves before API completes
+      if (hoveredTermRef.current === t) {
+        if (Array.isArray(items) && items[0]) {
+          setHoveredProduct(items[0]);
+        } else {
+          setHoveredProduct(null);
+        }
       }
     } catch (e) {
       console.error("Preview recent search failed:", e);
-      setHoveredProduct(null);
+      // Only clear if still hovering the same term
+      if (hoveredTermRef.current === t) {
+        setHoveredProduct(null);
+      }
     }
   };
 
@@ -458,10 +468,12 @@ export default function ProductSearchTab({
                   key={`${termString}-${idx}`}
                   className={styles.recentItemDesktop}
                   onMouseEnter={() => {
+                    hoveredTermRef.current = termString; // Track the hovered term
                     setHoveredRecentTerm(termString);
                     previewRecentSearch(termString); // this sets hoveredProduct to first product
                   }}
                   onMouseLeave={() => {
+                    hoveredTermRef.current = null; // Clear the ref to prevent stale updates
                     setHoveredProduct && setHoveredProduct(null);
                     setHoveredRecentTerm && setHoveredRecentTerm(null);
                   }}

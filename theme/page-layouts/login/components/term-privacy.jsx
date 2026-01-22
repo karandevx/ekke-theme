@@ -24,12 +24,12 @@ function TermPrivacy({ onChange, checked }) {
         />
         <label
           htmlFor="terms-privacy"
-          className="body-2 text-left text-[#171717] w-full"
+          className="body-2 text-left text-[#171717] w-full whitespace-nowrap"
         >
           {"I acknowledge that I have read and understood the"}&nbsp;
           <FDKLink
             to="/terms-and-conditions"
-            className="underline w-full"
+            className="underline inline"
             target="_self"
           >
             {t("resource.auth.login.terms_of_service")}
@@ -37,7 +37,7 @@ function TermPrivacy({ onChange, checked }) {
           &nbsp;{t("resource.auth.login.and_symbol")}&nbsp;
           <FDKLink
             to="/privacy-policy"
-            className="underline w-full"
+            className="underline inline"
             target="_self"
           >
             {t("resource.auth.login.privacy_policy")}

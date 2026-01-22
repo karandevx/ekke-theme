@@ -214,6 +214,7 @@ export const ProductSideDetails = ({
   const [isFetchingDelivery, setIsFetchingDelivery] = useState(false);
   const [showSocialLinks, setShowSocialLinks] = useState(false);
   const [fulfillmentData, setFulfillmentData] = useState(null);
+  const [pincodeError, setPincodeError] = useState("");
   const [showNotifyModal, setShowNotifyModal] = useState(false);
   const [sizeBasedPrice, setSizeBasedPrice] = useState(null); // Dynamic price based on selected size
   const [internalSize, setInternalSize] = useState(null); // Internal size for API calls (not shown in UI)
@@ -400,6 +401,9 @@ export const ProductSideDetails = ({
     // Reset estimated delivery date
     setEstimatedDeliveryDate(null);
 
+    // Reset pincode error
+    setPincodeError("");
+
     // Reset size-based price
     setSizeBasedPrice(null);
 
@@ -544,6 +548,9 @@ export const ProductSideDetails = ({
   // Fetch delivery date when pincode and size are available
   useEffect(() => {
     const fetchDeliveryDate = async () => {
+      // Clear previous error
+      setPincodeError("");
+
       // Check if user entered valid pincode but hasn't selected size
       if (
         pinCode &&
@@ -551,12 +558,19 @@ export const ProductSideDetails = ({
         !selectedSize?.value &&
         !isAddingToCartRef.current
       ) {
-        toast.error("Please select a size as well");
+        setPincodeError("Please select a size first");
         return;
       }
 
-      // Need at least size and slug to fetch fulfillment options
+      // Don't make API call if size is not selected
       if (!selectedSize?.value || !slug) {
+        setEstimatedDeliveryDate(null);
+        setFulfillmentData(null);
+        return;
+      }
+
+      // Don't make API call if pincode is entered but not 6 digits
+      if (pinCode && pinCode.length > 0 && pinCode.length < 6) {
         setEstimatedDeliveryDate(null);
         setFulfillmentData(null);
         return;
@@ -578,6 +592,19 @@ export const ProductSideDetails = ({
           pincodeToUse,
         );
 
+        // Check if fulfillment options are valid
+        // If pincode was provided but no delivery options returned, it's likely an invalid pincode
+        if (
+          pincodeToUse &&
+          (!fulfillmentOptions || fulfillmentOptions.length === 0)
+        ) {
+          setPincodeError("Delivery not available for this pincode");
+          setEstimatedDeliveryDate(null);
+          setFulfillmentData(null);
+          setIsFetchingDelivery(false);
+          return;
+        }
+
         // Store the first fulfillment option for Add to Cart
         if (fulfillmentOptions && fulfillmentOptions.length > 0) {
           setFulfillmentData(fulfillmentOptions[0]);
@@ -591,12 +618,24 @@ export const ProductSideDetails = ({
             productData,
             fulfillmentOptions,
           );
-          setEstimatedDeliveryDate(deliveryDate);
+
+          if (!deliveryDate) {
+            setPincodeError(
+              "Unable to calculate delivery date for this pincode",
+            );
+            setEstimatedDeliveryDate(null);
+          } else {
+            setEstimatedDeliveryDate(deliveryDate);
+            setPincodeError(""); // Clear error on success
+          }
         } else {
           setEstimatedDeliveryDate(null);
         }
       } catch (error) {
         console.error("Error fetching delivery date:", error);
+        if (pinCode && pinCode.length === 6) {
+          setPincodeError("Invalid pincode or delivery not available");
+        }
         setEstimatedDeliveryDate(null);
         setFulfillmentData(null);
       } finally {
@@ -1344,6 +1383,7 @@ export const ProductSideDetails = ({
                       e.target.value = numericValue;
                       setPinCode(numericValue);
                       setValue("pincode", numericValue);
+                      setPincodeError(""); // Clear pincode error on change
                       // Trigger validation on every change
                       trigger("pincode");
                     }}
@@ -1378,29 +1418,38 @@ export const ProductSideDetails = ({
                 className="inline-flex flex-col items-center justify-center gap-2.5 pl-2 pr-0 pt-[34px] pb-0 relative"
                 style={{ minHeight: "24px" }}
               >
-                <p
-                  className="body-1"
-                  style={{
-                    visibility:
-                      isFetchingDelivery || estimatedDeliveryDate
-                        ? "visible"
-                        : "hidden",
-                    minHeight: "1.2em",
-                  }}
-                >
-                  {isFetchingDelivery ? (
-                    "CALCULATING DELIVERY DATE..."
-                  ) : estimatedDeliveryDate && !errors.pincode ? (
-                    <>
-                      GET IT BY{" "}
-                      <span className="font-medium">
-                        {estimatedDeliveryDate.toUpperCase()}
-                      </span>
-                    </>
-                  ) : (
-                    "\u00A0"
-                  )}
-                </p>
+                {pincodeError && !errors.pincode ? (
+                  <p
+                    className="body-1 text-[#5c2e20]"
+                    style={{ minHeight: "1.2em" }}
+                  >
+                    {pincodeError.toUpperCase()}
+                  </p>
+                ) : (
+                  <p
+                    className="body-1"
+                    style={{
+                      visibility:
+                        isFetchingDelivery || estimatedDeliveryDate
+                          ? "visible"
+                          : "hidden",
+                      minHeight: "1.2em",
+                    }}
+                  >
+                    {isFetchingDelivery ? (
+                      "CALCULATING DELIVERY DATE..."
+                    ) : estimatedDeliveryDate && !errors.pincode ? (
+                      <>
+                        GET IT BY{" "}
+                        <span className="font-medium">
+                          {estimatedDeliveryDate.toUpperCase()}
+                        </span>
+                      </>
+                    ) : (
+                      "\u00A0"
+                    )}
+                  </p>
+                )}
               </div>
             </div>
 
@@ -2143,6 +2192,7 @@ export const ProductSideDetails = ({
                     e.target.value = numericValue;
                     setPinCode(numericValue);
                     setValue("pincode", numericValue);
+                    setPincodeError(""); // Clear pincode error on change
                     // Trigger validation on every change
                     trigger("pincode");
                   }}
@@ -2172,29 +2222,38 @@ export const ProductSideDetails = ({
             </div>
 
             <div className="pt-3" style={{ minHeight: "24px" }}>
-              <p
-                className="body-1"
-                style={{
-                  visibility:
-                    isFetchingDelivery || estimatedDeliveryDate
-                      ? "visible"
-                      : "hidden",
-                  minHeight: "1.2em",
-                }}
-              >
-                {isFetchingDelivery ? (
-                  "CALCULATING DELIVERY DATE..."
-                ) : estimatedDeliveryDate && !errors.pincode ? (
-                  <>
-                    GET IT BY{" "}
-                    <span className="font-medium">
-                      {estimatedDeliveryDate.toUpperCase()}
-                    </span>
-                  </>
-                ) : (
-                  "\u00A0"
-                )}
-              </p>
+              {pincodeError && !errors.pincode ? (
+                <p
+                  className="body-1 text-[#5c2e20]"
+                  style={{ minHeight: "1.2em" }}
+                >
+                  {pincodeError.toUpperCase()}
+                </p>
+              ) : (
+                <p
+                  className="body-1"
+                  style={{
+                    visibility:
+                      isFetchingDelivery || estimatedDeliveryDate
+                        ? "visible"
+                        : "hidden",
+                    minHeight: "1.2em",
+                  }}
+                >
+                  {isFetchingDelivery ? (
+                    "CALCULATING DELIVERY DATE..."
+                  ) : estimatedDeliveryDate && !errors.pincode ? (
+                    <>
+                      GET IT BY{" "}
+                      <span className="font-medium">
+                        {estimatedDeliveryDate.toUpperCase()}
+                      </span>
+                    </>
+                  ) : (
+                    "\u00A0"
+                  )}
+                </p>
+              )}
             </div>
           </div>
         </div>

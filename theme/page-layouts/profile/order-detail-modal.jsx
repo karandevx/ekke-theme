@@ -164,11 +164,16 @@ const OrderDetailModal = ({
                       onClick={() => {
                         if (shipment.shipment_id) {
                           // Get the first product's bag_id for the cancel flow
-                          const firstBagId = shipment.products?.[0]?.id || 
-                                            shipment.products?.[0]?.bag_id ||
-                                            originalOrderData?.shipments?.find(s => s.shipment_id === shipment.shipment_id)?.bags?.[0]?.bag_id ||
-                                            originalOrderData?.shipments?.find(s => s.shipment_id === shipment.shipment_id)?.bags?.[0]?.id;
-                          const url = firstBagId 
+                          const firstBagId =
+                            shipment.products?.[0]?.id ||
+                            shipment.products?.[0]?.bag_id ||
+                            originalOrderData?.shipments?.find(
+                              (s) => s.shipment_id === shipment.shipment_id,
+                            )?.bags?.[0]?.bag_id ||
+                            originalOrderData?.shipments?.find(
+                              (s) => s.shipment_id === shipment.shipment_id,
+                            )?.bags?.[0]?.id;
+                          const url = firstBagId
                             ? `/profile/orders/shipment/${shipment.shipment_id}?selectedBagId=${firstBagId}`
                             : `/profile/orders/shipment/${shipment.shipment_id}`;
                           navigate(url);
@@ -206,7 +211,7 @@ const OrderDetailModal = ({
                           // Get the first product's bag_id for the exchange flow
                           const firstBagId = shipment.products?.[0]?.id;
                           navigate(
-                            `/c/profile/orders/exchange/${shipment.shipment_id}?selectedBagId=${firstBagId}`
+                            `/c/profile/orders/exchange/${shipment.shipment_id}?selectedBagId=${firstBagId}`,
                           );
                           onClose();
                         }
@@ -261,7 +266,7 @@ const OrderDetailModal = ({
                         </div>
                       </div>
                     </div>
-                  )
+                  ),
                 )}
               </div>
             </div>

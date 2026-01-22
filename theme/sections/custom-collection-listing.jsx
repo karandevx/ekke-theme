@@ -54,7 +54,7 @@ export function Component({ props, blocks }) {
         breakpoint: 425,
         settings: {
           slidesToShow: 1,
-          slidesToScroll: 1.5,
+          slidesToScroll: 1,
           centerMode: true,
           variableWidth: false,
         },

@@ -69,10 +69,10 @@ export default function DesignerSearchTab({
   const getUserStorageKey = () => {
     try {
       const userId = auth?.user_id || getOrCreateAnonId();
-      return `recent_searches:${userId}`;
+      return `recent_designer_searches:${userId}`;
     } catch (error) {
       console.warn("Error generating storage key:", error);
-      return "recent_searches:fallback";
+      return "recent_designer_searches:fallback";
     }
   };
 
