@@ -135,7 +135,7 @@ function ProfileDetails({ userData, handleSave, signOut, fpi }) {
     if (formattedDob) {
       setValue("birthDate", formattedDob);
     }
-  }, [userData, userDetails, reset, setValue, countryCode, mobile]);
+  }, [userData, userDetails, reset, setValue]);
 
   const onSubmit = useCallback(
     async (data) => {
@@ -207,6 +207,11 @@ function ProfileDetails({ userData, handleSave, signOut, fpi }) {
 
   // Disable save if no changes or has errors
   const disableSave = !hasChanges || hasErrors;
+
+  // Memoize phone number display value
+  const phoneNumberDisplay = useMemo(() => {
+    return countryCode && mobile ? `+${countryCode} ${mobile}` : "";
+  }, [countryCode, mobile]);
 
   const handleKeyDown = (event) => {
     /** Allow specific keys */
@@ -368,11 +373,7 @@ function ProfileDetails({ userData, handleSave, signOut, fpi }) {
                                 {/* Combined Phone Number Input (Disabled) */}
                                 <input
                                   type="text"
-                                  value={
-                                    countryCode && mobile
-                                      ? `+${countryCode} ${mobile}`
-                                      : ""
-                                  }
+                                  value={phoneNumberDisplay}
                                   disabled
                                   placeholder="+91"
                                   className="body-2 p-1 w-full border-none outline-none focus:outline-none focus-visible:outline-none focus-visible:ring-0 bg-transparent cursor-not-allowed"

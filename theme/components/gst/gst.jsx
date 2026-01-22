@@ -330,19 +330,16 @@ const Gst = ({
 
         {gstErrorEmpty && (
           <div className="body-3 text-[#5C2E20] mt-1">
-            <i className={styles.faWarning}></i>
             &nbsp; Warning: Please enter GST Number!
           </div>
         )}
         {gstError && (
           <div className="body-3 text-[#5C2E20] mt-1">
-            <i className={styles.faWarning}></i>
             &nbsp; Warning: GST No. is invalid!
           </div>
         )}
         {gstStateError && (
           <div className="body-3 text-[#5C2E20] mt-1">
-            <i className={styles.faWarning}></i>
             &nbsp; Warning: GST Number doesn't match with billing/shipping
             state. Please enter correct GST Number!
           </div>
@@ -350,13 +347,11 @@ const Gst = ({
 
         {showMessage && !cartData?.gstin && (
           <div className="body-3 text-[#218736] mt-1">
-            <i className={styles.faCheck}></i>
             &nbsp; GST No. applied.
           </div>
         )}
         {showMessage && cartData?.gstin && (
           <div className="body-3 text-[#218736] mt-1">
-            <i className={styles.faCheck}></i>
             &nbsp; GST No. removed.
           </div>
         )}

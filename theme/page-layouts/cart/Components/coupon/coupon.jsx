@@ -41,6 +41,7 @@ function Coupon({
   const fpi = useFPI();
   const { language, countryCode } = useGlobalStore(fpi.getters.i18N_DETAILS);
   const locale = language?.locale;
+  const [isLoading, setIsLoading] = useState(false);
   const couponTitleText = useMemo(() => {
     if (hasCancel) {
       return `${couponCode} ${t("resource.common.applied_caps")}`;
@@ -87,8 +88,13 @@ function Coupon({
     }
   }, [successCoupon?.code, successCoupon?.is_applied, reset]);
 
-  function handleCouponCodeSubmit({ couponInput }) {
-    onApplyCouponClick(couponInput);
+  async function handleCouponCodeSubmit({ couponInput }) {
+    setIsLoading(true);
+    try {
+      await onApplyCouponClick(couponInput);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   useEffect(() => {
@@ -121,24 +127,25 @@ function Coupon({
             <button
               type="button"
               onClick={() => onRemoveCouponClick(successCoupon?.uid)}
+              disabled={isLoading}
               // onClick={(e) => {
               //   if (currentStepIdx === 1 && getTotalValue() === 0) {
               //     setShowPayment(false);
               //   }
               //   hasCancel ? handleRemoveCoupon(e) : onCouponBoxClick(e);
               // }}
-              className="body-1 !focus:outline-none absolute right-[8px] top-1/2 -translate-y-1/2 text-ekkeBlack"
+              className="body-1 !focus:outline-none absolute right-[8px] top-1/2 -translate-y-1/2 text-ekkeBlack disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              REMOVE
+              {isLoading ? "..." : "REMOVE"}
             </button>
           ) : (
             <button
-              disabled={!watch("couponInput")}
+              disabled={!watch("couponInput") || isLoading}
               type="submit"
-              className="body-1 !focus:outline-none absolute right-[8px] top-1/2 -translate-y-1/2 text-ekkeBlack"
+              className="body-1 !focus:outline-none absolute right-[8px] top-1/2 -translate-y-1/2 text-ekkeBlack disabled:opacity-50 disabled:cursor-not-allowed"
               placeholder="Discount Code"
             >
-              {t("resource.facets.apply_caps")}
+              {isLoading ? "..." : t("resource.facets.apply_caps")}
             </button>
           )}
         </form>

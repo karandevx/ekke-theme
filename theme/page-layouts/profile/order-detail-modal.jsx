@@ -45,7 +45,7 @@ const OrderDetailModal = ({
   // Helper function to check if cancel button should be shown
   const shouldShowCancel = (shipment) => {
     // Check if can_cancel is true
-    if (!shipment.can_cancel) return false;
+    if (!shipment.can_cancel || shipment.shipment_status?.value === "cancelled") return false;
 
     // Check if order is within 18 hours
     const orderCreatedTime =

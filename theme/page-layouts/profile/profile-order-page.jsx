@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect, useRef } from "react";
 import Slider from "react-slick";
 import { useLocation } from "react-router-dom";
 import { convertUTCDateToLocalDate, formatLocale } from "../../helper/utils";
+import { getStatusDisplayName } from "../../helper/order-utils";
 import {
   useGlobalStore,
   useGlobalTranslation,
@@ -67,7 +68,10 @@ const OrderCard = ({
   };
 
   const firstBag = shipment?.bags?.[0];
-  const styling = getStatusStyling(shipment?.shipment_status?.title);
+  const statusDisplayName = getStatusDisplayName(
+    shipment?.shipment_status?.value,
+  );
+  const styling = getStatusStyling(statusDisplayName);
   const totalItems =
     shipment?.bags?.reduce((sum, bag) => sum + (bag.quantity || 0), 0) || 0;
 
@@ -99,8 +103,9 @@ const OrderCard = ({
                 className={`inline-flex flex-col items-center p-1 relative ${styling.bg}`}
               >
                 <span
-                  className={`relative w-fit mt-[-1.00px] [font-family:'Archivo',Helvetica] font-normal ${styling.text} text-[10px] text-center tracking-[0.40px] leading-[12.0px] whitespace-nowrap uppercase`}
+                  className={`relative w-fit mt-[-1.00px] [font-family:'Archivo'] font-normal ${styling.text} text-[10px] text-center tracking-[0.40px] leading-[12.0px] whitespace-nowrap uppercase`}
                 >
+                  {/* {statusDisplayName || "UNKNOWN"} */}
                   {shipment?.shipment_status?.title || "UNKNOWN"}
                 </span>
               </div>
@@ -147,13 +152,17 @@ const OrderCard = ({
                 </span>
                 <div className="inline-flex items-center justify-center gap-2 relative">
                   <span className="body-3 text-[#171717]">
-                    {firstBag?.prices?.currency_symbol || "€"}
-                    {firstBag?.prices?.price_effective || 888}
+                    {firstBag?.prices?.currency_symbol}
+                    {firstBag?.prices?.price_effective}
                   </span>
-                  <span className="body-3 !text-neutral-light line-through">
-                    {firstBag?.prices?.currency_symbol || "€"}
-                    {firstBag?.prices?.price_marked || 888}
-                  </span>
+
+                  {firstBag?.prices?.price_effective !==
+                    firstBag?.prices?.price_marked && (
+                    <span className="body-3 !text-neutral-light line-through">
+                      {firstBag?.prices?.currency_symbol}
+                      {firstBag?.prices?.price_marked}
+                    </span>
+                  )}
                 </div>
               </div>
             </div>
@@ -174,6 +183,8 @@ export const ProfileOrderPage = ({
   statusFilterOptions = [],
   selectedStatusFilter = null,
   onStatusFilterChange = null,
+  // Props for Platform API date filter (controlled by parent)
+  selectedDateFilter = null,
   onDateFilterChange = null,
 }) => {
   const { t } = useGlobalTranslation("translation");
@@ -200,7 +211,13 @@ export const ProfileOrderPage = ({
   const location = useLocation();
 
   // Sync date filter with URL params on mount and when URL changes
+  // Only sync from URL when NOT in Platform API mode (when onDateFilterChange is not provided)
   useEffect(() => {
+    // Skip URL sync when parent controls filtering via callback
+    if (onDateFilterChange) {
+      return;
+    }
+
     const searchParams = new URLSearchParams(location.search);
     const dateFilter = searchParams.get("selected_date_filter");
 
@@ -210,7 +227,7 @@ export const ProfileOrderPage = ({
     } else {
       setSelectedOrderDate(null);
     }
-  }, [location.search]);
+  }, [location.search, onDateFilterChange]);
 
   // Handle click outside to close dropdowns
   useEffect(() => {
@@ -235,17 +252,30 @@ export const ProfileOrderPage = ({
     };
   }, []);
 
+  // Get the current date filter value - use prop if available, otherwise local state
+  const getCurrentDateFilterValue = () => {
+    // If parent controls date filter via callback (Platform API mode), use the prop
+    if (onDateFilterChange) {
+      return selectedDateFilter;
+    }
+    // Otherwise use local state
+    return selectedOrderDate;
+  };
+
   // Get date filter options with is_selected based on current selection
   const getDateFilterOptions = () => {
+    const currentValue = getCurrentDateFilterValue();
     return DATE_FILTERS.map((dateObj) => ({
       ...dateObj,
-      is_selected: dateObj.value === selectedOrderDate,
+      is_selected: dateObj.value === currentValue,
     }));
   };
 
   // Get selected date filter display label
   const getSelectedDateFilterLabel = () => {
     const selected = getDateFilterOptions().find((obj) => obj.is_selected);
+
+    console.log("selected", selected);
     return selected?.display || "ALL";
   };
 
@@ -601,7 +631,7 @@ export const ProfileOrderPage = ({
                   </div>
 
                   {/* Horizontal scrollable product images */}
-                  <div className="flex items-start gap-2 md:mt-4 mt-2 relative w-full overflow-x-auto scrollbar-hide md:px-0 px-2 md:pb-0 pb-2 ">
+                  <div className="flex items-start gap-2 md:mt-4 mt-2 relative w-full overflow-x-auto scrollbar-hide md:px-0 px-2 md:pb-0 pb-2 overflow-y-hidden ">
                     {orderData.items[0]?.shipments?.map((shipment, index) =>
                       shipment.bags?.slice(0, 6).map((bag, bagIndex) => (
                         <div
@@ -700,7 +730,9 @@ export const ProfileOrderPage = ({
                           : "1px solid #AAAAAA",
                       }}
                     >
-                      <span>{getSelectedDateFilterLabel()}</span>
+                      <span className="text-[#171717]">
+                        {getSelectedDateFilterLabel()}
+                      </span>
                       <span
                         className={`text-[10px] ${showDateDropdown ? "text-[#171717]" : "text-[#aaaaaa]"}`}
                       >

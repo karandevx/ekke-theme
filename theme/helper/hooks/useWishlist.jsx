@@ -56,7 +56,7 @@ export const useWishlist = ({ fpi }) => {
       return fpi.executeGQL(REMOVE_WISHLIST, payload).finally(() => {
         setIsLoading(false);
         if (!silent) {
-          toast.success(t("resource.wishlist.product_removed"));
+          toast.success("Product Removed From Wishlist");
         }
         // showSnackbar(t("resource.wishlist.product_removed"), "success");
       });
@@ -67,7 +67,7 @@ export const useWishlist = ({ fpi }) => {
           if (res?.data?.unfollowById?.message) {
             // showSnackbar(t("resource.wishlist.product_removed"), "success");
             if (!silent) {
-              toast.success(t("resource.wishlist.product_removed"));
+              toast.success("Product Removed From Wishlist");
             }
             return fetchFollowedProductsId().then(
               () => res?.data?.unfollowById

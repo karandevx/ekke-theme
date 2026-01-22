@@ -697,16 +697,12 @@ export const lockBodyScroll = () => {
 
   // Only apply styles on the first lock
   if (scrollLockCount === 1) {
-    // Store current scroll position
+    // Store current scroll position BEFORE any style changes
     scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
 
-    // Apply styles to prevent scrolling while maintaining position
+    // Simple overflow hidden without position changes to prevent scroll jump
     document.body.style.overflow = "hidden";
-    document.body.style.position = "fixed";
-    document.body.style.top = `-${scrollPosition}px`;
-    document.body.style.width = "100%";
-    document.body.style.left = "0";
-    document.body.style.right = "0";
+    document.body.style.paddingRight = `${window.innerWidth - document.documentElement.clientWidth}px`; // Prevent layout shift from scrollbar
 
     // Prevent touch scrolling on mobile
     document.body.style.touchAction = "none";
@@ -727,11 +723,7 @@ export const unlockBodyScroll = () => {
   if (scrollLockCount === 0) {
     // Remove all scroll lock styles from body
     document.body.style.overflow = "";
-    document.body.style.position = "";
-    document.body.style.top = "";
-    document.body.style.width = "";
-    document.body.style.left = "";
-    document.body.style.right = "";
+    document.body.style.paddingRight = "";
     document.body.style.touchAction = "";
     document.body.style.overscrollBehavior = "";
 
@@ -739,8 +731,7 @@ export const unlockBodyScroll = () => {
     document.documentElement.style.overflow = "";
     document.documentElement.style.overscrollBehavior = "";
 
-    // Restore scroll position
-    window.scrollTo(0, scrollPosition);
+    // Scroll position should already be maintained since we didn't use position: fixed
     scrollPosition = 0;
   }
 };

@@ -135,7 +135,7 @@ const ProfileAddressPage = ({ fpi }) => {
   };
   const onEditClick = (addressId) => {
     const addressItem = allAddresses?.find(
-      (address) => address?.id === addressId
+      (address) => address?.id === addressId,
     );
     setI18nDetails({
       iso: addressItem.country_iso_code,
@@ -174,7 +174,7 @@ const ProfileAddressPage = ({ fpi }) => {
       } else {
         toast.error(
           res?.errors?.[0]?.message ??
-            t("resource.common.address.new_address_creation_failure")
+            t("resource.common.address.new_address_creation_failure"),
         );
       }
       window.scrollTo({
@@ -197,7 +197,7 @@ const ProfileAddressPage = ({ fpi }) => {
       } else {
         toast.error(
           res?.errors?.[0]?.message ??
-            t("resource.common.address.address_update_failure")
+            t("resource.common.address.address_update_failure"),
         );
       }
       window.scrollTo({
@@ -259,7 +259,7 @@ const ProfileAddressPage = ({ fpi }) => {
         } else {
           toast.error(
             res?.errors?.[0]?.message ||
-              t("resource.common.address.pincode_verification_failure")
+              t("resource.common.address.pincode_verification_failure"),
           );
           data.showError = true;
           data.errorMsg =
@@ -319,7 +319,7 @@ const ProfileAddressPage = ({ fpi }) => {
 
   const handleCountryChange = async (e) => {
     const selectedCountry = countries.find(
-      (country) => country.display_name === e
+      (country) => country.display_name === e,
     );
     setSelectedCountry(selectedCountry);
     try {
@@ -356,7 +356,7 @@ const ProfileAddressPage = ({ fpi }) => {
         country?.display_name
           ?.toLowerCase()
           ?.indexOf(countrySearchText?.toLowerCase()) !== -1 &&
-        country?.id !== selectedCountry?.id
+        country?.id !== selectedCountry?.id,
     );
   };
 
@@ -394,7 +394,7 @@ const ProfileAddressPage = ({ fpi }) => {
             <div
               className={`${styles.addressItemContainer} flex flex-col gap-8`}
             >
-              {allAddresses.map((item, index) => (
+              {allAddresses?.map((item, index) => (
                 <AddressItem
                   key={index}
                   onAddressSelect={onEditClick}

@@ -1597,7 +1597,7 @@ export const ProductSideDetails = ({
                     isLoading || (isOutOfStock && !selectedSize) ? 0.5 : 1,
                 }}
               >
-                <span className="relative w-fit mt-[-1.00px] [font-family:'Archivo',Helvetica] font-normal text-[#f7f7f5] text-[11px] tracking-[0] leading-[8px] text-center whitespace-nowrap">
+                <span className="relative w-fit mt-[-1.00px] [font-family:'Archivo'] font-normal text-[#f7f7f5] text-[11px] tracking-[0] leading-[8px] text-center whitespace-nowrap">
                   {(() => {
                     // Determine button text based on selected size
                     if (!selectedSize && isOutOfStock) {

@@ -37,10 +37,6 @@
     position: relative;
     width: 100%;
     background: #ffffff;
-    z-index: 5;
-    // Safari-specific fix for sticky stacking context
-    -webkit-transform: translateZ(0);
-    transform: translateZ(0);
     @media @desktop {
       display: flex;
     }
@@ -143,11 +139,6 @@
       .plp-container {
         flex: 1;
         min-height: 0;
-        position: relative;
-        z-index: 1;
-        // Safari-specific fix for proper stacking with sticky elements
-        -webkit-transform: translateZ(0);
-        transform: translateZ(0);
         /deep/.list-items {
           background: none;
         }
@@ -457,9 +448,6 @@
   z-index: 0;
   background-color: @PageBackground;
   will-change: top;
-  // Safari-specific fix for sticky stacking context
-  -webkit-transform: translateZ(0);
-  transform: translateZ(0);
 
   .bannerContent {
     display: flex;

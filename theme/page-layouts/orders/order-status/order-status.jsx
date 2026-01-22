@@ -232,9 +232,9 @@ function OrderStatus({
 
               {/* Thank You Content */}
               <div className={`py-2 px-[10px]`}>
-                <p className="subheading-3 mb-6">
+                {/* <p className="subheading-3 mb-6">
                   Thank you. Your order is confirmed.
-                </p>
+                </p> */}
                 <div className="flex flex-col justify-between">
                   <div>
                     <p className="font-archivo font-[200] text-[32px] mb-4">

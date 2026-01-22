@@ -46,7 +46,7 @@ function SizeGuide({
   const sizeGuideImageUrl = useMemo(() => {
     // First check if description has an image
     const descriptionImage = extractImageFromDescription(
-      productMeta?.size_chart?.description
+      productMeta?.size_chart?.description,
     );
 
     // Return description image if found, otherwise fallback to size_chart.image
@@ -59,7 +59,7 @@ function SizeGuide({
   };
 
   const headers = Object.entries(productMeta?.size_chart?.headers ?? {}).filter(
-    ([key, val]) => !key?.includes("__") && val !== null
+    ([key, val]) => !key?.includes("__") && val !== null,
   );
 
   // Filter headers and rows based on selected size
@@ -71,7 +71,7 @@ function SizeGuide({
 
     // Find the column index for the selected size
     const selectedSizeHeader = headers.find(
-      ([key, val]) => val?.value?.toUpperCase() === selectedSize?.toUpperCase()
+      ([key, val]) => val?.value?.toUpperCase() === selectedSize?.toUpperCase(),
     );
 
     if (!selectedSizeHeader) {
@@ -82,7 +82,7 @@ function SizeGuide({
     return headers.filter(
       ([key, val]) =>
         key === "col_1" ||
-        val?.value?.toUpperCase() === selectedSize?.toUpperCase()
+        val?.value?.toUpperCase() === selectedSize?.toUpperCase(),
     );
   }, [headers, selectedSize]);
 
@@ -91,18 +91,18 @@ function SizeGuide({
     if (!selectedSize) {
       // Show all columns if no size is selected
       return Object.entries(row).filter(
-        ([key, val]) => !key?.includes("__") && val !== null
+        ([key, val]) => !key?.includes("__") && val !== null,
       );
     }
 
     // Find the column key for the selected size
     const selectedSizeHeader = headers.find(
-      ([key, val]) => val?.value?.toUpperCase() === selectedSize?.toUpperCase()
+      ([key, val]) => val?.value?.toUpperCase() === selectedSize?.toUpperCase(),
     );
 
     if (!selectedSizeHeader) {
       return Object.entries(row).filter(
-        ([key, val]) => !key?.includes("__") && val !== null
+        ([key, val]) => !key?.includes("__") && val !== null,
       );
     }
 
@@ -113,7 +113,7 @@ function SizeGuide({
       ([key, val]) =>
         !key?.includes("__") &&
         val !== null &&
-        (key === "col_1" || key === selectedColumnKey)
+        (key === "col_1" || key === selectedColumnKey),
     );
   };
 
@@ -211,7 +211,7 @@ function SizeGuide({
 
     // Find the size value from productMeta.sizes
     const sizeData = productMeta?.sizes?.find(
-      (size) => size.display === selectedSize
+      (size) => size.display === selectedSize,
     );
 
     if (!sizeData) {
@@ -237,7 +237,7 @@ function SizeGuide({
           !freshProductPriceData?.store?.uid
         ) {
           console.error(
-            "Unable to fetch seller/store data. " + productData?.item_code
+            "Unable to fetch seller/store data. " + productData?.item_code,
           );
           toast.error("Unable to add product to cart. Please try again later.");
           return;
@@ -274,7 +274,7 @@ function SizeGuide({
 
       if (data?.addItemsToCart?.success) {
         toast.success(
-          "Product added successfully" || data?.addItemsToCart?.message
+          "Product added successfully" || data?.addItemsToCart?.message,
         );
 
         // Close size guide drawer
@@ -286,7 +286,7 @@ function SizeGuide({
         }, 500);
       } else {
         throw new Error(
-          data?.addItemsToCart?.message || "Failed to add product to cart"
+          data?.addItemsToCart?.message || "Failed to add product to cart",
         );
       }
     } catch (error) {
@@ -320,7 +320,7 @@ function SizeGuide({
     <>
       {/* Overlay - Below header */}
       <div
-        className={`fixed inset-0 bg-black transition-opacity duration-300 z-40 ${
+        className={`fixed inset-0 bg-black transition-opacity duration-300 z-10 ${
           show
             ? "opacity-50 pointer-events-auto"
             : "opacity-0 pointer-events-none"
@@ -331,7 +331,7 @@ function SizeGuide({
 
       {/* Drawer - Starts below header, slides from right */}
       <div
-        className={`fixed top-0 right-0 h-full w-full  bg-[#F7F7F5] shadow-xl z-50 transition-opacity duration-300 overflow-y-auto ${
+        className={`fixed top-0 right-0 h-full w-full  bg-[#F7F7F5] shadow-xl z-20 transition-opacity duration-300 overflow-y-auto ${
           show
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
@@ -562,7 +562,7 @@ function SizeGuide({
                                           >
                                             {val?.value}
                                           </th>
-                                        )
+                                        ),
                                     )}
                                   </tr>
                                 </thead>
@@ -593,7 +593,7 @@ function SizeGuide({
                                               // Find the corresponding header for this column
                                               const headerForColumn =
                                                 filteredHeaders.find(
-                                                  ([hKey]) => hKey === key
+                                                  ([hKey]) => hKey === key,
                                                 );
                                               return (
                                                 <td
@@ -609,11 +609,11 @@ function SizeGuide({
                                                     : val}
                                                 </td>
                                               );
-                                            }
+                                            },
                                           )}
                                         </tr>
                                       );
-                                    }
+                                    },
                                   )}
                                 </tbody>
                               </table>
@@ -821,7 +821,7 @@ function SizeGuide({
                                       >
                                         {val?.value}
                                       </th>
-                                    )
+                                    ),
                                 )}
                               </tr>
                             </thead>
@@ -852,7 +852,7 @@ function SizeGuide({
                                           // Find the corresponding header for this column
                                           const headerForColumn =
                                             filteredHeaders.find(
-                                              ([hKey]) => hKey === key
+                                              ([hKey]) => hKey === key,
                                             );
                                           return (
                                             <td
@@ -867,11 +867,11 @@ function SizeGuide({
                                                 : val}
                                             </td>
                                           );
-                                        }
+                                        },
                                       )}
                                     </tr>
                                   );
-                                }
+                                },
                               )}
                             </tbody>
                           </table>

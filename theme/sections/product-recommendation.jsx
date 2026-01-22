@@ -167,10 +167,27 @@ export function Component({ props = {}, globalConfig = {} }) {
 
     const handleScroll = () => {
       const scrollLeft = container.scrollLeft;
-      const itemWidth = container.scrollWidth / transformedProducts.length;
-      const currentIndex = Math.round(scrollLeft / itemWidth);
-      setCurrentSlide(currentIndex);
+      const containerWidth = container.offsetWidth;
+      const scrollWidth = container.scrollWidth;
+
+      // Calculate how many products are visible at once
+      const itemWidth = scrollWidth / transformedProducts.length;
+      const visibleCount = Math.floor(containerWidth / itemWidth);
+
+      // Calculate the index of the last visible product
+      const scrollProgress = scrollLeft / (scrollWidth - containerWidth);
+      const lastVisibleIndex = Math.min(
+        Math.ceil(
+          scrollProgress * (transformedProducts.length - visibleCount),
+        ) + visibleCount,
+        transformedProducts.length,
+      );
+
+      setCurrentSlide(lastVisibleIndex);
     };
+
+    // Call once on mount to set initial state
+    handleScroll();
 
     container.addEventListener("scroll", handleScroll);
     return () => container.removeEventListener("scroll", handleScroll);
@@ -234,7 +251,7 @@ export function Component({ props = {}, globalConfig = {} }) {
           <p className="subheading-3">{heading}</p>
           {withSlider && transformedProducts?.length > 0 && (
             <p className="body-2 text-neutral-light">
-              {String(currentSlide + 1).padStart(2, "0")}/
+              {String(currentSlide).padStart(2, "0")}/
               {String(transformedProducts?.length).padStart(2, "0")}
             </p>
           )}
