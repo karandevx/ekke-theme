@@ -111,7 +111,7 @@ export function Component({ props, globalConfig, blocks }) {
 
       const rowCategories = categories.slice(
         currentIndex,
-        currentIndex + cardsInThisRow
+        currentIndex + cardsInThisRow,
       );
       const rowWithHeights = rowCategories.map((categoryBlock) => ({
         ...categoryBlock,
@@ -141,6 +141,7 @@ export function Component({ props, globalConfig, blocks }) {
     "--heading-bottom-spacing": `${heading_bottom_spacing?.value || 24}px`,
     paddingTop: `${padding_top?.value ?? 0}px`,
     paddingBottom: `${padding_bottom?.value ?? 0}px`,
+    height: "100%",
   };
 
   // ✅ NEW: Hero banner specific styles with responsive height

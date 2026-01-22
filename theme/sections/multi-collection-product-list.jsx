@@ -95,7 +95,7 @@ export function Component({ props = {}, blocks = [], globalConfig = {} }) {
 
   const handleWishlistToggle = (data) => {
     if (!isLoggedIn) {
-      openLogin();
+      openLogin({ wishlistProduct: data?.product });
       return;
     }
     toggleWishlist(data);

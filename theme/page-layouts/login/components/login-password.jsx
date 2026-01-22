@@ -337,7 +337,7 @@ function loginPassword({
 
       {/* Old */}
       <div>
-        <div className="flex flex-col lg:gap-6 gap-8">
+        <div className="flex flex-col lg:gap-4 gap-6">
           <div className="flex flex-col gap-3">
             <input
               id={usernameInputId}

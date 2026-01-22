@@ -16,6 +16,7 @@ import {
   FORGOT_PASSWORD,
   DELETE_USER,
 } from "../../queries/authQuery";
+import { ADD_WISHLIST } from "../../queries/wishlistQuery";
 import { useSnackbar } from "./hooks";
 import { isRunningOnClient, getLocalizedRedirectUrl } from "../utils";
 import {
@@ -41,16 +42,59 @@ export const useAccounts = ({ fpi }) => {
   const platformData = useGlobalStore(fpi.getters.PLATFORM_DATA);
   const isLoggedIn = useGlobalStore(fpi.getters.LOGGED_IN);
 
-  const openLogin = ({ redirect = true } = {}) => {
+  // Helper function to handle pending wishlist product after login
+  const handlePendingWishlistProduct = async () => {
+    if (!isRunningOnClient()) return;
+    
+    try {
+      const pendingProductStr = sessionStorage.getItem("pendingWishlistProduct");
+      if (pendingProductStr) {
+        const pendingProduct = JSON.parse(pendingProductStr);
+        if (pendingProduct?.uid) {
+          // Add product to wishlist
+          const payload = {
+            collectionType: "products",
+            collectionId: pendingProduct.uid.toString(),
+          };
+          
+          await fpi.executeGQL(ADD_WISHLIST, payload);
+          
+          // Clear the pending product
+          sessionStorage.removeItem("pendingWishlistProduct");
+          
+          // Show success message
+          toast.success(t("resource.common.wishlist_add_success"));
+        }
+      }
+    } catch (error) {
+      console.error("Error adding pending wishlist product:", error);
+      // Clear invalid data
+      if (isRunningOnClient()) {
+        sessionStorage.removeItem("pendingWishlistProduct");
+      }
+    }
+  };
+
+  const openLogin = ({ redirect = true, wishlistProduct = null } = {}) => {
     const queryParams = isRunningOnClient()
       ? new URLSearchParams(location.search)
       : null;
-    if (redirect) {
+    
+    // If wishlist product is provided, store it and set redirect to wishlist
+    if (wishlistProduct && isRunningOnClient()) {
+      sessionStorage.setItem("pendingWishlistProduct", JSON.stringify({
+        uid: wishlistProduct?.uid || wishlistProduct?.product?.uid,
+        slug: wishlistProduct?.slug || wishlistProduct?.product?.slug,
+      }));
+      // Set redirect URL to wishlist page
+      queryParams?.set("redirectUrl", encodeURIComponent("/c/wishlist"));
+    } else if (redirect) {
       queryParams?.set(
         "redirectUrl",
         encodeURIComponent(location.pathname + location.search)
       );
     }
+    
     navigate?.(
       "/auth/login" +
         (queryParams?.toString() ? `?${queryParams.toString()}` : "")
@@ -179,11 +223,15 @@ export const useAccounts = ({ fpi }) => {
     };
     return fpi
       .executeGQL(LOGIN_WITH_EMAIL_AND_PASSWORD, payload)
-      .then((res) => {
+      .then(async (res) => {
         if (res?.errors) {
           throw res?.errors?.[0];
         }
+        
+        // Handle pending wishlist product before redirect
         if (isRedirection) {
+          await handlePendingWishlistProduct();
+          
           const queryParams = isRunningOnClient()
             ? new URLSearchParams(location.search)
             : null;
@@ -278,7 +326,7 @@ export const useAccounts = ({ fpi }) => {
       },
     };
 
-    return fpi.executeGQL(VERIFY_MOBILE_OTP, payload).then((res) => {
+    return fpi.executeGQL(VERIFY_MOBILE_OTP, payload).then(async (res) => {
       if (res.errors) {
         throw res.errors?.[0];
       }
@@ -291,15 +339,20 @@ export const useAccounts = ({ fpi }) => {
           );
         }
       } else {
-        const queryParams = isRunningOnClient()
-          ? new URLSearchParams(location.search)
-          : null;
-        const redirectUrl = queryParams?.get("redirectUrl") || "";
-        const finalUrl = getLocalizedRedirectUrl(
-          decodeURIComponent(redirectUrl),
-          locale
-        );
-        window.location.href = window.location.origin + finalUrl;
+        // Handle pending wishlist product before redirect
+        if (isRedirection) {
+          await handlePendingWishlistProduct();
+          
+          const queryParams = isRunningOnClient()
+            ? new URLSearchParams(location.search)
+            : null;
+          const redirectUrl = queryParams?.get("redirectUrl") || "";
+          const finalUrl = getLocalizedRedirectUrl(
+            decodeURIComponent(redirectUrl),
+            locale
+          );
+          window.location.href = window.location.origin + finalUrl;
+        }
       }
       return res.data.verifyMobileOTP;
     });

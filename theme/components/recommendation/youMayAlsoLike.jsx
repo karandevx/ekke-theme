@@ -85,7 +85,7 @@ export function YouMayAlsoLike({
   // Wishlist click handler
   const handleWishlistClick = (data) => {
     if (!isLoggedIn) {
-      openLogin();
+      openLogin({ wishlistProduct: data?.product });
       return;
     }
     toggleWishlist(data);

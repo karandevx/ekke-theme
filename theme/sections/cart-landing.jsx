@@ -253,8 +253,8 @@ export function Component({ blocks, handleClose, isOnCheckoutPage = false }) {
 
   const redirectToLogin = () => {
     // Build checkout URL with cart ID
-    const checkoutUrl = cartData?.id 
-      ? `/cart/checkout?id=${cartData.id}` 
+    const checkoutUrl = cartData?.id
+      ? `/cart/checkout?id=${cartData.id}`
       : "/cart/bag";
     const encodedRedirectUrl = encodeURIComponent(checkoutUrl);
     navigate(`/auth/login?redirectUrl=${encodedRedirectUrl}`);
@@ -343,34 +343,30 @@ export function Component({ blocks, handleClose, isOnCheckoutPage = false }) {
           {/* Left side - Cart info */}
           <div className="flex flex-col justify-between gap-3 w-full">
             <div className="flex justify-between w-full">
-              <h3 className="body-1 font-normal leading-[120%] tracking-[0] uppercase text-[#AAAAAA] flex justify-center items-center gap-[8px] font-archivo">
-                <span className="bg-[#171717] w-[4px] h-[4px] rounded-[1px] block"></span>
-                <span
-                  className="body-2 text-[#AAAAAA] uppercase cursor-pointer"
-                  onClick={() => {
-                    setShowWishlist(!showWishlist);
-                  }}
-                >
+              {/* Left side - Cart */}
+              <h3
+                className="body-1 font-normal leading-[120%] tracking-[0] uppercase text-[#AAAAAA] flex justify-center items-center gap-[8px] font-archivo cursor-pointer"
+                onClick={() => setShowWishlist(false)}
+              >
+                {!showWishlist && (
+                  <span className="bg-[#171717] w-[4px] h-[4px] rounded-[1px] block"></span>
+                )}
+                <span className="body-2 text-[#AAAAAA] uppercase">
                   Cart&nbsp;
                   <span className="font-[400] text-[#171717] font-archivo">
-                    {!showWishlist &&
-                      ` ${String(cartItemCount || 0).padStart(2, "0")} `}
+                    {` ${String(cartItemCount || 0).padStart(2, "0")} `}
                   </span>
                 </span>
               </h3>
               {/* Right side - Wishlist */}
               <div
-                onClick={() => {
-                  setShowWishlist(true);
-                }}
-                className="body-1 cursor-pointer text-ekke-black font-archivo hover:text-ekke-gray"
+                onClick={() => setShowWishlist(true)}
+                className="body-1 cursor-pointer text-ekke-black font-archivo hover:text-ekke-gray flex items-center gap-[8px]"
               >
-                
-                Wishlist &nbsp;
-                <span className="font-[400] text-[#171717] font-archivo">
-                  {showWishlist &&
-                    `${String(wishlistProducts?.length || 0).padStart(2, "0")} `}
-                </span>
+                {showWishlist && (
+                  <span className="bg-[#171717] w-[4px] h-[4px] rounded-[1px] block"></span>
+                )}
+                Wishlist
               </div>
             </div>
             {(cartItemsArray?.length > 0 || wishlistProducts?.length > 0) && (

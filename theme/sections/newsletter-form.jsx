@@ -568,6 +568,7 @@ export function Component({ props, globalConfig }) {
                 onSubmit={handleSubmit}
                 className={styles.form}
                 onMouseLeave={handleMouseLeave}
+                noValidate
               >
                 <div
                   className={getInputClasses()}
@@ -581,7 +582,6 @@ export function Component({ props, globalConfig }) {
                     onBlur={handleBlur}
                     placeholder={getPlaceholderText()}
                     className={getInputClassName()}
-                    required
                     disabled={state.isDisabled || state.isSubmitting}
                     aria-invalid={state.hasError && state.isBlurred}
                     aria-describedby={

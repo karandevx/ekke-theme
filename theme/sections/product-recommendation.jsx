@@ -77,7 +77,7 @@ export function Component({ props = {}, globalConfig = {} }) {
   // Wishlist click handler
   const handleWishlistClick = (data) => {
     if (!isLoggedIn) {
-      openLogin();
+      openLogin({ wishlistProduct: data?.product });
       return;
     }
     toggleWishlist(data);

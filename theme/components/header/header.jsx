@@ -229,7 +229,7 @@ function Header({ fpi }) {
     const routes = {
       profile: "/profile/details",
       profile_mobile: "/profile/profile-tabs",
-      wishlist: "/wishlist",
+      wishlist: "/c/wishlist",
     };
 
     if (routes[type]) {

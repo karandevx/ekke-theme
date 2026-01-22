@@ -36,7 +36,7 @@ function ForgetPassword({
     <div className="h-full flex flex-col">
       {!isFormSubmitSuccess ? (
         <>
-          <div className="text-center mb-4 lg:pt-0 pt-[2rem]">
+          <div className="text-center mb-1 lg:pt-0 pt-[0rem]">
             <p className="body-1 !text-[#171717] uppercase mb-3">
               Enter your registered email to reset your password.
             </p>
@@ -45,7 +45,7 @@ function ForgetPassword({
             onSubmit={handleSubmit(onForgotPasswordSubmit)}
             className="h-full flex flex-col"
           >
-            <div className="flex flex-col lg:gap-6 gap-8 flex-1">
+            <div className="flex flex-col lg:gap-4 gap-6 flex-1">
               <div className="flex flex-col gap-3 lg:pt-0 pt-6">
                 <input
                   id={emailInputId}

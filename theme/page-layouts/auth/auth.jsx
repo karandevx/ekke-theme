@@ -178,7 +178,7 @@ const CustomAuth = ({
                   SIGN UP
                 </button>
               ) : (
-                <div className={`w-full max-w-md h-full my-[4rem] mx-auto`}>
+                <div className={`w-full max-w-md h-full my-[1rem] mx-auto`}>
                   <Register
                     {...registerProps}
                     pageConfig={pageConfig}

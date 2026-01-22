@@ -252,12 +252,12 @@ const OrderDetailModal = ({
                           <span className="body-3 text-[#171717]">
                             {product.price || "€888"}
                           </span>
-                          {product.originalPrice &&
+                          {/* {product.originalPrice &&
                             product.originalPrice !== product.price && (
                               <span className="body-3 !text-neutral-light line-through">
                                 {product.originalPrice}
                               </span>
-                            )}
+                            )} */}
                         </div>
                       </div>
                     </div>

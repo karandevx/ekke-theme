@@ -122,7 +122,7 @@ function VerifyMobile({
         {t("resource.auth.verify_mobile")}
       </p>
       <form
-        className="flex flex-col lg:gap-6 gap-8"
+        className="flex flex-col lg:gap-4 gap-6"
         onSubmit={handleSubmit(handleSubmitWithLoading)}
       >
         <div className="flex flex-col gap-3">
@@ -241,7 +241,7 @@ function VerifyEmail({
         {t("resource.auth.verify_email")}
       </p>
       <form
-        className="flex flex-col lg:gap-6 gap-8"
+        className="flex flex-col lg:gap-4 gap-6"
         onSubmit={handleSubmit(handleSubmitWithLoading)}
       >
         <div className="flex flex-col gap-3">

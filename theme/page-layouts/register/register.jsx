@@ -147,7 +147,7 @@ function Register({
 
   return (
     <div
-      className={`${styles.containerWrapper} overflow-y-auto lg:max-h-[calc(100vh-200px)] max-h-[calc(100vh-180px)] max-md:pb-2`}
+      className={`${styles.containerWrapper} overflow-y-auto lg:max-h-[calc(100vh-10vh)] max-h-[calc(100vh-10vh)] max-md:pb-2`}
     >
       {!isFormSubmitSuccess ? (
         // default form
@@ -415,8 +415,8 @@ function Register({
             }
           })}
         >
-          <div className="flex flex-col lg:gap-6 gap-8">
-            <div className="text-center mb-4 lg:pt-0 pt-[2rem]"></div>
+          <div className="flex flex-col lg:gap-4 gap-6">
+            <div className="text-center mb-1 lg:pt-0 pt-[0rem]"></div>
 
             <div className="flex flex-col gap-3">
               <input

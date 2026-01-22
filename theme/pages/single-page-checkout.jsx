@@ -109,7 +109,6 @@ function SingleCheckoutPage({ fpi }) {
 
     console.log("single checkout amount show ", totalAmount);
     console.log("bagData ssssss", bagData?.breakup_values?.raw?.total);
-    
 
     const payload = {
       pincode: "",
@@ -193,6 +192,31 @@ function SingleCheckoutPage({ fpi }) {
       address?.selectAddress();
     }
   }, []);
+
+  // Refetch payment options when cart value changes (e.g., coupon applied, items changed)
+  useEffect(() => {
+    // Only refetch if we're on the payment step
+    if (showPayment && bagData?.breakup_values?.raw?.total !== undefined) {
+      const totalAmount = bagData?.breakup_values?.raw?.total || 0.1;
+
+      console.log(
+        "Cart value changed, refetching payment options. New total:",
+        totalAmount,
+      );
+
+      setIsLoading(true);
+      const payload = {
+        pincode: localStorage?.getItem("pincode") || "",
+        cartId: cart_id,
+        checkoutMode: "self",
+        amount: totalAmount * 100,
+      };
+
+      fpi.executeGQL(PAYMENT_OPTIONS, payload).finally(() => {
+        setIsLoading(false);
+      });
+    }
+  }, [bagData?.breakup_values?.raw?.total, showPayment]);
 
   return (
     <>

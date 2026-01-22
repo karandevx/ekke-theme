@@ -1,5 +1,5 @@
 import React, { useMemo, useEffect, useState } from "react";
-import { button } from "fdk-core/components";
+import { FDKLink } from "fdk-core/components";
 import { convertActionToUrl } from "@gofynd/fdk-client-javascript/sdk/common/Utility";
 import styles from "./styles/home-navbar.less";
 import UserIcon from "../../assets/images/logo/user-logo.svg";
@@ -374,13 +374,13 @@ function HomeNavbar({
             {item.text}
           </a>
         ) : (
-          <button
+          <FDKLink
             action={item.action}
             className={styles.menuItemText}
             onClick={handleCloseDropdown}
           >
             {item.text}
-          </button>
+          </FDKLink>
         )}
       </div>
     );
@@ -476,7 +476,7 @@ function HomeNavbar({
             {item.text}
           </a>
         ) : (
-          <button
+          <FDKLink
             action={item.action}
             className={`${styles.mobileMenuItemText} ${activeMobileMenuItem === uniqueItemId ? styles.active : ""}`}
             onClick={() => {
@@ -485,7 +485,7 @@ function HomeNavbar({
             }}
           >
             {item.text}
-          </button>
+          </FDKLink>
         )}
       </div>
     );
@@ -603,7 +603,7 @@ function HomeNavbar({
                         </span>
                       </a>
                     ) : (
-                      <button
+                      <FDKLink
                         action={navItem?.action}
                         className={styles.navLink}
                         onClick={handleCloseDropdown}
@@ -611,7 +611,7 @@ function HomeNavbar({
                         <span className={styles.navText}>
                           {navItem.display}
                         </span>
-                      </button>
+                      </FDKLink>
                     );
                   })()
                 )}
@@ -620,12 +620,12 @@ function HomeNavbar({
           </div>
 
           {!isHomePage && (
-            <button to="/" className={`h-4 ${styles.logoLink}`}>
+            <FDKLink to="/" className={`h-4 ${styles.logoLink}`}>
               <SvgWrapper
                 svgSrc="ekke-header-logo"
                 className={styles.logoImage}
               />
-            </button>
+            </FDKLink>
           )}
 
           {/* RIGHT SIDE */}
@@ -655,8 +655,6 @@ function HomeNavbar({
 
               const handleClick = () => {
                 // Close dropdown when clicking on right-side nav items (e.g., ACCOUNTS)
-
-                checkLogin("profile");
                 if (isDropdownOpen) {
                   setIsDropdownOpen(false);
                   setActiveDropdown(null);
@@ -677,7 +675,7 @@ function HomeNavbar({
                     </span>
                   ) : isExternal ? (
                     <a
-                      // href={url}
+                      href={url}
                       target="_self"
                       rel="noopener noreferrer"
                       className={styles.navLink}
@@ -686,13 +684,13 @@ function HomeNavbar({
                       <span className={styles.navText}>{navItem.display}</span>
                     </a>
                   ) : (
-                    <button
-                      // action={navItem?.action}
+                    <FDKLink
+                      action={navItem?.action}
                       className={styles.navLink}
                       onClick={handleClick}
                     >
                       <span className={styles.navText}>{navItem.display}</span>
-                    </button>
+                    </FDKLink>
                   )}
                 </div>
               );
@@ -733,7 +731,7 @@ function HomeNavbar({
         {/* MOBILE LAYOUT */}
         <div className={styles.mobileLayout}>
           <div className={styles.mobileLeft}>
-            <button
+            <FDKLink
               className={styles.mobileMenuButton}
               onClick={() => {
                 handleMobileMenuClick();
@@ -745,8 +743,8 @@ function HomeNavbar({
             >
               {isMobileMenuOpen && <div className={styles.mobileMenuBullet} />}
               <span className={styles.menuText}>MENU</span>
-            </button>
-            <button
+            </FDKLink>
+            <FDKLink
               className={styles.mobileIcon}
               onClick={() => {
                 setIsSearchModalOpen(!isSearchModalOpen);
@@ -757,15 +755,15 @@ function HomeNavbar({
               }}
             >
               <SearchIcon className={styles.mobileSearchIcon} />
-            </button>
+            </FDKLink>
           </div>
           {!isHomePage && (
-            <button to="/" className={styles.logoLink}>
+            <FDKLink to="/" className={styles.logoLink}>
               <SvgWrapper
                 svgSrc="ekke-header-logo"
                 className={styles.logoImage}
               />
-            </button>
+            </FDKLink>
           )}
 
           <div className={styles.mobileRight}>
@@ -1034,21 +1032,21 @@ function HomeNavbar({
                             {brandsData.display}
                           </a>
                         ) : brandsData.action ? (
-                          <button
+                          <FDKLink
                             action={brandsData.action}
                             className={styles.imageButton}
                             onClick={handleBrandsClick}
                           >
                             {brandsData.display}
-                          </button>
+                          </FDKLink>
                         ) : (
-                          <button
+                          <FDKLink
                             to={brandsData.url}
                             className={styles.imageButton}
                             onClick={handleBrandsClick}
                           >
                             {brandsData.display}
-                          </button>
+                          </FDKLink>
                         );
                       })()}
                     </div>
@@ -1083,7 +1081,7 @@ function HomeNavbar({
             <nav className={styles.mobileFiltersNav}>
               <div className={styles.mobileFiltersContent}>
                 {categoriesWithDropdowns.map((filter) => (
-                  <button
+                  <FDKLink
                     key={filter}
                     className={styles.mobileFilterButton}
                     onClick={() => handleMobileFilterClick(filter)}
@@ -1094,7 +1092,7 @@ function HomeNavbar({
                       )}
                     </div>
                     <span className={styles.mobileFilterText}>{filter}</span>
-                  </button>
+                  </FDKLink>
                 ))}
               </div>
             </nav>

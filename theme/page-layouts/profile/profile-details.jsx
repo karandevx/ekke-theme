@@ -149,7 +149,7 @@ function ProfileDetails({ userData, handleSave, signOut, fpi }) {
         setIsLoading(false);
       }
     },
-    [handleSave, fetchUserDetails]
+    [handleSave, fetchUserDetails],
   );
 
   // Watch all form values
@@ -162,7 +162,9 @@ function ProfileDetails({ userData, handleSave, signOut, fpi }) {
   // Create original values object for comparison
   const originalValues = useMemo(() => {
     const formattedDob = formatDateForInput(userDetails?.dob);
-    const originalEmail = (userDetails?.emails?.[0]?.email || "").trim().toLowerCase();
+    const originalEmail = (userDetails?.emails?.[0]?.email || "")
+      .trim()
+      .toLowerCase();
     return {
       firstName: (firstName || "").trim(),
       lastName: (lastName || "").trim(),
@@ -200,7 +202,7 @@ function ProfileDetails({ userData, handleSave, signOut, fpi }) {
         errors?.email ||
         errors?.birthDate
       ),
-    [errors?.firstName, errors?.lastName, errors?.email, errors?.birthDate]
+    [errors?.firstName, errors?.lastName, errors?.email, errors?.birthDate],
   );
 
   // Disable save if no changes or has errors
@@ -230,7 +232,7 @@ function ProfileDetails({ userData, handleSave, signOut, fpi }) {
     const today = new Date();
     const maxDate = new Date();
     maxDate.setFullYear(today.getFullYear() - 13);
-    return maxDate.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+    return maxDate.toISOString().split("T")[0]; // Format as YYYY-MM-DD
   }, []);
 
   return (
@@ -298,7 +300,7 @@ function ProfileDetails({ userData, handleSave, signOut, fpi }) {
                               <input
                                 {...register("firstName", formSchema.firstName)}
                                 placeholder="Name"
-                                className={`body-2 p-1 w-full overflow-hidden border border-solid md:h-[24px] h-[32px] outline-none focus:outline-none focus-visible:outline-none focus-visible:ring-0  uppercase${
+                                className={`body-2 p-1 w-full overflow-hidden border border-solid md:h-[24px] h-[32px] outline-none focus:outline-none focus-visible:outline-none focus-visible:ring-0  ${
                                   errors.firstName
                                     ? "border-[#5C2E20] focus:border-[#5C2E20]"
                                     : "border-[#EEEEEE] focus:border-[#AAAAAA]"
@@ -323,7 +325,7 @@ function ProfileDetails({ userData, handleSave, signOut, fpi }) {
                               <input
                                 {...register("lastName", formSchema.lastName)}
                                 placeholder="Last name"
-                                className={`body-2 p-1 w-full overflow-hidden border border-solid md:h-[24px] h-[32px] outline-none focus:outline-none  uppercase focus-visible:outline-none focus-visible:ring-0 ${
+                                className={`body-2 p-1 w-full overflow-hidden border border-solid md:h-[24px] h-[32px] outline-none focus:outline-none   focus-visible:outline-none focus-visible:ring-0 ${
                                   errors.lastName
                                     ? "border-[#5C2E20] focus:border-[#5C2E20]"
                                     : "border-[#EEEEEE] focus:border-[#AAAAAA]"
@@ -467,7 +469,7 @@ function ProfileDetails({ userData, handleSave, signOut, fpi }) {
                     }`}
                     type="submit"
                   >
-                    <span>{isLoading ? "SAVING..." : "SAVE"}</span>
+                    <span>{isLoading ? "SUBMITING..." : "SUBMIT"}</span>
                   </button>
                 </div>
               </div>

@@ -7,7 +7,7 @@ import React, {
 } from "react";
 import FyAccordion from "../core/fy-accordion/fy-accordion";
 import { ProductDetailsZoom } from "./product-details-zoom";
-import { useWishlist } from "../../helper/hooks";
+import { useWishlist, useAccounts } from "../../helper/hooks";
 import useProductDescription from "../../page-layouts/pdp/product-description/useProductDescription";
 import { useForm } from "react-hook-form";
 import {
@@ -220,6 +220,7 @@ export const ProductSideDetails = ({
   const [returnConfig, setReturnConfig] = useState(null); // Return configuration for the product
   const isAddingToCartRef = useRef(false); // Track if we're clearing size after add to cart
   const { addToWishList, followedIdList } = useWishlist({ fpi });
+  const { openLogin } = useAccounts({ fpi });
   const { getFulfillmentOptions } = useCart(fpi);
   const application = useGlobalStore(fpi.getters.APPLICATION);
   const userData = useGlobalStore(fpi.getters.USER_DATA);
@@ -695,8 +696,8 @@ export const ProductSideDetails = ({
   const handleAddToWishlist = () => {
     // Check if user is logged in
     if (!userData?.active) {
-      // Redirect to login page if not logged in
-      navigate("/auth/login");
+      // Redirect to login page with product info for wishlist
+      openLogin({ wishlistProduct: productData });
       return;
     }
 

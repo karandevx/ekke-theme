@@ -309,7 +309,7 @@ export const transformImage = (url, width, height) => {
   } catch (error) {
     console.warn(
       "[transformImage] Error processing the URL:",
-      error?.message || error
+      error?.message || error,
     );
   }
 
@@ -368,7 +368,7 @@ export function sanitizeHTMLTag(data) {
 
 export const getProductImgAspectRatio = (
   global_config,
-  defaultAspectRatio = 0.8
+  defaultAspectRatio = 0.8,
 ) => {
   const productImgWidth = global_config?.product_img_width;
   const productImgHeight = global_config?.product_img_height;
@@ -548,7 +548,7 @@ export const getConfigFromProps = (props) => {
 
   return Object.keys(props)?.reduce(
     (acc, curr) => ({ ...getConfigValue(curr), ...acc }),
-    {}
+    {},
   );
 };
 
@@ -683,53 +683,66 @@ export const getUserAutofillData = (user, isGuestUser = false) => {
   };
 };
 
-// Track the previous body scroll position
-let bodyScrollPrevTop = 0;
+// Track the scroll lock state
+let scrollLockCount = 0;
+let scrollPosition = 0;
+
+// Helper to check if body scroll is currently locked
+export const isBodyScrollLocked = () => scrollLockCount > 0;
 
 export const lockBodyScroll = () => {
-  if (!isRunningOnClient() || document.body.style.overflow === "hidden") return;
-  
-  // Store current scroll position
-  bodyScrollPrevTop = window.scrollY || window.pageYOffset || document.documentElement.scrollTop;
-  
-  // Lock body scroll without changing position
-  document.body.style.overflow = "hidden";
-  document.body.style.width = "100%";
-  
-  // Maintain scroll position by setting fixed position
-  document.body.style.position = "fixed";
-  document.body.style.top = `-${bodyScrollPrevTop}px`;
-  document.body.style.left = "0";
-  document.body.style.right = "0";
-  
-  const appElement = document.getElementById("app");
-  if (appElement) {
-    appElement.style.setProperty("position", "fixed");
+  if (!isRunningOnClient()) return;
+
+  scrollLockCount++;
+
+  // Only apply styles on the first lock
+  if (scrollLockCount === 1) {
+    // Store current scroll position
+    scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+
+    // Apply styles to prevent scrolling while maintaining position
+    document.body.style.overflow = "hidden";
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${scrollPosition}px`;
+    document.body.style.width = "100%";
+    document.body.style.left = "0";
+    document.body.style.right = "0";
+
+    // Prevent touch scrolling on mobile
+    document.body.style.touchAction = "none";
+    document.body.style.overscrollBehavior = "none";
+
+    // Also lock html element to prevent any background scrolling
+    document.documentElement.style.overflow = "hidden";
+    document.documentElement.style.overscrollBehavior = "none";
   }
 };
 
 export const unlockBodyScroll = () => {
   if (!isRunningOnClient()) return;
-  
-  // Restore body styles
-  document.body.style.position = "";
-  document.body.style.top = "";
-  document.body.style.left = "";
-  document.body.style.right = "";
-  document.body.style.overflow = "";
-  document.body.style.width = "";
-  
-  const appElement = document.getElementById("app");
-  if (appElement) {
-    appElement.style.setProperty("position", "unset");
+
+  scrollLockCount = Math.max(0, scrollLockCount - 1);
+
+  // Only remove styles when all locks are released
+  if (scrollLockCount === 0) {
+    // Remove all scroll lock styles from body
+    document.body.style.overflow = "";
+    document.body.style.position = "";
+    document.body.style.top = "";
+    document.body.style.width = "";
+    document.body.style.left = "";
+    document.body.style.right = "";
+    document.body.style.touchAction = "";
+    document.body.style.overscrollBehavior = "";
+
+    // Remove scroll lock styles from html element
+    document.documentElement.style.overflow = "";
+    document.documentElement.style.overscrollBehavior = "";
+
+    // Restore scroll position
+    window.scrollTo(0, scrollPosition);
+    scrollPosition = 0;
   }
-  
-  // Restore scroll position without triggering scroll event
-  if (bodyScrollPrevTop !== 0) {
-    window.scrollTo(0, bodyScrollPrevTop);
-    bodyScrollPrevTop = 0;
-  }
-   
 };
 
 // utils/sizeSort.js

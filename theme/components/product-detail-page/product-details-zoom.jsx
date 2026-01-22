@@ -18,6 +18,8 @@ export const ProductDetailsZoom = ({
   const sectionRef = useRef(null);
   const lastScrollY = useRef(0);
   const imageRefs = useRef([]); // Refs for each image in the gallery
+  const thumbnailRefs = useRef([]); // Refs for each thumbnail
+  const thumbnailContainerRef = useRef(null); // Ref for thumbnail scroll container
   const isMobile = useMobile();
   const { hasAnnouncementBar } = useCheckAnnouncementBar();
   const location = useLocation();
@@ -67,13 +69,19 @@ export const ProductDetailsZoom = ({
     if (isOpen) {
       document.addEventListener("keydown", handleKeyDown);
 
-      // Lock body scroll when zoom is open (desktop only)
-      if (!isMobile) {
-        const scrollY = window.scrollY;
-        const bodyElement = document.body;
-        const htmlElement = document.documentElement;
+      const scrollY = window.scrollY;
+      const bodyElement = document.body;
+      const htmlElement = document.documentElement;
 
-        // Save scroll position and lock body
+      // Lock body scroll when zoom is open (both mobile and desktop)
+      if (isMobile) {
+        // Mobile: use overflow hidden approach
+        bodyElement.style.overflow = "hidden";
+        htmlElement.style.overflow = "hidden";
+        bodyElement.style.touchAction = "none";
+        bodyElement.dataset.scrollY = scrollY;
+      } else {
+        // Desktop: use fixed position approach
         bodyElement.style.position = "fixed";
         bodyElement.style.top = `-${scrollY}px`;
         bodyElement.style.left = "0";
@@ -81,8 +89,6 @@ export const ProductDetailsZoom = ({
         bodyElement.style.width = "100%";
         htmlElement.style.overflow = "hidden";
         bodyElement.style.overflow = "hidden";
-
-        // Store scroll position for restoration
         bodyElement.dataset.scrollY = scrollY;
       }
     }
@@ -90,13 +96,18 @@ export const ProductDetailsZoom = ({
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
 
-      // Restore body scroll when zoom closes (desktop only)
-      if (!isMobile) {
-        const bodyElement = document.body;
-        const htmlElement = document.documentElement;
-        const scrollY = bodyElement.dataset.scrollY || "0";
+      const bodyElement = document.body;
+      const htmlElement = document.documentElement;
+      const scrollY = bodyElement.dataset.scrollY || "0";
 
-        // Restore styles
+      if (isMobile) {
+        // Mobile: restore overflow
+        bodyElement.style.overflow = "";
+        htmlElement.style.overflow = "";
+        bodyElement.style.touchAction = "";
+        window.scrollTo(0, parseInt(scrollY));
+      } else {
+        // Desktop: restore fixed position styles
         bodyElement.style.position = "";
         bodyElement.style.top = "";
         bodyElement.style.left = "";
@@ -104,13 +115,11 @@ export const ProductDetailsZoom = ({
         bodyElement.style.width = "";
         htmlElement.style.overflow = "";
         bodyElement.style.overflow = "";
-
-        // Restore scroll position
         window.scrollTo(0, parseInt(scrollY));
-
-        // Clean up data attribute
-        delete bodyElement.dataset.scrollY;
       }
+
+      // Clean up data attribute
+      delete bodyElement.dataset.scrollY;
     };
   }, [isOpen, isMobile]);
 
@@ -178,6 +187,44 @@ export const ProductDetailsZoom = ({
       productData?.media?.length || 0,
     );
   }, [productData?.media?.length]);
+
+  // Initialize thumbnail refs array
+  useEffect(() => {
+    thumbnailRefs.current = thumbnailRefs.current.slice(
+      0,
+      productData?.media?.length || 0,
+    );
+  }, [productData?.media?.length]);
+
+  // Auto-scroll active thumbnail into view when currentImageIndex changes
+  useEffect(() => {
+    if (!isOpen) return;
+    
+    const activeThumbnail = thumbnailRefs.current[currentImageIndex];
+    const container = thumbnailContainerRef.current;
+    
+    if (activeThumbnail && container) {
+      // Get thumbnail position relative to container
+      const thumbnailTop = activeThumbnail.offsetTop;
+      const thumbnailHeight = activeThumbnail.offsetHeight;
+      const containerScrollTop = container.scrollTop;
+      const containerHeight = container.clientHeight;
+      
+      // Check if thumbnail is outside the visible area
+      const isAboveViewport = thumbnailTop < containerScrollTop;
+      const isBelowViewport = (thumbnailTop + thumbnailHeight) > (containerScrollTop + containerHeight);
+      
+      if (isAboveViewport || isBelowViewport) {
+        // Calculate scroll position to center the thumbnail in the container
+        const scrollTo = thumbnailTop - (containerHeight / 2) + (thumbnailHeight / 2);
+        
+        container.scrollTo({
+          top: Math.max(0, scrollTo),
+          behavior: 'smooth'
+        });
+      }
+    }
+  }, [currentImageIndex, isOpen]);
 
   // Function to handle thumbnail click and smooth scroll to image (Mobile & Desktop)
   const handleThumbnailClick = (index) => {
@@ -319,6 +366,10 @@ export const ProductDetailsZoom = ({
   return (
     <div
       className={`fixed ${isMobile ? (hasAnnouncementBar ? "top-[80px]" : "top-[56px]") : hasAnnouncementBar ? "lg:top-[80px]" : "lg:top-[56px]"} inset-0 z-30 bg-white overflow-y-auto`}
+      style={{ 
+        WebkitOverflowScrolling: 'touch',
+        overscrollBehavior: 'contain'
+      }}
     >
       {/* Mobile Close Button - Only visible on mobile */}
       <button
@@ -390,6 +441,7 @@ export const ProductDetailsZoom = ({
         <div
           className="flex flex-col w-full items-center relative hover:cursor-zoom-out"
           onClick={handleClose}
+          style={{ touchAction: 'pan-y' }}
         >
           <div className="flex flex-col items-center gap-0 relative w-full">
             {(productData?.media || productImages).map((image, index) => (
@@ -416,10 +468,13 @@ export const ProductDetailsZoom = ({
         </div>
 
         {/* Right Section - Mobile thumbnails + Desktop layout */}
-        <div className="flex flex-col w-[60px] lg:w-[373px] items-end pl-0 lg:pr-3 lg:py-3 lg:pb-0 fixed top-0 h-screen right-0">
+        <div 
+          className="flex flex-col w-[60px] lg:w-[373px] items-end pl-0 lg:pr-3 lg:py-3 lg:pb-0 fixed top-0 h-screen right-0"
+          style={{ pointerEvents: 'none' }}
+        >
           <div className="flex flex-col justify-between items-start relative self-stretch w-full flex-1">
             {/* Desktop Close Button */}
-            <div className="flex justify-end w-full mb-4 md:pr-2">
+            <div className="flex justify-end w-full mb-4 md:pr-2" style={{ pointerEvents: 'auto' }}>
               <button
                 onClick={handleClose}
                 className="body-1 hover:text-gray-600 transition-colors bg-transparent border-none cursor-pointer pr-2"
@@ -452,10 +507,15 @@ export const ProductDetailsZoom = ({
               `,
               }}
             />
-            <div className="zoom-thumbnail-scroll flex flex-col w-full lg:w-[361px] items-end absolute bottom-0 overflow-y-auto h-[400px] ">
+            <div 
+              ref={thumbnailContainerRef}
+              className="zoom-thumbnail-scroll flex flex-col w-full lg:w-[361px] items-end absolute bottom-0 overflow-y-auto h-[400px] "
+              style={{ scrollBehavior: 'smooth', pointerEvents: 'auto' }}
+            >
               {productData?.media?.map((image, index) => (
                 <div
                   key={index}
+                  ref={(el) => (thumbnailRefs.current[index] = el)}
                   className={`w-[50px] h-[60px] lg:w-[90.25px] lg:h-[103.72px] relative cursor-pointer overflow-hidden flex-shrink-0`}
                   onClick={() => handleThumbnailClick(index)}
                   style={{

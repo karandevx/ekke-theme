@@ -731,7 +731,7 @@ const useCollectionListing = ({ fpi, props, slug }) => {
 
   const handleWishlistToggle = (data) => {
     if (!isLoggedIn) {
-      openLogin();
+      openLogin({ wishlistProduct: data?.product });
       return;
     }
     toggleWishlist(data);

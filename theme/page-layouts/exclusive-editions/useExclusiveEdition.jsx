@@ -448,7 +448,7 @@ const useExclusiveEditions = ({ fpi, props, slug: slugProp }) => {
 
   const handleWishlistToggle = (data) => {
     if (!isLoggedIn) {
-      openLogin();
+      openLogin({ wishlistProduct: data?.product });
       return;
     }
     toggleWishlist(data);

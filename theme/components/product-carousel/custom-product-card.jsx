@@ -65,7 +65,7 @@ const CustomProductCard = ({
     e.preventDefault();
     e.stopPropagation();
     setIsWishlisted(!isWishlisted);
-    onWishlistClick(product);
+    onWishlistClick({ product, isFollowed: isWishlisted });
   };
 
   const handleAddToCart = (e) => {

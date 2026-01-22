@@ -17,24 +17,35 @@ function Faq({
   EmptyStateComponent = () => <></>,
 }) {
   const { t } = useGlobalTranslation("translation");
-  const handleQuestionClick = (index) => {
-    setFaqs((preVal) => {
-      const updatedFaqs = [...preVal];
-      updatedFaqs[index] = {
-        ...updatedFaqs[index],
-        open: !updatedFaqs[index].open,
-      };
-      return updatedFaqs;
-    });
+  // const handleQuestionClick = (index) => {
+  //   setFaqs((preVal) => {
+  //     const updatedFaqs = [...preVal];
+  //     updatedFaqs[index] = {
+  //       ...updatedFaqs[index],
+  //       open: !updatedFaqs[index].open,
+  //     };
+  //     return updatedFaqs;
+  //   });
+  // };
+   const handleQuestionClick = (index) => {
+    setFaqs((prev) =>
+      prev.map((faq, i) => {
+        // if clicking the same open item -> close it (toggle)
+        if (i === index) return { ...faq, open: !faq.open };
+
+        // all other items must be closed
+        return { ...faq, open: false };
+      }),
+    );
   };
 
-  const handleCategoryClick = (params) => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-    updateSearchParams(params);
-  };
+  // const handleCategoryClick = (params) => {
+  //   window.scrollTo({
+  //     top: 0,
+  //     behavior: "smooth",
+  //   });
+  //   updateSearchParams(params);
+  // };
 
   const navigateToContactUsPage = () => {};
 

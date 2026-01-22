@@ -109,7 +109,7 @@ export function Component({ props, blocks }) {
   // Wishlist handler
   const handleWishlistToggle = (data) => {
     if (!isLoggedIn) {
-      openLogin();
+      openLogin({ wishlistProduct: data?.product });
       return;
     }
     toggleWishlist(data);

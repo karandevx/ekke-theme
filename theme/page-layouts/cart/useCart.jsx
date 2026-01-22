@@ -359,7 +359,7 @@ const useCart = (fpi, isActive = true) => {
       });
     } else {
       closeRemoveModal();
-      openLogin();
+      openLogin({ wishlistProduct: data.item.product });
     }
   };
 

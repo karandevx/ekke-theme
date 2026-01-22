@@ -118,7 +118,7 @@ function EditProfile({
               }
             })}
           >
-            <div className="flex flex-col lg:gap-6 gap-8">
+            <div className="flex flex-col lg:gap-4 gap-6">
               <div className="text-center mb-4 lg:pt-0">
                 <p className="subheading-4 mb-3">
                   {t("resource.common.complete_signup")}
@@ -142,7 +142,7 @@ function EditProfile({
                     maxLength: {
                       value: 30,
                       message: t(
-                        "resource.common.maximum_30_characters_allowed"
+                        "resource.common.maximum_30_characters_allowed",
                       ),
                     },
                   })}
@@ -177,7 +177,7 @@ function EditProfile({
                     maxLength: {
                       value: 30,
                       message: t(
-                        "resource.common.maximum_30_characters_allowed"
+                        "resource.common.maximum_30_characters_allowed",
                       ),
                     },
                   })}
@@ -313,7 +313,7 @@ function EditProfile({
                       required: {
                         value: true,
                         message: t(
-                          "resource.auth.please_enter_a_valid_password"
+                          "resource.auth.please_enter_a_valid_password",
                         ),
                       },
                       validate: (value) =>

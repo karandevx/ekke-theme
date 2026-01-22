@@ -3,10 +3,11 @@ import { useGlobalStore, useGlobalTranslation } from "fdk-core/utils";
 import {
   FETCH_FOLLOWED_PRODUCTS,
   FOLLOWED_PRODUCTS_IDS,
+  ADD_WISHLIST,
 } from "../../queries/wishlistQuery";
 import { useThemeConfig, useWishlist } from "../../helper/hooks/index";
 import EmptyState from "../../components/empty-state/empty-state";
-import { getProductImgAspectRatio } from "../../helper/utils";
+import { getProductImgAspectRatio, isRunningOnClient } from "../../helper/utils";
 import placeholder from "../../assets/images/placeholder3x4.png";
 import useAddToCartModal from "../plp/useAddToCartModal";
 import useInternational from "../../components/header/useInternational";
@@ -138,6 +139,46 @@ const useWishlistPage = ({ fpi }) => {
       true
     );
   };
+
+  // Handle pending wishlist product after login/registration
+  useEffect(() => {
+    const handlePendingWishlistProduct = async () => {
+      if (!isRunningOnClient()) return;
+      
+      try {
+        const pendingProductStr = sessionStorage.getItem("pendingWishlistProduct");
+        if (pendingProductStr) {
+          const pendingProduct = JSON.parse(pendingProductStr);
+          if (pendingProduct?.uid) {
+            // Add product to wishlist
+            const payload = {
+              collectionType: "products",
+              collectionId: pendingProduct.uid.toString(),
+            };
+            
+            await fpi.executeGQL(ADD_WISHLIST, payload);
+            
+            // Clear the pending product
+            sessionStorage.removeItem("pendingWishlistProduct");
+            
+            // Refresh wishlist to show the new product
+            await fetchProducts();
+            
+            // Show success message
+            toast.success(t("resource.common.wishlist_add_success"));
+          }
+        }
+      } catch (error) {
+        console.error("Error adding pending wishlist product:", error);
+        // Clear invalid data
+        if (isRunningOnClient()) {
+          sessionStorage.removeItem("pendingWishlistProduct");
+        }
+      }
+    };
+
+    handlePendingWishlistProduct();
+  }, []);
 
   useEffect(() => {
     setLoading(true);
