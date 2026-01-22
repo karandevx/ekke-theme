@@ -2,7 +2,6 @@ import React, { useState, useMemo, useEffect, useRef } from "react";
 import Slider from "react-slick";
 import { useLocation } from "react-router-dom";
 import { convertUTCDateToLocalDate, formatLocale } from "../../helper/utils";
-import { getStatusDisplayName } from "../../helper/order-utils";
 import {
   useGlobalStore,
   useGlobalTranslation,
@@ -68,10 +67,7 @@ const OrderCard = ({
   };
 
   const firstBag = shipment?.bags?.[0];
-  const statusDisplayName = getStatusDisplayName(
-    shipment?.shipment_status?.value,
-  );
-  const styling = getStatusStyling(statusDisplayName);
+  const styling = getStatusStyling(shipment?.shipment_status?.title);
   const totalItems =
     shipment?.bags?.reduce((sum, bag) => sum + (bag.quantity || 0), 0) || 0;
 
@@ -103,9 +99,8 @@ const OrderCard = ({
                 className={`inline-flex flex-col items-center p-1 relative ${styling.bg}`}
               >
                 <span
-                  className={`relative w-fit mt-[-1.00px] [font-family:'Archivo'] font-normal ${styling.text} text-[10px] text-center tracking-[0.40px] leading-[12.0px] whitespace-nowrap uppercase`}
+                  className={`relative w-fit mt-[-1.00px] [font-family:'Archivo',Helvetica] font-normal ${styling.text} text-[10px] text-center tracking-[0.40px] leading-[12.0px] whitespace-nowrap uppercase`}
                 >
-                  {/* {statusDisplayName || "UNKNOWN"} */}
                   {shipment?.shipment_status?.title || "UNKNOWN"}
                 </span>
               </div>
@@ -152,17 +147,13 @@ const OrderCard = ({
                 </span>
                 <div className="inline-flex items-center justify-center gap-2 relative">
                   <span className="body-3 text-[#171717]">
-                    {firstBag?.prices?.currency_symbol}
-                    {firstBag?.prices?.price_effective}
+                    {firstBag?.prices?.currency_symbol || "€"}
+                    {firstBag?.prices?.price_effective || 888}
                   </span>
-
-                  {firstBag?.prices?.price_effective !==
-                    firstBag?.prices?.price_marked && (
-                    <span className="body-3 !text-neutral-light line-through">
-                      {firstBag?.prices?.currency_symbol}
-                      {firstBag?.prices?.price_marked}
-                    </span>
-                  )}
+                  <span className="body-3 !text-neutral-light line-through">
+                    {firstBag?.prices?.currency_symbol || "€"}
+                    {firstBag?.prices?.price_marked || 888}
+                  </span>
                 </div>
               </div>
             </div>
@@ -631,7 +622,7 @@ export const ProfileOrderPage = ({
                   </div>
 
                   {/* Horizontal scrollable product images */}
-                  <div className="flex items-start gap-2 md:mt-4 mt-2 relative w-full overflow-x-auto scrollbar-hide md:px-0 px-2 md:pb-0 pb-2 overflow-y-hidden ">
+                  <div className="flex items-start gap-2 md:mt-4 mt-2 relative w-full overflow-x-auto scrollbar-hide md:px-0 px-2 md:pb-0 pb-2 ">
                     {orderData.items[0]?.shipments?.map((shipment, index) =>
                       shipment.bags?.slice(0, 6).map((bag, bagIndex) => (
                         <div

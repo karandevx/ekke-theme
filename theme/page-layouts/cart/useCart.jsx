@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 import {
   CART_DETAILS,
@@ -70,13 +70,34 @@ const useCart = (fpi, isActive = true) => {
   const { addToWishList } = useWishlist({ fpi });
 
   const buyNow = JSON.parse(searchParams?.get("buy_now") || "false");
+  
+  // Use ref to track if a fetch is in progress to prevent race conditions
+  // This prevents multiple simultaneous fetches that can cause cart data to disappear
+  const isFetchingRef = useRef(false);
 
   useEffect(() => {
-    if (isActive) {
-      setIsLoading(true);
-      fetchCartDetails(fpi, { buyNow }).then(() => setIsLoading(false));
+    if (!isActive || !fpi) {
+      return;
     }
-  }, [fpi, i18nDetails?.currency?.code, deliveryLocationStr]);
+    
+    if (isFetchingRef.current) {
+      return;
+    }
+
+    isFetchingRef.current = true;
+    setIsLoading(true);
+
+    fetchCartDetails(fpi, { buyNow })
+      .then(() => {
+        setIsLoading(false);
+      })
+      .catch(() => {
+        setIsLoading(false);
+      })
+      .finally(() => {
+        isFetchingRef.current = false;
+      });
+  }, [fpi, i18nDetails?.currency?.code, deliveryLocationStr, buyNow, isActive]);
 
   const isAnonymous = appFeatures?.landing_page?.continue_as_guest;
   const isGstInput =

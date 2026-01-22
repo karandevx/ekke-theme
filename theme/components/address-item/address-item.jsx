@@ -31,7 +31,7 @@ function AddressItem({
   const { t } = useGlobalTranslation("translation");
   const getAddress = useMemo(
     () => getAddressStr(addressItem, false),
-    [addressItem]
+    [addressItem],
   );
 
   const isSelected = selectedAddressId === addressItem.id;
@@ -67,7 +67,7 @@ function AddressItem({
       >
         {/* Name and Actions Row */}
         <div className="flex w-full items-center gap-2 leading-[1.2] flex-wrap max-md:max-w-full justify-between">
-          <div className="text-neutral-900 text-[11px] uppercase self-stretch my-auto line-clamp-2">
+          <div className="text-neutral-900 text-[11px]  self-stretch my-auto line-clamp-2">
             {addressItem.name}
           </div>
           <div className="self-stretch flex text-xs whitespace-nowrap text-right underline">

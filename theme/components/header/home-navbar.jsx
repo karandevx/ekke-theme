@@ -353,36 +353,36 @@ function HomeNavbar({
       );
     }
 
-    return (
-      <div
+    return isExternal ? (
+      <a
         key={index}
+        href={url}
+        target="_self"
+        rel="noopener noreferrer"
         className={styles.dropdownMenuItem}
         onMouseEnter={() => handleSubcategoryMouseEnter(item)}
         onMouseLeave={handleSubcategoryMouseLeave}
+        onClick={handleCloseDropdown}
       >
         <div className={styles.menuItemBullet}>
           <div className={styles.menuItemIndicator} />
         </div>
-        {isExternal ? (
-          <a
-            href={url}
-            target="_self"
-            rel="noopener noreferrer"
-            className={styles.menuItemText}
-            onClick={handleCloseDropdown}
-          >
-            {item.text}
-          </a>
-        ) : (
-          <FDKLink
-            action={item.action}
-            className={styles.menuItemText}
-            onClick={handleCloseDropdown}
-          >
-            {item.text}
-          </FDKLink>
-        )}
-      </div>
+        <span className={styles.menuItemText}>{item.text}</span>
+      </a>
+    ) : (
+      <FDKLink
+        key={index}
+        action={item.action}
+        className={styles.dropdownMenuItem}
+        onMouseEnter={() => handleSubcategoryMouseEnter(item)}
+        onMouseLeave={handleSubcategoryMouseLeave}
+        onClick={handleCloseDropdown}
+      >
+        <div className={styles.menuItemBullet}>
+          <div className={styles.menuItemIndicator} />
+        </div>
+        <span className={styles.menuItemText}>{item.text}</span>
+      </FDKLink>
     );
   };
 

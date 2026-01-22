@@ -30,6 +30,7 @@ import { NotifyMeModal } from "./notify-me-modal";
 import { FDKLink } from "fdk-core/components";
 import { PRODUCT_SIZE_PRICE } from "../../queries/pdpQuery";
 import { RETURN_CONFIG } from "../../queries/productQuery";
+import { currencyFormat, numberWithCommas } from "../../helper/utils";
 
 // Helper function to check if ProductDetailsRenderer will render content
 const hasProductDetailsContent = (productData) => {
@@ -854,6 +855,8 @@ export const ProductSideDetails = ({
     return !productData?.sizes?.sellable;
   }, [productData, isCustomOrder]);
 
+  console.log("SideDetails productData", sizeBasedPrice);
+
   return (
     <>
       <section
@@ -897,8 +900,8 @@ export const ProductSideDetails = ({
                 <div className="inline-flex items-center justify-center gap-2 relative flex-[0_0_auto] mb-4 pt-3">
                   <span className="relative w-fit mt-[-1.00px] [font-family:'Archivo',Helvetica] font-normal text-[#171717] text-xs tracking-[0] leading-[14.4px] whitespace-nowrap">
                     {sizeBasedPrice
-                      ? `${sizeBasedPrice.price?.currency_symbol} ${sizeBasedPrice.price?.effective}`
-                      : `${productData?.sizes?.price?.effective?.currency_symbol} ${productData?.sizes?.price?.effective?.min}`}
+                      ? `${sizeBasedPrice.price?.currency_symbol} ${currencyFormat(numberWithCommas(sizeBasedPrice.price?.effective))}`
+                      : `${productData?.sizes?.price?.effective?.currency_symbol} ${currencyFormat(numberWithCommas(productData?.sizes?.price?.effective?.min))}`}
                   </span>
                   {sizeBasedPrice
                     ? // When size is selected: show marked price only if different from effective
@@ -907,7 +910,9 @@ export const ProductSideDetails = ({
                         sizeBasedPrice.price?.marked && (
                         <span className="relative w-fit mt-[-1.00px] [font-family:'Archivo',Helvetica] font-normal text-[#aaaaaa] text-xs tracking-[0] leading-[14.4px] line-through whitespace-nowrap">
                           {sizeBasedPrice.price?.currency_symbol}{" "}
-                          {sizeBasedPrice.price?.marked}
+                          {currencyFormat(
+                            numberWithCommas(sizeBasedPrice.price?.marked),
+                          )}
                         </span>
                       )
                     : // When no size selected: show marked price only if different from effective
@@ -915,7 +920,11 @@ export const ProductSideDetails = ({
                         productData?.sizes?.price?.marked?.max && (
                         <span className="relative w-fit mt-[-1.00px] [font-family:'Archivo',Helvetica] font-normal text-[#aaaaaa] text-xs tracking-[0] leading-[14.4px] line-through whitespace-nowrap">
                           {productData?.sizes?.price?.marked?.currency_symbol}{" "}
-                          {productData?.sizes?.price?.marked?.max}
+                          {currencyFormat(
+                            numberWithCommas(
+                              productData?.sizes?.price?.marked?.max,
+                            ),
+                          )}
                         </span>
                       )}
                 </div>
@@ -1764,8 +1773,14 @@ export const ProductSideDetails = ({
             <div className="flex items-center gap-2 pt-3">
               <span className="body-3 !text-ekke-brown">
                 {sizeBasedPrice
-                  ? `${sizeBasedPrice.price?.currency_symbol} ${sizeBasedPrice.price?.effective}`
-                  : `${productData?.sizes?.price?.effective?.currency_symbol} ${productData?.sizes?.price?.effective?.min}`}
+                  ? `${sizeBasedPrice.price?.currency_symbol} ${currencyFormat(
+                      numberWithCommas(sizeBasedPrice.price?.effective),
+                    )}`
+                  : `${productData?.sizes?.price?.effective?.currency_symbol} ${currencyFormat(
+                      numberWithCommas(
+                        productData?.sizes?.price?.effective?.min,
+                      ),
+                    )}`}
               </span>
               {sizeBasedPrice
                 ? // When size is selected: show marked price only if different from effective
@@ -1774,7 +1789,9 @@ export const ProductSideDetails = ({
                     sizeBasedPrice.price?.marked && (
                     <span className="body-3 !text-neutral-light line-through">
                       {sizeBasedPrice.price?.currency_symbol}{" "}
-                      {sizeBasedPrice.price?.marked}
+                      {currencyFormat(
+                        numberWithCommas(sizeBasedPrice.price?.marked),
+                      )}
                     </span>
                   )
                 : // When no size selected: show marked price only if different from effective

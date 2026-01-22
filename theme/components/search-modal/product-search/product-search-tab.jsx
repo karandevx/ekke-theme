@@ -585,7 +585,20 @@ export default function ProductSearchTab({
       {/* Footer count */}
       {externalSearchTerm && searchResults.length > 0 && (
         <div className={styles.footer}>
-          <div className={styles.footerText}>SEARCH ALL</div>
+          <button
+            type="button"
+            className={styles.footerText}
+            onClick={() => {
+              const trimmedSearch = externalSearchTerm?.trim();
+              if (trimmedSearch) {
+                navigate(`/products?q=${encodeURIComponent(trimmedSearch)}`);
+                onClose();
+              }
+            }}
+            
+          >
+            SEARCH ALL
+          </button>
         </div>
       )}
     </>

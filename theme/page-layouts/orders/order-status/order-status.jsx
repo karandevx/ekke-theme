@@ -6,6 +6,7 @@ import {
   numberWithCommas,
   translateDynamicLabel,
   priceFormatCurrencySymbol,
+  currencyFormat,
 } from "../../../helper/utils";
 import styles from "./order-status.less";
 import PriceBreakup from "../../../components/price-breakup/price-breakup";
@@ -78,20 +79,49 @@ function OrderStatus({
   // INFORMATION is not clickable since the order is already completed
   const checkoutSteps = [{ label: "INFORMATION" }, { label: "PAYMENT" }];
 
+  console.log("OrderDate", orderData);
+
   // Order Summary Content Component (reusable for desktop and mobile)
   const OrderSummaryContent = () => {
-    const subTotal = orderData?.breakup_values?.find(
-      (item) => item.name === "sub_total"
-    );
-    const deliveryCharges = orderData?.breakup_values?.find(
-      (item) => item.name === "delivery_charges"
-    );
-    const total = orderData?.breakup_values?.find(
-      (item) => item.name === "total"
-    );
-    const firstBag = orderData?.shipments?.[0]?.bags?.[0];
-    const gstFee = firstBag?.financial_breakup?.[0]?.gst_fee || 0;
-    const currencySymbol = subTotal?.currency_symbol || "₹";
+    // Calculate price breakdown from all bags
+    const priceBreakdown = useMemo(() => {
+      let totalPrice = 0;
+      let totalCoupon = 0;
+      let totalDeliveryCharge = 0;
+      let totalAmountPaid = 0;
+      let currencySymbol = "₹";
+
+      orderData?.shipments?.forEach((shipment) => {
+        shipment?.bags?.forEach((bag) => {
+          const prices = bag?.prices;
+          if (prices) {
+            totalPrice += prices?.price_effective || 0;
+            totalCoupon += prices?.coupon_value || 0;
+            totalDeliveryCharge += prices?.delivery_charge || 0;
+            totalAmountPaid += prices?.amount_paid || 0;
+            if (prices?.currency_symbol) {
+              currencySymbol = prices.currency_symbol;
+            }
+          }
+        });
+      });
+
+      return {
+        totalPrice,
+        totalCoupon,
+        totalDeliveryCharge,
+        totalAmountPaid,
+        currencySymbol,
+      };
+    }, [orderData]);
+
+    const {
+      totalPrice,
+      totalCoupon,
+      totalDeliveryCharge,
+      totalAmountPaid,
+      currencySymbol,
+    } = priceBreakdown;
 
     return (
       <>
@@ -106,34 +136,36 @@ function OrderStatus({
             <span className="body-1">SUB TOTAL</span>
             <span className="body-1">
               {currencySymbol}
-              {numberWithCommas(subTotal?.value || 0)}
+              {numberWithCommas(totalPrice.toFixed(2))}
             </span>
           </div>
-          {/* <div
-            className="flex justify-between items-center py-3"
-            style={{ borderBottom: "1px solid #eeeeee" }}
-          >
-            <span className="body-1">VAT</span>
-            <span className="body-1">
-              {currencySymbol}
-              {numberWithCommas(gstFee)}
-            </span>
-          </div> */}
           <div
             className="flex justify-between items-center py-3"
             style={{ borderBottom: "1px solid #eeeeee" }}
           >
             <span className="body-1" style={{ color: "#AAAAAA" }}>
-              SHIPPING
+              COUPON 
             </span>
-            <span className="body-1" style={{ color: "#AAAAAA" }}>
-              {deliveryCharges?.value === 0
-                ? "FREE"
-                : `${currencySymbol}${numberWithCommas(
-                    deliveryCharges?.value || 0
-                  )}`}
+            <span className="body-1" style={{ color: totalCoupon > 0 ? "#2E7D32" : "#AAAAAA" }}>
+              {totalCoupon > 0
+                ? `-${currencySymbol}${numberWithCommas(totalCoupon.toFixed(2))}`
+                : `${currencySymbol}0`}
             </span>
           </div>
+          <div
+            className="flex justify-between items-center py-3"
+            style={{ borderBottom: "1px solid #eeeeee" }}
+          >
+            <span className="body-1" style={{ color: "#AAAAAA" }}>
+              DELIVERY CHARGES
+            </span>
+            <span className="body-1" style={{ color: "#AAAAAA" }}>
+              {totalDeliveryCharge === 0
+                ? "FREE"
+                : `${currencySymbol}${numberWithCommas(totalDeliveryCharge.toFixed(2))}`}
+            </span>
+          </div>
+
           <div className="flex justify-between items-center py-3">
             <span className="body-1">
               TOTAL{" "}
@@ -141,7 +173,7 @@ function OrderStatus({
             </span>
             <span className="body-1">
               {currencySymbol}
-              {numberWithCommas(total?.value || 0)}
+              {numberWithCommas(totalAmountPaid.toFixed(2))}
             </span>
           </div>
         </div>
@@ -151,7 +183,7 @@ function OrderStatus({
           {orderData?.shipments?.map((shipment, shipmentIdx) =>
             shipment?.bags
               ?.filter(
-                (bag) => Object.keys(bag?.parent_promo_bags)?.length === 0
+                (bag) => Object.keys(bag?.parent_promo_bags)?.length === 0,
               )
               ?.map((product, index) => (
                 <div
@@ -179,8 +211,13 @@ function OrderStatus({
                       {product?.item?.name || "Product detail info"}
                     </p>
                     <p className="body-1 mb-2">
-                      {product?.prices?.price_effective || "0"}
-                      {product?.prices?.currency_symbol || "€"}
+                      {product?.prices?.currency_symbol}
+
+                      {currencyFormat(
+                        numberWithCommas(
+                          product?.prices?.price_effective || "0",
+                        ),
+                      )}
                     </p>
                     <div className="flex gap-4">
                       <div>
@@ -196,7 +233,7 @@ function OrderStatus({
                     </div>
                   </div>
                 </div>
-              ))
+              )),
           )}
         </div>
       </>
@@ -346,7 +383,7 @@ function ShipmentItem({ shipment, index, shipmentLength, orderLink = "" }) {
   const { t } = useGlobalTranslation("translation");
   const getBags = (bags) => {
     return bags.filter(
-      (bag) => Object.keys(bag?.parent_promo_bags)?.length === 0
+      (bag) => Object.keys(bag?.parent_promo_bags)?.length === 0,
     );
   };
 
@@ -442,7 +479,7 @@ function ProductItem({ product, orderLink = "" }) {
               {effectivePriceCheck > 0 && (
                 <div className={styles.effectivePrice}>
                   {`${product?.prices?.currency_symbol}${getEffectivePrice(
-                    product
+                    product,
                   )}`}
                 </div>
               )}

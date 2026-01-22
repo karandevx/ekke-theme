@@ -42,6 +42,7 @@ function OrdersList({ fpi }) {
   const [selectedStatus, setSelectedStatus] = useState(
     getDefaultStatusFilter(),
   );
+  const [selectedDateFilter, setSelectedDateFilter] = useState(null);
 
   const { handelBuyAgain } = useOrdersListing(fpi);
 
@@ -68,7 +69,7 @@ function OrdersList({ fpi }) {
 
         // Get and set access token
         const tokenData = await getPlatformAccessToken();
-        platformClient.setToken(tokenData);
+        platformClient.setToken("oa-83fbcc4056f293e7df82c499a6004c332ca447be");
         platformClient?.setExtraHeaders({
           "Content-Type": "application/json",
           Accept: "application/json",
@@ -137,6 +138,9 @@ function OrdersList({ fpi }) {
    */
   const handleDateChange = useCallback(
     async (dateValue) => {
+      // Update selected date filter state
+      setSelectedDateFilter(dateValue);
+
       const dateFilter = dateValue ? getDateRange(Number(dateValue)) : null;
 
       // Fetch orders with current status and new date filter
@@ -221,6 +225,11 @@ function OrdersList({ fpi }) {
         ? getDateRange(Number(dateFilterDays))
         : null;
 
+      // Sync date filter state from URL
+      if (dateFilterDays) {
+        setSelectedDateFilter(Number(dateFilterDays));
+      }
+
       // Check for status filter in URL
       const statusFromUrl = queryParams.get("status");
       let currentBagStatuses = selectedStatus.bagStatuses;
@@ -269,6 +278,7 @@ function OrdersList({ fpi }) {
             statusFilterOptions={ORDER_STATUS_FILTERS}
             selectedStatusFilter={selectedStatus}
             onStatusFilterChange={handleStatusChange}
+            selectedDateFilter={selectedDateFilter}
             onDateFilterChange={handleDateChange}
           />
         </motion.div>

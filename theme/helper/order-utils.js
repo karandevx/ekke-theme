@@ -247,3 +247,24 @@ export const findStatusFilterByValue = (value) => {
 export const getDefaultStatusFilter = () => {
   return ORDER_STATUS_FILTERS[0];
 };
+
+/**
+ * Get the display name for a given bag status value
+ * Maps raw bag statuses (like "in_transit", "bag_confirmed") to user-friendly display names
+ * @param {string} bagStatusValue - The raw bag status value (e.g., "in_transit", "delivery_done")
+ * @returns {string} - The display name (e.g., "Shipped", "Delivered") or the original value if not found
+ */
+export const getStatusDisplayName = (bagStatusValue) => {
+  if (!bagStatusValue) return "Processing";
+
+  const statusLower = bagStatusValue.toLowerCase();
+
+  // Find the filter category that contains this bag status
+  const matchingFilter = ORDER_STATUS_FILTERS.find(
+    (filter) =>
+      filter.bagStatuses &&
+      filter.bagStatuses.some((status) => status.toLowerCase() === statusLower),
+  );
+
+  return matchingFilter?.display || bagStatusValue;
+};

@@ -3,6 +3,7 @@ import { useMobile } from "../../helper/hooks";
 import SvgWrapper from "../core/svgWrapper/SvgWrapper";
 import useCheckAnnouncementBar from "../../helper/hooks/useCheckAnnouncementBar";
 import { useLocation } from "react-router-dom";
+import { currencyFormat, numberWithCommas } from "../../helper/utils";
 
 export const ProductDetailsZoom = ({
   productData,
@@ -199,28 +200,30 @@ export const ProductDetailsZoom = ({
   // Auto-scroll active thumbnail into view when currentImageIndex changes
   useEffect(() => {
     if (!isOpen) return;
-    
+
     const activeThumbnail = thumbnailRefs.current[currentImageIndex];
     const container = thumbnailContainerRef.current;
-    
+
     if (activeThumbnail && container) {
       // Get thumbnail position relative to container
       const thumbnailTop = activeThumbnail.offsetTop;
       const thumbnailHeight = activeThumbnail.offsetHeight;
       const containerScrollTop = container.scrollTop;
       const containerHeight = container.clientHeight;
-      
+
       // Check if thumbnail is outside the visible area
       const isAboveViewport = thumbnailTop < containerScrollTop;
-      const isBelowViewport = (thumbnailTop + thumbnailHeight) > (containerScrollTop + containerHeight);
-      
+      const isBelowViewport =
+        thumbnailTop + thumbnailHeight > containerScrollTop + containerHeight;
+
       if (isAboveViewport || isBelowViewport) {
         // Calculate scroll position to center the thumbnail in the container
-        const scrollTo = thumbnailTop - (containerHeight / 2) + (thumbnailHeight / 2);
-        
+        const scrollTo =
+          thumbnailTop - containerHeight / 2 + thumbnailHeight / 2;
+
         container.scrollTo({
           top: Math.max(0, scrollTo),
-          behavior: 'smooth'
+          behavior: "smooth",
         });
       }
     }
@@ -366,9 +369,9 @@ export const ProductDetailsZoom = ({
   return (
     <div
       className={`fixed ${isMobile ? (hasAnnouncementBar ? "top-[80px]" : "top-[56px]") : hasAnnouncementBar ? "lg:top-[80px]" : "lg:top-[56px]"} inset-0 z-30 bg-white overflow-y-auto`}
-      style={{ 
-        WebkitOverflowScrolling: 'touch',
-        overscrollBehavior: 'contain'
+      style={{
+        WebkitOverflowScrolling: "touch",
+        overscrollBehavior: "contain",
       }}
     >
       {/* Mobile Close Button - Only visible on mobile */}
@@ -418,7 +421,11 @@ export const ProductDetailsZoom = ({
                     style={{ color: textColor }}
                   >
                     {productData?.sizes?.price?.effective?.currency_symbol}{" "}
-                    {productData?.sizes?.price?.effective?.min}
+                    {currencyFormat(
+                      numberWithCommas(
+                        productData?.sizes?.price?.effective?.min,
+                      ),
+                    )}
                   </span>
 
                   {productData?.sizes?.price?.marked?.min !==
@@ -441,7 +448,7 @@ export const ProductDetailsZoom = ({
         <div
           className="flex flex-col w-full items-center relative hover:cursor-zoom-out"
           onClick={handleClose}
-          style={{ touchAction: 'pan-y' }}
+          style={{ touchAction: "pan-y" }}
         >
           <div className="flex flex-col items-center gap-0 relative w-full">
             {(productData?.media || productImages).map((image, index) => (
@@ -468,13 +475,16 @@ export const ProductDetailsZoom = ({
         </div>
 
         {/* Right Section - Mobile thumbnails + Desktop layout */}
-        <div 
+        <div
           className="flex flex-col w-[60px] lg:w-[373px] items-end pl-0 lg:pr-3 lg:py-3 lg:pb-0 fixed top-0 h-screen right-0"
-          style={{ pointerEvents: 'none' }}
+          style={{ pointerEvents: "none" }}
         >
           <div className="flex flex-col justify-between items-start relative self-stretch w-full flex-1">
             {/* Desktop Close Button */}
-            <div className="flex justify-end w-full mb-4 md:pr-2" style={{ pointerEvents: 'auto' }}>
+            <div
+              className="flex justify-end w-full mb-4 md:pr-2"
+              style={{ pointerEvents: "auto" }}
+            >
               <button
                 onClick={handleClose}
                 className="body-1 hover:text-gray-600 transition-colors bg-transparent border-none cursor-pointer pr-2"
@@ -507,10 +517,10 @@ export const ProductDetailsZoom = ({
               `,
               }}
             />
-            <div 
+            <div
               ref={thumbnailContainerRef}
               className="zoom-thumbnail-scroll flex flex-col w-full lg:w-[361px] items-end absolute bottom-0 overflow-y-auto h-[400px] "
-              style={{ scrollBehavior: 'smooth', pointerEvents: 'auto' }}
+              style={{ scrollBehavior: "smooth", pointerEvents: "auto" }}
             >
               {productData?.media?.map((image, index) => (
                 <div

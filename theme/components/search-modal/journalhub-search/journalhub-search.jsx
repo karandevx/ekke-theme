@@ -414,7 +414,20 @@ export default function JournalHubTab({
 
           {/* Footer count */}
           <div className={styles.footer}>
-            <div className={styles.footerText}>SEARCH ALL</div>
+            <button
+              type="button"
+              className={styles.footerText}
+              onClick={() => {
+                const trimmedSearch = externalSearchTerm?.trim();
+                if (trimmedSearch) {
+                  navigate(`/blog?search=${encodeURIComponent(trimmedSearch)}`);
+                  onClose();
+                }
+              }}
+              
+            >
+              SEARCH ALL
+            </button>
           </div>
         </>
       )}
