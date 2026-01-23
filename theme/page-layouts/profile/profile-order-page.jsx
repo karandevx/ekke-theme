@@ -622,7 +622,7 @@ export const ProfileOrderPage = ({
                   </div>
 
                   {/* Horizontal scrollable product images */}
-                  <div className="flex items-start gap-2 md:mt-4 mt-2 relative w-full overflow-x-auto scrollbar-hide md:px-0 px-2 md:pb-0 pb-2 ">
+                  <div className="flex items-start gap-2 md:mt-4 mt-2 relative w-full overflow-x-auto scrollbar-hide md:px-0 px-2 md:pb-0 pb-2 overflow-y-hidden">
                     {orderData.items[0]?.shipments?.map((shipment, index) =>
                       shipment.bags?.slice(0, 6).map((bag, bagIndex) => (
                         <div

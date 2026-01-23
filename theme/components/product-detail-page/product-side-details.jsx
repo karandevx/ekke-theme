@@ -80,6 +80,7 @@ const hasProductDetailsContent = (productData) => {
       value &&
       value !== "" &&
       value !== "No" &&
+      !(typeof value === "string" && value.trim() === "") &&
       !(Array.isArray(value) && value.length === 0)
     );
   });
@@ -95,6 +96,8 @@ const hasProductDetailsContent = (productData) => {
 
 const ProductDetailsRenderer = ({ productData }) => {
   const attributes = productData?.attributes || {};
+
+  console.log("pddddddd", productData);
 
   // Determine category
   const getCategory = () => {
@@ -139,11 +142,12 @@ const ProductDetailsRenderer = ({ productData }) => {
     .map((key) => {
       const value = attributes[key];
 
-      // Skip empty values
+      // Skip empty values, whitespace-only strings, and "No"
       if (
         !value ||
         value === "" ||
         value === "No" ||
+        (typeof value === "string" && value.trim() === "") ||
         (Array.isArray(value) && value.length === 0)
       ) {
         return null;
@@ -201,6 +205,8 @@ export const ProductSideDetails = ({
   const middleSectionRef = useRef(null); // Ref for middle image section only
   const lastScrollY = useRef(0);
   const imageRefs = useRef([]); // Refs for each image in the gallery
+  const thumbnailDesktopRefs = useRef([]); // Refs for each thumbnail
+  const thumbnailContainerDesktopRef = useRef(null); // Ref for thumbnail container
   const isScrollingProgrammatically = useRef(false); // Flag to prevent scroll listener interference
   const [selectedColor, setSelectedColor] = useState(
     getAvailableColors(productData)?.find((c) => c.selected),
@@ -749,6 +755,31 @@ export const ProductSideDetails = ({
   };
 
   useEffect(() => {
+    // Only run on desktop and when zoom modal is NOT open
+    if (window.innerWidth < 1126 || isZoomOpen) return;
+
+    const thumbnailContainer = thumbnailContainerDesktopRef.current;
+    const activeThumbnail = thumbnailDesktopRefs.current[currentImageIndex];
+
+    if (thumbnailContainer && activeThumbnail) {
+      const containerRect = thumbnailContainer.getBoundingClientRect();
+      const thumbnailRect = activeThumbnail.getBoundingClientRect();
+
+      // Check if thumbnail is out of view
+      const isOutOfView =
+        thumbnailRect.right > containerRect.right ||
+        thumbnailRect.left < containerRect.left;
+
+      if (isOutOfView) {
+        // Scroll to center the active thumbnail
+        activeThumbnail.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+          inline: "center",
+        });
+      }
+    }
+
     const handleScroll = () => {
       // Don't update currentImageIndex if we're scrolling programmatically (thumbnail click)
       if (isScrollingProgrammatically.current) return;
@@ -1168,11 +1199,15 @@ export const ProductSideDetails = ({
         <div className="flex flex-col flex-1 items-end pl-0 pr-3 py-3 sticky top-0 h-full overflow-hidden">
           <div className="flex flex-col items-start relative self-stretch w-full flex-1">
             {/* Thumbnail images */}
-            <div className="flex w-fit relative overflow-x-auto max-w-full">
+            <div
+              ref={thumbnailContainerDesktopRef}
+              className="flex w-fit relative overflow-x-auto max-w-full"
+            >
               <div className="flex gap-0">
                 {productData?.media?.map((image, index) => (
                   <div key={index} className="flex flex-col">
                     <div
+                      ref={(el) => (thumbnailDesktopRefs.current[index] = el)}
                       className={`w-[90.25px] h-[103.72px] relative cursor-pointer overflow-hidden`}
                       onClick={() => handleThumbnailClick(index)}
                       style={{

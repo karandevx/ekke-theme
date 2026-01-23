@@ -339,7 +339,7 @@ function ContactForm({
                     <FyInput
                       htmlFor="subject"
                       labelClassName={styles.labelText}
-                      inputClassName={`body-2 !bg-[#fff]`}
+                      inputClassName={`body-2 !bg-[#fff] text-[11px] `}
                       label={"Subject"}
                       placeholder=""
                       showAsterik={true}

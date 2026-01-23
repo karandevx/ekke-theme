@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 // import { BlockRenderer } from "fdk-core/components";
 // import PriceBreakup from "@gofynd/theme-template/components/price-breakup/price-breakup";
@@ -41,7 +41,12 @@ import { useToast } from "../components/custom-toaster";
 import { YouMayAlsoLike } from "../components/recommendation/youMayAlsoLike";
 import Loader from "../components/loader/loader";
 
-export function Component({ blocks, handleClose, isOnCheckoutPage = false }) {
+export function Component({
+  blocks,
+  handleClose,
+  isOnCheckoutPage = false,
+  onCartCleared,
+}) {
   const fpi = useFPI();
   const {
     isLoading,
@@ -279,6 +284,27 @@ export function Component({ blocks, handleClose, isOnCheckoutPage = false }) {
   );
 
   console.log("breakUpValues", breakUpValues);
+
+  // Track previous cart items count to detect when cart becomes empty
+  const prevCartItemsCountRef = useRef(cartItemsArray?.length);
+
+  useEffect(() => {
+    const currentCount = cartItemsArray?.length || 0;
+    const previousCount = prevCartItemsCountRef.current || 0;
+
+    // Only close drawer if cart BECAME empty (had items before, now has 0)
+    if (
+      previousCount > 0 &&
+      currentCount === 0 &&
+      onCartCleared &&
+      typeof onCartCleared === "function"
+    ) {
+      onCartCleared();
+    }
+
+    // Update the ref for next comparison
+    prevCartItemsCountRef.current = currentCount;
+  }, [cartItemsArray?.length, onCartCleared]);
 
   const handleRemoveIconClick = (data) => {
     setRemoveItemData(data);

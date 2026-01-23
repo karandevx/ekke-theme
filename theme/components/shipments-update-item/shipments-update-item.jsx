@@ -140,7 +140,7 @@ function ShipmentUpdateItem({
               <div className="body-3 text-ekke-black">{name}</div>
             </div>
             {size && (
-              <div className="h-8 bg-white px-2 py-2 border border-[#EEEEEE] flex items-center mt-2">
+              <div className="h-8 bg-white  py-2 border border-[#EEEEEE] flex items-center mt-2">
                 <span className="body-3 text-ekke-black font-semibold">
                   {size}
                 </span>

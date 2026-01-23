@@ -59,7 +59,7 @@ function ReasonItem({
       </div>
 
       {isSelected && reason?.meta?.show_text_area && (
-        <div className={`${styles.textarea}`}>
+        <div className={`${styles.textarea}`} style={{ paddingLeft: "0px" }}>
           <textarea
             className={styles.textarea}
             value={reasonOtherText}

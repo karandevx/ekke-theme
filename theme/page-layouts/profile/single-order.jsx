@@ -45,7 +45,7 @@ const transformOrderData = (apiOrders, locale, countryCode) => {
             ? convertUTCDateToLocalDate(
                 shipment.delivery_date,
                 "",
-                formatLocale(locale, countryCode)
+                formatLocale(locale, countryCode),
               )
             : "TBD",
           productQuantity: totalBags.toString().padStart(2, "0"),
@@ -93,7 +93,7 @@ export const SingleOrder = ({
   const latestOrder = React.useMemo(() => {
     if (!transformedOrders || transformedOrders.length === 0) return null;
     const sortedOrders = [...transformedOrders].sort(
-      (a, b) => new Date(b.orderCreatedTime) - new Date(a.orderCreatedTime)
+      (a, b) => new Date(b.orderCreatedTime) - new Date(a.orderCreatedTime),
     );
     return sortedOrders[0];
   }, [transformedOrders]);
@@ -111,7 +111,7 @@ export const SingleOrder = ({
           total +
           (shipment.bags?.reduce((sum, bag) => sum + (bag.quantity || 0), 0) ||
             0),
-        0
+        0,
       )
     : 0;
 
@@ -224,10 +224,10 @@ export const SingleOrder = ({
                         id={option.value}
                         checked={selectedOrderType === option.value}
                         onChange={(e) => setSelectedOrderType(e.target.value)}
-                        className="appearance-none w-2 h-2 border border-solid border-neutral-900 cursor-pointer relative flex-shrink-0 checked:after:content-[''] checked:after:absolute checked:after:top-1/2 checked:after:left-1/2 checked:after:-translate-x-1/2 checked:after:-translate-y-1/2 checked:after:w-1 checked:after:h-1 checked:after:bg-[#5c2e20]"
+                        className="appearance-none w-2 h-2 border border-solid border-neutral-900 rounded-[1px] cursor-pointer relative flex-shrink-0 checked:after:content-[''] checked:after:absolute checked:after:top-1/2 checked:after:left-1/2 checked:after:-translate-x-1/2 checked:after:-translate-y-1/2 checked:after:w-1 checked:after:h-1 checked:after:bg-[#5c2e20] checked:after:rounded-[1px]"
                         style={{
                           border: "1px solid #5C2E20",
-                          borderRadius: 0,
+                          borderRadius: "1px",
                         }}
                       />
                       <label
@@ -318,7 +318,7 @@ export const SingleOrder = ({
                                           {status}
                                         </span>
                                       </div>
-                                    )
+                                    ),
                                   )}
                                 </div>
 

@@ -66,7 +66,10 @@ const CartDrawer = ({ isOpen, onClose, fpi }) => {
             : "opacity-0 pointer-events-none"
         }`}
       >
-        <CartLandingSection handleClose={handleClose} />
+        <CartLandingSection
+          handleClose={handleClose}
+          onCartCleared={handleClose}
+        />
       </div>
     </>
   );

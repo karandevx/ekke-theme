@@ -115,12 +115,19 @@ const useOrdersListing = (fpi) => {
         quantity: quantity || 1,
       }),
     );
+
+    // Extract area_code from the first shipment's delivery address
+    const areaCode =
+      orderInfo?.shipments?.[0]?.bags?.[0]?.delivery_address?.area_code ||
+      orderInfo?.shipments?.[0]?.bags?.[0]?.delivery_address?.pincode ||
+      "";
+
     const payload = {
       buyNow: false,
-      areaCode: "",
+      areaCode:areaCode,
       addCartRequestInput: {
         items: itemsPayload,
-      },
+      },  
     };
     return fpi.executeGQL(ADD_TO_CART, payload).then((outRes) => {
       if (outRes?.data?.addItemsToCart?.success) {
