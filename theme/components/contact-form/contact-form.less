@@ -395,36 +395,53 @@
 }
 
 .customCheckBox {
-  width: 8px;
-  height: 8px;
+  appearance: none;
+  width: 0.5rem;
+  height: 0.5rem;
+  border: 1px solid #171717;
   border-radius: 1px;
-  border: 1px solid #aaaaaa;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   cursor: pointer;
-  transition: all 0.2s ease;
   position: relative;
+  flex-shrink: 0;
+
+  &:customcheckbox::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 0.25rem;
+    height: 0.25rem;
+    background-color: #5c2e20;
+    border-radius: 1px;
+  }
 }
 
 .checkbox:checked + .customCheckBox::after {
   content: "";
-  width: 4px;
-  height: 4px;
-  border-radius: 1px;
-  background: #5c2e20;
   position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 0.25rem;
+  height: 0.25rem;
+  background-color: #5c2e20;
+  border-radius: 1px;
 }
 
 .checkboxLabel {
   color: #171717;
   font-size: 11px;
+  display: flex;
+  align-items: left;
+  justify-content: left;
   font-weight: 400;
   cursor: pointer;
   text-decoration: underline;
   line-height: 20px;
-  text-indent: 12px;
-  font-family: "Archivo", sans-serif;
+  text-align: left;
+  // text-indent: 12px;
+  font-family: "Archivo";
 
   &:hover {
     text-decoration: none;

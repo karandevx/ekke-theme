@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from "react";
-import { useGlobalStore, useGlobalTranslation } from "fdk-core/utils";
+import { useGlobalStore, useGlobalTranslation, useNavigate } from "fdk-core/utils";
 import { useSearchParams } from "react-router-dom";
 import CheckoutPage from "../page-layouts/single-checkout/checkout/checkout";
 // import CheckoutPage from "@gofynd/theme-template/pages/checkout/index.js";
@@ -19,6 +19,7 @@ import useCartComment from "../page-layouts/cart/useCartComment";
 
 function SingleCheckoutPage({ fpi }) {
   const { t } = useGlobalTranslation("translation");
+  const navigate = useNavigate();
   const bagData = useGlobalStore(fpi?.getters?.CART_ITEMS) || {};
   const { shipments } = useGlobalStore(fpi.getters.SHIPMENTS) || {};
   const isLoggedIn = useGlobalStore(fpi.getters.LOGGED_IN);
@@ -49,6 +50,16 @@ function SingleCheckoutPage({ fpi }) {
   const cartComment = useCartComment({ fpi, cartData: bagData });
   const { setIsLoading, ...payment } = usePayment(fpi);
 
+  // Check if user has completed an order and trying to access checkout again
+  useEffect(() => {
+    const orderCompleted = sessionStorage.getItem("order_completed");
+    if (orderCompleted === "true") {
+      // Clear the flag to allow new orders
+      sessionStorage.removeItem("order_completed");
+      sessionStorage.removeItem("completed_order_id");
+    }
+  }, []);
+
   const currencySymbol = useMemo(
     () => bagData?.currency?.symbol || "₹",
     [bagData],
@@ -57,6 +68,12 @@ function SingleCheckoutPage({ fpi }) {
   console.log("Single checkout payment ", shipments);
 
   useEffect(() => {
+    // Check if cart is empty or invalid, redirect to bag page
+    if (!cart_id) {
+      navigate("/cart/bag");
+      return;
+    }
+
     setIsLoading(true);
     setIsApiLoading(true);
     const payload = {
@@ -71,8 +88,13 @@ function SingleCheckoutPage({ fpi }) {
       .then((response) => {
         setIsApiLoading(false);
 
-        // Access the cart data from the response, not the store
+        // Check if cart is empty or has no items
         const cartData = response?.data?.cart;
+        if (!cartData || !cartData.items || cartData.items.length === 0) {
+          navigate("/cart/bag");
+          return;
+        }
+
         const totalAmount = cartData?.breakup_values?.raw?.total || 0.1;
 
         console.log("checkout mode in single checkou amount", totalAmount);
@@ -86,10 +108,15 @@ function SingleCheckoutPage({ fpi }) {
 
         return fpi.executeGQL(PAYMENT_OPTIONS, paymentPayload);
       })
+      .catch((error) => {
+        console.error("Error fetching checkout data:", error);
+        // Redirect to bag page on error
+        navigate("/cart/bag");
+      })
       .finally(() => {
         setIsLoading(false);
       });
-  }, [fpi, buy_now]); // ✅ Only fpi and buy_now as dependencies
+  }, [fpi, buy_now, cart_id, navigate]); // ✅ Added dependencies
 
   console.log("Single checkout shipment ", shipments);
 
@@ -142,6 +169,17 @@ function SingleCheckoutPage({ fpi }) {
   }
 
   useEffect(() => {
+    // Check if order has been completed
+    const orderCompleted = sessionStorage.getItem("order_completed");
+    if (orderCompleted === "true") {
+      // Reset to information page
+      setShowPayment(false);
+      setShowShipment(false);
+      setShowConsent(false);
+      setCurrentStepIdx(0);
+      return;
+    }
+
     // Check if user is returning from a failed payment
     const urlParams = new URLSearchParams(window.location.search);
     const hasFailed = urlParams.get("failed") === "true";

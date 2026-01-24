@@ -39,7 +39,7 @@ export default function ProductSearchTab({
 
   const toast = useToast();
   const [hoveredRecentTerm, setHoveredRecentTerm] = useState(null);
-  
+
   // Ref to track the currently hovered term for race condition handling
   const hoveredTermRef = useRef(null);
 
@@ -112,7 +112,7 @@ export default function ProductSearchTab({
       // Filter out objects and only keep strings (product search stores strings, not objects)
       // This handles cases where designer/journal search might have stored objects in the same key
       const validStrings = parsed.filter(
-        (item) => typeof item === "string" && item.trim().length > 0
+        (item) => typeof item === "string" && item.trim().length > 0,
       );
       return validStrings;
     } catch (error) {
@@ -134,7 +134,7 @@ export default function ProductSearchTab({
       // Ensure we only save strings
       const validList = Array.isArray(list)
         ? list.filter(
-            (item) => typeof item === "string" && item.trim().length > 0
+            (item) => typeof item === "string" && item.trim().length > 0,
           )
         : [];
       // Limit to 50 items to prevent storage issues
@@ -159,7 +159,7 @@ export default function ProductSearchTab({
           const smallerList = Array.isArray(list)
             ? list
                 .filter(
-                  (item) => typeof item === "string" && item.trim().length > 0
+                  (item) => typeof item === "string" && item.trim().length > 0,
                 )
                 .slice(0, 10)
             : [];
@@ -247,7 +247,7 @@ export default function ProductSearchTab({
 
   const debouncedSearch = useCallback(
     debounce((value) => handleSearch(value), 300),
-    [] // eslint-disable-line react-hooks/exhaustive-deps
+    [], // eslint-disable-line react-hooks/exhaustive-deps
   );
 
   // Trigger search when external search term changes
@@ -296,12 +296,12 @@ export default function ProductSearchTab({
     if (setSearchTerm) {
       setSearchTerm(t);
     }
-    
+
     // Focus the search input
     if (focusSearchInput) {
       focusSearchInput();
     }
-    
+
     // Trigger search by updating search results
     try {
       const items = await executeSearch(t);
@@ -341,7 +341,7 @@ export default function ProductSearchTab({
         ) {
           if (typeof Sentry !== "undefined") {
             Sentry.captureException(
-              "PLP page exception. " + product?.item_code
+              "PLP page exception. " + product?.item_code,
             );
           }
           toast.error("Unable to add product to cart. Please try again later.");
@@ -380,7 +380,7 @@ export default function ProductSearchTab({
       if (data?.addItemsToCart?.success) {
         toast.success(
           "Product added successfully" || data?.addItemsToCart?.message,
-          "success"
+          "success",
         );
         setTimeout(() => {
           fpi.custom.setValue("isCartDrawerOpen", true);
@@ -394,7 +394,7 @@ export default function ProductSearchTab({
         }
       } else {
         throw new Error(
-          data?.addItemsToCart?.message || "Failed to add product to cart"
+          data?.addItemsToCart?.message || "Failed to add product to cart",
         );
       }
     } catch (error) {
@@ -409,7 +409,7 @@ export default function ProductSearchTab({
       if (Array.isArray(loaded)) {
         // Ensure all items are strings
         const validSearches = loaded.filter(
-          (item) => typeof item === "string" && item.trim().length > 0
+          (item) => typeof item === "string" && item.trim().length > 0,
         );
         setRecentSearches(validSearches);
       } else {
@@ -457,7 +457,7 @@ export default function ProductSearchTab({
 
           {recentSearches
             .filter(
-              (term) => typeof term === "string" && term.trim().length > 0
+              (term) => typeof term === "string" && term.trim().length > 0,
             )
             .map((term, idx) => {
               const termString = typeof term === "string" ? term.trim() : "";
@@ -584,22 +584,18 @@ export default function ProductSearchTab({
 
       {/* Footer count */}
       {externalSearchTerm && searchResults.length > 0 && (
-        <div className={styles.footer}>
-          <button
-            type="button"
-            className={styles.footerText}
-            onClick={() => {
-              const trimmedSearch = externalSearchTerm?.trim();
-              if (trimmedSearch) {
-                navigate(`/products?q=${encodeURIComponent(trimmedSearch)}`);
-                onClose();
-              }
-            }}
-            
-          >
-            SEARCH ALL
-          </button>
-        </div>
+        <button
+          className={styles.footer}
+          onClick={() => {
+            const trimmedSearch = externalSearchTerm?.trim();
+            if (trimmedSearch) {
+              navigate(`/products?q=${encodeURIComponent(trimmedSearch)}`);
+              onClose();
+            }
+          }}
+        >
+          <span className={styles.footerText}>SEARCH ALL</span>
+        </button>
       )}
     </>
   );

@@ -509,13 +509,16 @@ export function Component({ props, globalConfig }) {
       state.isConfirmed ||
       state.isDisabled;
 
-    if (!hasInteraction) {
-      return "Join our mailing list for first looks, special prices, and the stories informing our curations.";
+    if (!hasInteraction || state.email.trim().length === 0) {
+      return (
+        description?.value ||
+        "Join our mailing list for first looks, special prices, and the stories informing our curations."
+      );
     }
 
     // Interactive states use specific placeholders
     if (state.isDisabled) return "NOPE";
-    if (state.hasError) return "UPPS";
+    if (state.hasError) return state.message;
     if (state.isConfirmed) return "YEAH!";
     if (state.isTyping) return "TYPING";
     if (state.hasEntered) return "TYPED";
@@ -530,11 +533,13 @@ export function Component({ props, globalConfig }) {
   const desktopImage = section_image?.value;
   const mobileImage = section_image_mobile?.value;
   const primaryImage = isMobile ? mobileImage : desktopImage;
-  const hasImage = Boolean(primaryImage && primaryImage.trim && primaryImage.trim() !== "");
+  const hasImage = Boolean(
+    primaryImage && primaryImage.trim && primaryImage.trim() !== "",
+  );
 
   return (
-    <section 
-      className={styles.newsletterSection} 
+    <section
+      className={styles.newsletterSection}
       style={getBackgroundStyle()}
       data-has-image={hasImage ? "true" : "false"}
     >

@@ -108,6 +108,22 @@ function Checkout({
 
   // Restore payment state on mount if payment step query param exists
   useEffect(() => {
+    // Check if user has completed an order
+    const orderCompleted = sessionStorage.getItem("order_completed");
+    
+    // If order is completed, prevent accessing payment step and redirect to information
+    if (orderCompleted === "true") {
+      setShowPayment(false);
+      setShowConsent(false);
+      setConsentCompleted(false);
+      if (onStepClick) {
+        onStepClick(0);
+      }
+      // Remove payment step query parameter
+      updateUrlStep(null);
+      return;
+    }
+
     if (
       paymentStep === "payment" &&
       address_id &&
@@ -140,6 +156,43 @@ function Checkout({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [showPayment, showConsent, paymentStep]);
+
+  // Handle browser back button navigation
+  useEffect(() => {
+    const handlePopState = (event) => {
+      // Check if user has completed an order
+      const orderCompleted = sessionStorage.getItem("order_completed");
+      
+      if (orderCompleted === "true") {
+        // Prevent going back to payment page
+        event.preventDefault();
+        
+        // Reset to information page
+        setShowPayment(false);
+        setShowConsent(false);
+        setConsentCompleted(false);
+        if (onStepClick) {
+          onStepClick(0);
+        }
+        updateUrlStep(null);
+      } else if (showPayment || showConsent) {
+        // If on payment or consent page, go back to information
+        setShowPayment(false);
+        setShowConsent(false);
+        setConsentCompleted(false);
+        if (onStepClick) {
+          onStepClick(0);
+        }
+        updateUrlStep(null);
+      }
+    };
+
+    window.addEventListener("popstate", handlePopState);
+
+    return () => {
+      window.removeEventListener("popstate", handlePopState);
+    };
+  }, [showPayment, showConsent, onStepClick]);
 
   // Prevent body scroll when order summary drawer is open (mobile only - drawer needs to scroll)
   useEffect(() => {

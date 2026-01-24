@@ -20,7 +20,7 @@ export const NotifyMeModal = ({
   };
 
   const handleSubmit = async () => {
-    if (!notifySize || !notifyEmail) return;
+    if (!notifyEmail) return;
 
     setIsSubmittingNotify(true);
     try {
@@ -36,7 +36,7 @@ export const NotifyMeModal = ({
         name: productData?.name,
         description: productData?.description,
         item_id: parseInt(productData?.uid),
-        size: notifySize.value,
+        size: notifySize?.value || "",
         // article_id: "88867_3240202-S",
         product_uid: parseInt(productData?.uid),
       };
@@ -51,7 +51,7 @@ export const NotifyMeModal = ({
             accept: "*/*",
           },
           body: JSON.stringify(payload),
-        }
+        },
       );
 
       if (!response.ok) {
@@ -92,10 +92,10 @@ export const NotifyMeModal = ({
           Notify me when the item gets back in stock!
         </h3>
 
-        {/* Size Dropdown - Custom Styled like main component */}
+        {/* Size Dropdown - Custom Styled like main component (Optional) */}
         <div className="flex flex-col gap-3 mb-4">
           <label className="text-[11px] font-normal leading-[13.2px] uppercase text-neutral-900">
-            Size
+            Size (Optional)
           </label>
           <div className="size-dropdown-container relative w-full">
             <button
@@ -164,27 +164,18 @@ export const NotifyMeModal = ({
         {/* Notify Me Button */}
         <button
           onClick={handleSubmit}
-          disabled={!notifySize || !notifyEmail || isSubmittingNotify}
+          disabled={!notifyEmail || isSubmittingNotify}
           className="w-full body-2 text-[11px] font-normal leading-[13.2px] uppercase transition-colors outline-none focus:outline-none focus-visible:outline-none"
           style={{
             backgroundColor:
-              !notifySize || !notifyEmail || isSubmittingNotify
-                ? "#EEEEEE"
-                : "#171717",
-            color:
-              !notifySize || !notifyEmail || isSubmittingNotify
-                ? "#AAAAAA"
-                : "#FFFFFF",
+              !notifyEmail || isSubmittingNotify ? "#EEEEEE" : "#171717",
+            color: !notifyEmail || isSubmittingNotify ? "#AAAAAA" : "#FFFFFF",
             cursor:
-              !notifySize || !notifyEmail || isSubmittingNotify
-                ? "not-allowed"
-                : "pointer",
+              !notifyEmail || isSubmittingNotify ? "not-allowed" : "pointer",
             height: "32px",
             border: "1px solid",
             borderColor:
-              !notifySize || !notifyEmail || isSubmittingNotify
-                ? "#EEEEEE"
-                : "#171717",
+              !notifyEmail || isSubmittingNotify ? "#EEEEEE" : "#171717",
             borderRadius: "1px",
           }}
         >

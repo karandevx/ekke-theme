@@ -166,6 +166,8 @@ export const transformPlatformOrdersToAppFormat = (
 ) => {
   if (!platformOrders?.items) return null;
 
+  console.log("Platform Orders:", platformOrders);
+
   return {
     items: platformOrders.items.map((order) => ({
       order_id: order.order_id,
@@ -177,11 +179,8 @@ export const transformPlatformOrdersToAppFormat = (
           shipment.bags?.map((bag) => ({
             item_id: bag.item?.id ? Number(bag.item.id) : 0,
             item_size: bag.item?.size || bag.meta?.size || "",
-            article_id: bag.bag_id ? String(bag.bag_id) : "",
             quantity: 1,
-            seller_id: bag.current_status?.store_id
-              ? Number(bag.current_status.store_id)
-              : 0,
+            seller_id: 10549,
             store_id: bag.current_status?.store_id
               ? Number(bag.current_status.store_id)
               : 0,

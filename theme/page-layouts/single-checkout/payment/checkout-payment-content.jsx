@@ -3978,7 +3978,7 @@ function CheckoutPaymentContent({
                             }}
                           />
                           <label className="body-1 uppercase cursor-pointer">
-                            USE SAME BILLING ADDRESS AS SHIPPING ADDRESS
+                            BILL AS COMPANY
                           </label>
                         </div>
                       </div>

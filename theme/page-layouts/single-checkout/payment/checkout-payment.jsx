@@ -26,6 +26,7 @@ function CheckoutPayment({
   isCouponValid,
   setIsCouponValid,
   inValidCouponData,
+  onBack,
 }) {
   const { t } = useGlobalTranslation("translation");
   const toast = useToast();
@@ -168,7 +169,18 @@ function CheckoutPayment({
                 {t("resource.checkout.select_payment_method")}
               </div>
             </div> */}
-            <div className={`subheading-3`}>Payment method</div>
+            <div className="flex items-center justify-between mb-4">
+              <div className={`subheading-3`}>Payment method</div>
+              {onBack && (
+                <button
+                  onClick={onBack}
+                  className="body-2 text-neutral-light hover:text-ekke-black underline"
+                  type="button"
+                >
+                  Back to Information
+                </button>
+              )}
+            </div>
             {/* {showFailedMessage && (
               <div className={styles.paymentFailedHeader}>
                 <div className={styles.redSplit}></div>

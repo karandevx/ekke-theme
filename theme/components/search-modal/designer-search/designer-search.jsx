@@ -102,7 +102,7 @@ export default function DesignerSearchTab({
 
       // Validate array items have required structure
       const validItems = parsed.filter(
-        (item) => item && typeof item === "object" && item.title
+        (item) => item && typeof item === "object" && item.title,
       );
 
       return validItems;
@@ -188,7 +188,7 @@ export default function DesignerSearchTab({
               (x) =>
                 x &&
                 x.title &&
-                x.title.toLowerCase() !== item.title.toLowerCase()
+                x.title.toLowerCase() !== item.title.toLowerCase(),
             ),
           ];
           saveRecentSearches(next);
@@ -220,7 +220,7 @@ export default function DesignerSearchTab({
   const executeDesignerSearch = async (search) => {
     try {
       const url = `https://asia-south1.workflow.boltic.app/265a0728-3561-4da1-9e20-f17611189230?keyword=${encodeURIComponent(
-        search
+        search,
       )}`;
 
       const response = await fetch(url, {
@@ -263,7 +263,7 @@ export default function DesignerSearchTab({
 
   const debouncedDesignerSearch = useCallback(
     debounce((value) => handleDesignerSearch(value), 300),
-    [] // eslint-disable-line react-hooks/exhaustive-deps
+    [], // eslint-disable-line react-hooks/exhaustive-deps
   );
 
   // Trigger search when external search term changes
@@ -375,8 +375,8 @@ export default function DesignerSearchTab({
                   key={brand.id || index}
                   className={styles.resultImageContainer}
                   onClick={() => {
-                    onDesignerSuggestionClick(brand),
-                      handleDesignerNavigation(brand?.page_url);
+                    (onDesignerSuggestionClick(brand),
+                      handleDesignerNavigation(brand?.page_url));
                     onClose();
                   }}
                 >
@@ -403,21 +403,18 @@ export default function DesignerSearchTab({
           </div>
 
           {/* Footer count */}
-          <div className={styles.footer}>
-            <button
-              type="button"
-              className={styles.footerText}
-              // onClick={() => {
-              //   const trimmedSearch = externalSearchTerm?.trim();
-              //   if (trimmedSearch) {
-              //     navigate(`/designers?q=${encodeURIComponent(trimmedSearch)}`);
-              //     onClose();
-              //   }
-              // }}
-            >
-              SEARCH ALL
-            </button>
-          </div>
+          <button
+            className={styles.footer}
+            // onClick={() => {
+            //   const trimmedSearch = externalSearchTerm?.trim();
+            //   if (trimmedSearch) {
+            //     navigate(`/designers?q=${encodeURIComponent(trimmedSearch)}`);
+            //     onClose();
+            //   }
+            // }}
+          >
+            <span className={styles.footerText}>SEARCH ALL</span>
+          </button>
         </>
       )}
 

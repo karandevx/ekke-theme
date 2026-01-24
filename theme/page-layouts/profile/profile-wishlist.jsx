@@ -9,7 +9,6 @@ import MediaDisplay from "../../components/media-display";
 
 export const ProfileWishlist = ({ fpi }) => {
   const [hoveredItem, setHoveredItem] = useState(null);
-  const [clickedItemIndex, setClickedItemIndex] = useState(null);
   const isMobile = useMobile();
   const toast = useToast();
   const { loading, productList, onRemoveClick, onRemoveAllClick } =
@@ -77,13 +76,6 @@ export const ProfileWishlist = ({ fpi }) => {
                 }}
                 onMouseEnter={() => !isMobile && setHoveredItem(item.id)}
                 onMouseLeave={() => !isMobile && setHoveredItem(null)}
-                onClick={() => {
-                  if (isMobile) {
-                    setClickedItemIndex(
-                      clickedItemIndex === index ? null : index
-                    );
-                  }
-                }}
               >
                 <FDKLink to={`/product/${item.slug}`}>
                   <MediaDisplay
@@ -92,9 +84,8 @@ export const ProfileWishlist = ({ fpi }) => {
                   />
                 </FDKLink>
 
-                {/* Remove button - Click to show on mobile, hover on desktop */}
-                {((!isMobile && hoveredItem === item.id) ||
-                  (isMobile && clickedItemIndex === index)) && (
+                {/* Remove button - Always visible on mobile, hover on desktop */}
+                {(!isMobile ? hoveredItem === item.id : true) && (
                   <button
                     onClick={(e) => {
                       e.stopPropagation();

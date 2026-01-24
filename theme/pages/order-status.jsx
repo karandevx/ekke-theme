@@ -60,6 +60,39 @@ function OrderStatus({ fpi }) {
     }
   }, [success, attempts, fetchOrder, orderData]);
 
+  // Prevent user from going back to payment page after successful order
+  useEffect(() => {
+    if (success === "true" && orderData) {
+      // Set a flag in session storage to indicate order is completed
+      sessionStorage.setItem("order_completed", "true");
+      sessionStorage.setItem("completed_order_id", orderId);
+
+      // Handle browser back button
+      const handlePopState = (event) => {
+        // Prevent default back navigation
+        event.preventDefault();
+        
+        // Redirect to information page (checkout without step parameter)
+        const cartId = searchParams.get("id");
+        if (cartId) {
+          navigate(`/cart/checkout?id=${cartId}`);
+        } else {
+          navigate("/cart/bag");
+        }
+      };
+
+      // Add popstate event listener
+      window.addEventListener("popstate", handlePopState);
+
+      // Replace current history state to prevent going back
+      window.history.pushState(null, "", window.location.href);
+
+      return () => {
+        window.removeEventListener("popstate", handlePopState);
+      };
+    }
+  }, [success, orderData, orderId, navigate, searchParams]);
+
   console.log({ orderData });
 
   return (

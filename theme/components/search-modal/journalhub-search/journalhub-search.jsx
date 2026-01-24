@@ -103,7 +103,7 @@ export default function JournalHubTab({
 
       // Validate array items have required structure
       const validItems = parsed.filter(
-        (item) => item && typeof item === "object" && item.title
+        (item) => item && typeof item === "object" && item.title,
       );
 
       return validItems;
@@ -192,7 +192,7 @@ export default function JournalHubTab({
               (x) =>
                 x &&
                 x.title &&
-                x.title.toLowerCase() !== item.title.toLowerCase()
+                x.title.toLowerCase() !== item.title.toLowerCase(),
             ),
           ];
           saveRecentSearches(next);
@@ -224,7 +224,7 @@ export default function JournalHubTab({
   const executeJournalSearch = async (search) => {
     try {
       const url = `https://asia-south1.workflow.boltic.app/50605dbc-b5e9-496c-b114-3e8f4fa13b0f?keyword=${encodeURIComponent(
-        search
+        search,
       )}`;
 
       const response = await fetch(url, {
@@ -266,7 +266,7 @@ export default function JournalHubTab({
 
   const debouncedJournalSearch = useCallback(
     debounce((value) => handleJournalSearch(value), 300),
-    [] // eslint-disable-line react-hooks/exhaustive-deps
+    [], // eslint-disable-line react-hooks/exhaustive-deps
   );
 
   // Trigger search when external search term changes
@@ -413,22 +413,18 @@ export default function JournalHubTab({
           </div>
 
           {/* Footer count */}
-          <div className={styles.footer}>
-            <button
-              type="button"
-              className={styles.footerText}
-              onClick={() => {
-                const trimmedSearch = externalSearchTerm?.trim();
-                if (trimmedSearch) {
-                  navigate(`/blog?search=${encodeURIComponent(trimmedSearch)}`);
-                  onClose();
-                }
-              }}
-              
-            >
-              SEARCH ALL
-            </button>
-          </div>
+          <button
+            className={styles.footer}
+            onClick={() => {
+              const trimmedSearch = externalSearchTerm?.trim();
+              if (trimmedSearch) {
+                navigate(`/blog?search=${encodeURIComponent(trimmedSearch)}`);
+                onClose();
+              }
+            }}
+          >
+            <span className={styles.footerText}>SEARCH ALL</span>
+          </button>
         </>
       )}
 

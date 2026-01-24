@@ -105,11 +105,19 @@ const useOrdersListing = (fpi) => {
     console.log("orderInfo", orderInfo);
     // Ensure correct types: item_id, seller_id, store_id are Int; article_id and item_size are String
     const itemsPayload = orderInfo?.bags_for_reorder?.map(
-      ({ __typename, item_id, article_id, seller_id, store_id, item_size, quantity, ...rest }) => ({
+      ({
+        __typename,
+        item_id,
+        article_id,
+        seller_id,
+        store_id,
+        item_size,
+        quantity,
+        ...rest
+      }) => ({
         ...rest,
         item_id: item_id ? Number(item_id) : 0,
         item_size: item_size || "",
-        article_id: article_id ? String(article_id) : "",
         seller_id: seller_id ? Number(seller_id) : 0,
         store_id: store_id ? Number(store_id) : 0,
         quantity: quantity || 1,
@@ -124,10 +132,10 @@ const useOrdersListing = (fpi) => {
 
     const payload = {
       buyNow: false,
-      areaCode:areaCode,
+      areaCode: areaCode,
       addCartRequestInput: {
         items: itemsPayload,
-      },  
+      },
     };
     return fpi.executeGQL(ADD_TO_CART, payload).then((outRes) => {
       if (outRes?.data?.addItemsToCart?.success) {

@@ -253,7 +253,8 @@ function OrderStatus({
 
           {/* Stepper - Payment tab active (index 1 means PAYMENT is current) */}
           {/* INFORMATION is completed but not clickable (order already placed) */}
-          <Stepper steps={checkoutSteps} currentStepIdx={1} />
+          {/* Disable stepper clicks on success page */}
+          <Stepper steps={checkoutSteps} currentStepIdx={1} onStepClick={null} />
 
           {/* Main Container - Same structure as checkout */}
           <div className={`${dynamicHeight} flex-row w-full relative`}>

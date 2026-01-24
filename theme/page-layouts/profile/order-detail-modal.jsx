@@ -13,15 +13,15 @@ const OrderDetailModal = ({
   const { checkExchangeStatus } = useExchangeDetails();
   const [exchangeStatuses, setExchangeStatuses] = useState({});
 
-  // Helper function to check if order is within 18 hours of creation
-  const isWithin18Hours = (orderCreatedTime) => {
+  // Helper function to check if order is within 12 hours of creation
+  const isWithin12Hours = (orderCreatedTime) => {
     if (!orderCreatedTime) return false;
 
     const orderDate = new Date(orderCreatedTime);
     const currentDate = new Date();
     const hoursDifference = (currentDate - orderDate) / (1000 * 60 * 60); // Convert milliseconds to hours
 
-    return hoursDifference <= 18;
+    return hoursDifference <= 12;
   };
 
   // Check exchange status for all shipments on mount
@@ -45,13 +45,14 @@ const OrderDetailModal = ({
   // Helper function to check if cancel button should be shown
   const shouldShowCancel = (shipment) => {
     // Check if can_cancel is true
-    if (!shipment.can_cancel || shipment.shipment_status?.value === "cancelled") return false;
+    if (!shipment.can_cancel || shipment.shipment_status?.title === "Cancelled")
+      return false;
 
-    // Check if order is within 18 hours
+    // Check if order is within 12 hours
     const orderCreatedTime =
       originalOrderData?.order_created_time ||
       originalOrderData?.order_created_ts;
-    return isWithin18Hours(orderCreatedTime);
+    return isWithin12Hours(orderCreatedTime);
   };
 
   // Helper function to check if exchange button should be shown

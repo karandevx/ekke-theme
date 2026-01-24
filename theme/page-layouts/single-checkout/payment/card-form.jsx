@@ -1,11 +1,12 @@
 import React, { useEffect, useRef } from "react";
 import { IMaskInput } from "react-imask";
+import { useLocation, useSearchParams } from "react-router-dom";
 import styles from "./checkout-payment-content.less";
 import Modal from "../../../components/core/modal/modal";
 import SvgWrapper from "../../../components/core/svgWrapper/SvgWrapper";
 import StickyPayNow from "./sticky-pay-now/sticky-pay-now";
 import { priceFormatCurrencySymbol } from "../../../helper/utils";
-import { useGlobalTranslation } from "fdk-core/utils";
+import { useGlobalTranslation, useFPI, useGlobalStore } from "fdk-core/utils";
 import JuspayCardForm from "./juspay-card-from";
 
 function CardForm({
@@ -61,6 +62,10 @@ function CardForm({
   setIsJuspayCouponApplied,
 }) {
   const { t } = useGlobalTranslation("translation");
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
+  const fpi = useFPI();
+  const { isCartDrawerOpen } = useGlobalStore(fpi?.getters?.CUSTOM_VALUE) ?? {};
   const isFormatterSet = useRef(false);
 
   useEffect(() => {
@@ -373,22 +378,26 @@ function CardForm({
       </div>
 
       {/* Place Order Button - Mobile sticky */}
-      {!addNewCard && isTablet && (
-        <div className="fixed bottom-0 left-0 right-0 z-50 p-4 bg-white">
-          <button
-            className={`w-full py-3 body-1 uppercase text-left pl-2 transition-colors ${
-              !isCardValid()
-                ? "bg-[#AAAAAA] !text-white cursor-not-allowed"
-                : "bg-[#171717] !text-white hover:bg-[#2a2a2a] cursor-pointer"
-            }`}
-            onClick={() => payUsingCard()}
-            disabled={!isCardValid()}
-          >
-            PLACE ORDER,{" "}
-            {priceFormatCurrencySymbol(getCurrencySymbol, getTotalValue())}
-          </button>
-        </div>
-      )}
+      {!addNewCard &&
+        isTablet &&
+        location?.pathname?.includes("/cart/checkout") &&
+        searchParams?.get("step") === "payment" &&
+        !isCartDrawerOpen && (
+          <div className="fixed bottom-0 left-0 right-0 z-50 p-4 bg-white">
+            <button
+              className={`w-full py-3 body-1 uppercase text-left pl-2 transition-colors ${
+                !isCardValid()
+                  ? "bg-[#AAAAAA] !text-white cursor-not-allowed"
+                  : "bg-[#171717] !text-white hover:bg-[#2a2a2a] cursor-pointer"
+              }`}
+              onClick={() => payUsingCard()}
+              disabled={!isCardValid()}
+            >
+              PLACE ORDER,{" "}
+              {priceFormatCurrencySymbol(getCurrencySymbol, getTotalValue())}
+            </button>
+          </div>
+        )}
       {/* </div> */}
       {isCvvInfo && isTablet && (
         <Modal isOpen={isCvvInfo} hideHeader={true}>

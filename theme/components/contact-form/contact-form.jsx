@@ -194,13 +194,13 @@ function ContactForm({
       </p>
       <div className="pt-6 flex justify-center flex-col sm:items-center md:items-start">
         <p className="body-2 text-[#171717] pl-2 ">
-          Phone: <a href="tel:+918490823230">+91 8490823230</a>
+          &nbsp; &nbsp;Phone: <a href="tel:+918490823230">+91 8490823230</a>
         </p>
         <p className="body-2 text-[#171717] pl-2 ">
-          Email: <a href="mailto:hello@ekke.co">hello@ekke.co</a>
+          &nbsp; &nbsp;Email: <a href="mailto:hello@ekke.co">hello@ekke.co</a>
         </p>
         <p className="body-2 text-[#171717] pb-6 pl-2">
-          Monday to Friday, 10 AM to 8 PM (IST)
+          &nbsp; &nbsp;Monday to Friday, 10 AM to 8 PM (IST)
         </p>
 
         <form onSubmit={handleSubmit(submitForm)}>
@@ -339,7 +339,7 @@ function ContactForm({
                     <FyInput
                       htmlFor="subject"
                       labelClassName={styles.labelText}
-                      inputClassName={`body-2 !bg-[#fff] text-[11px] `}
+                      inputClassName={`body-2 !bg-[#fff] text-[11px] line-height-[13.2px] p-2 font-archivo`}
                       label={"Subject"}
                       placeholder=""
                       showAsterik={true}
@@ -382,7 +382,7 @@ function ContactForm({
                     <FyInput
                       htmlFor="details"
                       labelClassName={styles.labelText}
-                      inputClassName={`body-2 !bg-[#fff]`}
+                      inputClassName={`body-2 !bg-[#fff]text-[11px] line-height-[13.2px] p-2 font-archivo`}
                       label={"share details here"}
                       placeholder=""
                       showAsterik={true}

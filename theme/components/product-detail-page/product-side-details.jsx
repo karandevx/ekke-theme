@@ -1614,6 +1614,12 @@ export const ProductSideDetails = ({
               <button
                 className="flex flex-col items-start justify-center gap-2.5 px-1 py-2 relative flex-1 grow bg-neutral-900 rounded-[1px] overflow-hidden h-auto hover:bg-neutral-800 cursor-pointer border-none"
                 onClick={(e) => {
+                  // If product is out of stock, open notify modal directly (no size selection required)
+                  if (isOutOfStock) {
+                    setShowNotifyModal(true);
+                    return;
+                  }
+
                   // Check if selected size is out of stock
                   const isSelectedSizeOutOfStock = selectedSize
                     ? isCustomOrder
@@ -1631,20 +1637,16 @@ export const ProductSideDetails = ({
                   // Call validation function for in-stock items
                   handleAddToCartWithValidation(e);
                 }}
-                disabled={isLoading || (isOutOfStock && !selectedSize)}
+                disabled={isLoading}
                 style={{
-                  cursor:
-                    isLoading || (isOutOfStock && !selectedSize)
-                      ? "not-allowed"
-                      : "pointer",
-                  opacity:
-                    isLoading || (isOutOfStock && !selectedSize) ? 0.5 : 1,
+                  cursor: isLoading ? "not-allowed" : "pointer",
+                  opacity: isLoading ? 0.5 : 1,
                 }}
               >
                 <span className="relative w-fit mt-[-1.00px] [font-family:'Archivo'] font-normal text-[#f7f7f5] text-[11px] tracking-[0] leading-[8px] text-center whitespace-nowrap">
                   {(() => {
                     // Determine button text based on selected size
-                    if (!selectedSize && isOutOfStock) {
+                    if (isOutOfStock) {
                       return "NOTIFY ME";
                     }
                     if (selectedSize) {
@@ -2315,6 +2317,12 @@ export const ProductSideDetails = ({
           <button
             className="flex-1 bg-[#000] cursor-pointer pl-1 py-2 text-left"
             onClick={(e) => {
+              // If product is out of stock, open notify modal directly (no size selection required)
+              if (isOutOfStock) {
+                setShowNotifyModal(true);
+                return;
+              }
+
               // Check if selected size is out of stock
               const isSelectedSizeOutOfStock = selectedSize
                 ? isCustomOrder
@@ -2331,19 +2339,16 @@ export const ProductSideDetails = ({
               }
               handleAddToCartWithValidation(e);
             }}
-            disabled={isLoading || (isOutOfStock && !selectedSize)}
+            disabled={isLoading}
             style={{
-              cursor:
-                isLoading || (isOutOfStock && !selectedSize)
-                  ? "not-allowed"
-                  : "pointer",
-              opacity: isLoading || (isOutOfStock && !selectedSize) ? 0.5 : 1,
+              cursor: isLoading ? "not-allowed" : "pointer",
+              opacity: isLoading ? 0.5 : 1,
             }}
           >
             <span className="body-1" style={{ color: "#fff" }}>
               {(() => {
                 // Determine button text based on selected size
-                if (!selectedSize && isOutOfStock) {
+                if (isOutOfStock) {
                   return "NOTIFY ME";
                 }
                 if (selectedSize) {

@@ -147,13 +147,16 @@ const OrderCard = ({
                 </span>
                 <div className="inline-flex items-center justify-center gap-2 relative">
                   <span className="body-3 text-[#171717]">
-                    {firstBag?.prices?.currency_symbol || "€"}
-                    {firstBag?.prices?.price_effective || 888}
+                    {firstBag?.prices?.currency_symbol}
+                    {firstBag?.prices?.price_effective}
                   </span>
-                  <span className="body-3 !text-neutral-light line-through">
-                    {firstBag?.prices?.currency_symbol || "€"}
-                    {firstBag?.prices?.price_marked || 888}
-                  </span>
+                  {firstBag?.prices?.price_effective !==
+                    firstBag?.prices?.price_marked && (
+                    <span className="body-3 !text-neutral-light line-through">
+                      {firstBag?.prices?.currency_symbol}
+                      {firstBag?.prices?.price_marked}
+                    </span>
+                  )}
                 </div>
               </div>
             </div>
